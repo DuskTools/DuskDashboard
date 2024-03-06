@@ -1,29 +1,40 @@
 import { Dispatch } from 'react'
 
-import { AuthState } from './types'
+import { AuthState } from '~types'
 
 export enum ActionType {
-  HYDRATE_AUTH_DATA = 'HYDRATE_AUTH_DATA',
+  SET_SESSION = 'SET_SESSION',
   INCREMENT_LOADING = 'INCREMENT_LOADING',
   DECREMENT_LOADING = 'DECREMENT_LOADING',
 }
-
-type ActionInterface<T extends string, P = void> = {
-  type: T
-  payload: P
-}
+const decrementLoading = actionCreator(ActionType.DECREMENT_LOADING)
+const incrementLoading = actionCreator(ActionType.INCREMENT_LOADING)
+const setSession = actionCreator(ActionType.SET_SESSION)
 
 type IncrementLoadingAction = ActionInterface<ActionType.INCREMENT_LOADING>
 type DecrementLoadingAction = ActionInterface<ActionType.DECREMENT_LOADING>
-type HydrateAuthAction = ActionInterface<
-  ActionType.HYDRATE_AUTH_DATA,
-  Partial<AuthState>
+type SetSessionAction = ActionInterface<
+  ActionType.SET_SESSION,
+  AuthState['session']
 >
 
 export type ReducerAction =
   | IncrementLoadingAction
   | DecrementLoadingAction
-  | HydrateAuthAction
+  | SetSessionAction
+
+export default {
+  decrementLoading,
+  incrementLoading,
+  setSession,
+}
+
+// Da Pipes
+
+type ActionInterface<T extends string, P = void> = {
+  type: T
+  payload: P
+}
 
 export type AppDispatch = Dispatch<ReducerAction>
 
@@ -49,13 +60,4 @@ function actionCreator<A extends ReducerAction, T extends A['type']>(
       type,
       payload,
     } as A)
-}
-const decrementLoading = actionCreator(ActionType.DECREMENT_LOADING)
-const incrementLoading = actionCreator(ActionType.INCREMENT_LOADING)
-const hydrateAuthData = actionCreator(ActionType.HYDRATE_AUTH_DATA)
-
-export default {
-  decrementLoading,
-  incrementLoading,
-  hydrateAuthData,
 }

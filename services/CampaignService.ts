@@ -1,4 +1,4 @@
-import { supabaseAnon } from '../supabase'
+import { supabaseAnon } from '~supabase'
 
 async function findOrCreateByDiscordId(discordGuildId: string) {
   const existingCampaign = await findByDiscordId(discordGuildId)

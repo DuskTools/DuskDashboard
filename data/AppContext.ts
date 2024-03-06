@@ -1,10 +1,12 @@
 import { createContext } from 'react'
 
-export interface IAppContext {
-}
+import { AppDispatch } from './actions'
+import initialState from './initialState'
+import { AppState } from '~types'
 
-const AppContext = createContext<IAppContext>({
-
-})
+const AppContext = createContext<[AppState, AppDispatch]>([
+  initialState,
+  () => { },
+])
 
 export default AppContext

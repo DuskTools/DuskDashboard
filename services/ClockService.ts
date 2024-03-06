@@ -1,5 +1,5 @@
-import { supabaseAnon } from '../supabase'
-import { Clock, ClockCreateParams, ClockUpdateParams } from '../types'
+import { supabaseAnon } from '~supabase'
+import { Clock, ClockCreateParams, ClockUpdateParams } from '~types'
 
 async function create(clockParams: ClockCreateParams) {
   const { data, error } = await supabaseAnon

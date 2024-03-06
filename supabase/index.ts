@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createClient } from '@supabase/supabase-js'
 
-import { Database } from '../database.types'
+import { Database } from '~dbTypes'
 
 const supabaseUrl = process.env.EXPO_PUBLIC_API_URL!
 const supabaseAnonKey = process.env.EXPO_PUBLIC_API_ANON_KEY!
