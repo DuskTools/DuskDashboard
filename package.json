@@ -19,6 +19,7 @@
     "@react-native-async-storage/async-storage": "1.21.0",
     "@react-navigation/drawer": "^6.6.11",
     "@supabase/supabase-js": "^2.39.7",
+    "discord-api-types": "^0.37.71",
     "expo": "~50.0.8",
     "expo-auth-session": "~5.4.0",
     "expo-constants": "~15.4.5",
