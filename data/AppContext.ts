@@ -6,7 +6,7 @@ import { AppState } from '~types'
 
 const AppContext = createContext<[AppState, AppDispatch]>([
   initialState,
-  () => { },
+  () => {},
 ])
 
 export default AppContext

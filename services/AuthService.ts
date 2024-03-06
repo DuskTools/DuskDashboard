@@ -2,7 +2,7 @@ import { makeRedirectUri } from 'expo-auth-session'
 import * as QueryParams from 'expo-auth-session/build/QueryParams'
 import * as WebBrowser from 'expo-web-browser'
 
-import { supabaseAnon } from '~supabase'
+import supabase from '~supabase'
 
 WebBrowser.maybeCompleteAuthSession() // required for web only
 const redirectTo = makeRedirectUri()
@@ -15,7 +15,7 @@ const createSessionFromUrl = async (url: string) => {
 
   if (!access_token) return
 
-  const { data, error } = await supabaseAnon.auth.setSession({
+  const { data, error } = await supabase.auth.setSession({
     access_token,
     refresh_token,
   })
@@ -24,7 +24,7 @@ const createSessionFromUrl = async (url: string) => {
 }
 
 const login = async () => {
-  const { data, error } = await supabaseAnon.auth.signInWithOAuth({
+  const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'discord',
     options: {
       redirectTo,
@@ -42,7 +42,7 @@ const login = async () => {
 }
 
 const logout = async () => {
-  const { error } = await supabaseAnon.auth.signOut()
+  const { error } = await supabase.auth.signOut()
   if (error) throw error
 }
 

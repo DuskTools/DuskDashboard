@@ -17,12 +17,12 @@ export default function Header() {
         Signed in as {session.user?.email}
       </Text>
 
-      <Button mode="contained" onPress={AuthService.logout}>
+      <Button compact mode="contained" onPress={AuthService.logout}>
         Logout
       </Button>
     </View>
   ) : (
-    <Button mode="contained" onPress={AuthService.login}>
+    <Button compact mode="contained" onPress={AuthService.login}>
       Login with Discord
     </Button>
   )

@@ -1,4 +1,4 @@
-import { supabaseAnon } from '~supabase'
+import supabase from '~supabase'
 
 async function findOrCreateByDiscordId(discordGuildId: string) {
   const existingCampaign = await findByDiscordId(discordGuildId)
@@ -6,7 +6,7 @@ async function findOrCreateByDiscordId(discordGuildId: string) {
     return existingCampaign
   }
 
-  const { data, error } = await supabaseAnon
+  const { data, error } = await supabase
     .from('campaigns')
     .insert({ discord_guild_id: discordGuildId })
     .select()
@@ -20,7 +20,7 @@ async function findOrCreateByDiscordId(discordGuildId: string) {
 }
 
 async function findByDiscordId(discordGuildId: string) {
-  const { data, error } = await supabaseAnon
+  const { data, error } = await supabase
     .from('campaigns')
     .select()
     .eq('discord_guild_id', discordGuildId)

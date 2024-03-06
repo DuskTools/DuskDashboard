@@ -1,8 +1,8 @@
-import { supabaseAnon } from '~supabase'
+import supabase from '~supabase'
 import { Clock, ClockCreateParams, ClockUpdateParams } from '~types'
 
 async function create(clockParams: ClockCreateParams) {
-  const { data, error } = await supabaseAnon
+  const { data, error } = await supabase
     .from('clocks')
     .insert(clockParams)
     .select()
@@ -17,7 +17,7 @@ async function create(clockParams: ClockCreateParams) {
 }
 
 async function getActiveClocks(campaign_id: string) {
-  const { data, error } = await supabaseAnon
+  const { data, error } = await supabase
     .from('clocks')
     .select()
     .eq('campaign_id', campaign_id)
@@ -33,9 +33,9 @@ async function getActiveClocks(campaign_id: string) {
 
 async function getClock({
   campaign_id,
-  name
+  name,
 }: Pick<Clock, 'name' | 'campaign_id'>) {
-  const { data, error } = await supabaseAnon
+  const { data, error } = await supabase
     .from('clocks')
     .select()
     .eq('campaign_id', campaign_id)
@@ -58,7 +58,7 @@ async function getClock({
 async function updateClock(
   options: ClockUpdateParams & Pick<Clock, 'name' | 'campaign_id'>
 ) {
-  const { data, error } = await supabaseAnon
+  const { data, error } = await supabase
     .from('clocks')
     .update(options)
     .eq('campaign_id', options.campaign_id)
@@ -78,5 +78,5 @@ export default {
   updateClock,
   getClock,
   create,
-  getActiveClocks
+  getActiveClocks,
 }

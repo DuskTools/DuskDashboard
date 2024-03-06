@@ -1,4 +1,3 @@
-
 import { ActionType, ReducerAction } from './actions'
 import { AppState } from '~types'
 

@@ -4,13 +4,13 @@ import AppContext from './AppContext'
 import initialState from './initialState'
 import reducer from './reducer'
 import { Actions } from '~context'
-import { supabaseAnon } from '~supabase'
+import supabase from '~supabase'
 
 export default function AppProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
-    const { data } = supabaseAnon.auth.onAuthStateChange((event, session) => {
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
       console.log(event, session)
 
       if (event === 'INITIAL_SESSION') {

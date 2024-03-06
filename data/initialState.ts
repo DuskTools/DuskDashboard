@@ -5,7 +5,6 @@ const initialAuthData = {
   session: null,
 }
 
-
 const initialState: AppState = {
   auth: initialAuthData,
   loading: 0,
