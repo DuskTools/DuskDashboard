@@ -9,4 +9,5 @@ export default function useAppTheme() {
   return colorScheme === 'dark'
     ? { ...MD3DarkTheme, colors: theme.dark }
     : { ...MD3LightTheme, colors: theme.light }
+
 }

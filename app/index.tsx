@@ -1,10 +1,16 @@
-import { View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { Text } from 'react-native-paper'
 
+import { useAppState } from '~context'
+import useAppTheme from '~theme/useAppTheme'
+
 export default function App() {
+  const [state] = useAppState()
+  const theme = useAppTheme()
+  console.log(state)
   return (
-    <View style={{ flex: 1 }}>
-      <Text>Website Be Here</Text>
-    </View>
+    <ScrollView
+      style={{ flex: 1, backgroundColor: theme.colors.background }}
+    ></ScrollView>
   )
 }
