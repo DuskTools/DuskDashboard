@@ -1,9 +1,9 @@
 import { PropsWithChildren, useEffect, useReducer } from 'react'
 
+import Actions from './actions'
 import AppContext from './AppContext'
 import initialState from './initialState'
 import reducer from './reducer'
-import { Actions } from '~context'
 import supabase from '~supabase'
 
 export default function AppProvider({ children }: PropsWithChildren) {
