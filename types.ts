@@ -11,7 +11,7 @@ export interface User {
   url: string | null
 }
 
-export type AuthState = { session: Session | null; hydrated: boolean }
+export type AuthState = { session: Session | null }
 export type AppState = {
   auth: AuthState
   loading: number

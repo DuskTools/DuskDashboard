@@ -1,5 +1,5 @@
 import Actions from './actions'
 import AppProvider from './AppProvider'
-import useAppState from './useAppState'
+import useAppContext from './useAppContext'
 
-export { Actions, useAppState, AppProvider }
+export { Actions, useAppContext, AppProvider }

@@ -2,6 +2,6 @@ import { useContext } from 'react'
 
 import AppContext from './AppContext'
 
-export default function useAppState() {
+export default function useAppContext() {
   return useContext(AppContext)
 }

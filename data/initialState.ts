@@ -1,7 +1,6 @@
 import { AppState } from '~types'
 
 const initialAuthData = {
-  hydrated: false,
   session: null,
 }
 

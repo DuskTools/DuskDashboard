@@ -1,11 +1,11 @@
 import { ScrollView } from 'react-native-gesture-handler'
 import { Text } from 'react-native-paper'
 
-import { useAppState } from '~context'
+import { useAppContext } from '~context'
 import useAppTheme from '~theme/useAppTheme'
 
 export default function App() {
-  const [state] = useAppState()
+  const [state] = useAppContext()
   const theme = useAppTheme()
   console.log(state)
   return (

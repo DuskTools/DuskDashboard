@@ -2,7 +2,7 @@ import { Link } from 'expo-router'
 import { Pressable, View } from 'react-native'
 import { Button, Icon, Text, useTheme } from 'react-native-paper'
 
-import { useAppState } from '~context'
+import { useAppContext } from '~context'
 import AuthService from '~services/AuthService'
 
 type Props = {
@@ -15,7 +15,7 @@ export default function Header({ toggleDrawer }: Props) {
     {
       auth: { session },
     },
-  ] = useAppState()
+  ] = useAppContext()
 
   return (
     <View
@@ -32,7 +32,7 @@ export default function Header({ toggleDrawer }: Props) {
         }}
       >
         <Link href="/">
-          <Text variant="headlineLarge">DuskTools</Text>
+          <Text variant="headlineLarge">DuskTool</Text>
         </Link>
         {session ? (
           <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>

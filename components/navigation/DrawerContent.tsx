@@ -2,11 +2,11 @@ import { useRouter } from 'expo-router'
 import { View, Image } from 'react-native'
 import { Drawer, Text, Button } from 'react-native-paper'
 
-import { useAppState } from '~context'
+import { useAppContext } from '~context'
 import AuthService from '~services/AuthService'
 
 export default function DrawerContent() {
-  const [state] = useAppState()
+  const [state] = useAppContext()
   const router = useRouter()
 
   return (
