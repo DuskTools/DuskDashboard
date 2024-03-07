@@ -13,13 +13,13 @@ export default function AppProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log(event, session)
 
       if (event === 'INITIAL_SESSION') {
         Actions.hydrateAuth(dispatch, { session })
       } else if (event === 'SIGNED_IN') {
-        AuthService.handleLoginResponse(dispatch, session!)
+        await AuthService.handleLoginResponse(dispatch, session!)
       } else if (event === 'SIGNED_OUT') {
         Actions.setSession(dispatch, null)
       } else if (event === 'PASSWORD_RECOVERY') {
@@ -27,14 +27,13 @@ export default function AppProvider({ children }: PropsWithChildren) {
       } else if (event === 'TOKEN_REFRESHED') {
         // handle token refreshed event
       } else if (event === 'USER_UPDATED') {
-        // handle user updated event
+        await AuthService.handleLoginResponse(dispatch, session!)
       }
     })
 
     // call unsubscribe to remove the callback
     return data.subscription.unsubscribe
   }, [])
-  console.log('STATE', state)
 
   const isLoading = state.loading > 0 || !state.auth.hydrated
 
