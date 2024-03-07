@@ -1,16 +1,11 @@
-import { Routes } from 'discord-api-types/v10'
 
 import supabase from '~supabase'
 
-async function findUserCampaigns(accessToken: string) {
-  // const rest = new REST({ version: '10' }).setToken(accessToken)
 
-  try {
-    // const foo = await rest.post(Routes.userGuilds())
+async function findUserCampaigns(
+  // session: Exclude<AuthState['session'], undefined | null>
+) {
 
-  } catch (error) {
-    console.error(error)
-  }
 
   // const existingCampaign = await findByDiscordId(discordGuildId)
   // if (existingCampaign) {

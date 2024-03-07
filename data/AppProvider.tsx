@@ -1,12 +1,12 @@
 import { PropsWithChildren, useEffect, useReducer } from 'react'
 
-import { router } from 'expo-router'
+import { ActivityIndicator } from 'react-native-paper'
 
 import Actions from './actions'
 import AppContext from './AppContext'
 import initialState from './initialState'
 import reducer from './reducer'
-import CampaignService from '~services/CampaignService'
+import AuthService from '~services/AuthService'
 import supabase from '~supabase'
 
 export default function AppProvider({ children }: PropsWithChildren) {
@@ -17,11 +17,9 @@ export default function AppProvider({ children }: PropsWithChildren) {
       console.log(event, session)
 
       if (event === 'INITIAL_SESSION') {
-        // handle initial session
+        Actions.hydrateAuth(dispatch, { session })
       } else if (event === 'SIGNED_IN') {
-        Actions.setSession(dispatch, session)
-        CampaignService.findUserCampaigns(session!.access_token)
-        router.push('/campaigns')
+        AuthService.handleLoginResponse(dispatch, session!)
       } else if (event === 'SIGNED_OUT') {
         Actions.setSession(dispatch, null)
       } else if (event === 'PASSWORD_RECOVERY') {
@@ -36,9 +34,13 @@ export default function AppProvider({ children }: PropsWithChildren) {
     // call unsubscribe to remove the callback
     return data.subscription.unsubscribe
   }, [])
+  console.log('STATE', state)
+
+  const isLoading = state.loading > 0 || !state.auth.hydrated
+
   return (
     <AppContext.Provider value={[state, dispatch]}>
-      {children}
+      {isLoading ? <ActivityIndicator /> : children}
     </AppContext.Provider>
   )
 }

@@ -3,13 +3,11 @@ import { Dispatch } from 'react'
 import { AuthState } from '~types'
 
 export enum ActionType {
+  HYDRATE_AUTH = 'HYDRATE_AUTH',
   SET_SESSION = 'SET_SESSION',
   INCREMENT_LOADING = 'INCREMENT_LOADING',
   DECREMENT_LOADING = 'DECREMENT_LOADING',
 }
-const decrementLoading = actionCreator(ActionType.DECREMENT_LOADING)
-const incrementLoading = actionCreator(ActionType.INCREMENT_LOADING)
-const setSession = actionCreator(ActionType.SET_SESSION)
 
 type IncrementLoadingAction = ActionInterface<ActionType.INCREMENT_LOADING>
 type DecrementLoadingAction = ActionInterface<ActionType.DECREMENT_LOADING>
@@ -17,16 +15,22 @@ type SetSessionAction = ActionInterface<
   ActionType.SET_SESSION,
   AuthState['session']
 >
+type HydrateAuthAction = ActionInterface<
+  ActionType.HYDRATE_AUTH,
+  Exclude<Partial<AuthState>, 'hydrated'>
+>
 
 export type ReducerAction =
   | IncrementLoadingAction
   | DecrementLoadingAction
   | SetSessionAction
+  | HydrateAuthAction
 
 export default {
-  decrementLoading,
-  incrementLoading,
-  setSession,
+  decrementLoading: actionCreator(ActionType.DECREMENT_LOADING),
+  incrementLoading: actionCreator(ActionType.INCREMENT_LOADING),
+  setSession: actionCreator(ActionType.SET_SESSION),
+  hydrateAuth: actionCreator(ActionType.HYDRATE_AUTH),
 }
 
 // Da Pipes

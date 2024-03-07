@@ -1,7 +1,7 @@
 import Drawer from 'expo-router/drawer'
 
 import DrawerContent from './DrawerContent'
-import Header from '~components/navigation/Header'
+import Header from '~components/navigation/DrawerHeader'
 import { useAppContext } from '~context'
 import useAppTheme from '~theme/useAppTheme'
 
@@ -12,6 +12,7 @@ export default function DrawerNav() {
   return (
     <Drawer
       drawerContent={DrawerContent}
+      initialRouteName="index"
       screenOptions={{
         swipeEnabled: !!state.auth.session,
         drawerPosition: 'right',

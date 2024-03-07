@@ -2,6 +2,7 @@ import { AppState } from '~types'
 
 const initialAuthData = {
   session: null,
+  hydrated: false,
 }
 
 const initialState: AppState = {

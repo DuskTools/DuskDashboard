@@ -7,6 +7,11 @@ export default function reducer(
 ): AppState {
   console.log('Reducer called with state:', state, 'and action:', action)
   switch (action.type) {
+    case ActionType.HYDRATE_AUTH:
+      return {
+        ...state,
+        auth: { ...state.auth, ...action.payload, hydrated: true },
+      }
     case ActionType.SET_SESSION:
       return {
         ...state,
@@ -22,5 +27,7 @@ export default function reducer(
         ...state,
         loading: state.loading - 1,
       }
+    default:
+      throw new Error('Invalid action type')
   }
 }
