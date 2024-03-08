@@ -15,8 +15,12 @@ const createSessionFromUrl = async (url: string) => {
 
   if (errorCode) throw new Error(errorCode)
 
-  const { access_token, refresh_token, provider_token, provider_refresh_token } =
-    params
+  const {
+    access_token,
+    refresh_token,
+    provider_token,
+    provider_refresh_token,
+  } = params
 
   if (!access_token) return
 
@@ -25,10 +29,7 @@ const createSessionFromUrl = async (url: string) => {
     refresh_token,
   })
   if (error) throw error
-  await supabase.auth.updateUser({
-    data: { provider_token, provider_refresh_token },
-  })
-
+  return { provider_token, provider_refresh_token }
 }
 
 const login = async () => {
@@ -46,7 +47,7 @@ const login = async () => {
 
   if (res.type === 'success') {
     const { url } = res
-    createSessionFromUrl(url)
+    console.log(createSessionFromUrl(url))
   }
 }
 

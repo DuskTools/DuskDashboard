@@ -6,6 +6,12 @@ const initialAuthData = {
 }
 
 const initialState: AppState = {
+  store: {
+    current_user: null,
+    users: [],
+    campaigns: [],
+    clocks: [],
+  },
   auth: initialAuthData,
   loading: 0,
 }
