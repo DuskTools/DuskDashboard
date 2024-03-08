@@ -1,4 +1,5 @@
 import { ActionType, ReducerAction } from './actions'
+import initialState from './initialState'
 import { AppState } from '~types'
 
 export default function reducer(
@@ -7,15 +8,20 @@ export default function reducer(
 ): AppState {
   console.log('Reducer called with state:', state, 'and action:', action)
   switch (action.type) {
-    case ActionType.HYDRATE_AUTH:
-      return {
-        ...state,
-        auth: { ...state.auth, ...action.payload, hydrated: true },
+    case ActionType.SET_CURRENT_USER:
+      if (action.payload) {
+
+        return {
+          ...state,
+          currentUser: action.payload,
+        }
       }
-    case ActionType.SET_SESSION:
       return {
         ...state,
-        auth: { ...state.auth, session: action.payload },
+        currentUser: initialState.currentUser,
+        users: [],
+        campaigns: [],
+        clocks: [],
       }
     case ActionType.INCREMENT_LOADING:
       return {

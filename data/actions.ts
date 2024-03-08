@@ -1,36 +1,29 @@
 import { Dispatch } from 'react'
 
-import { AuthState } from '~types'
+import { User } from '~types'
 
 export enum ActionType {
-  HYDRATE_AUTH = 'HYDRATE_AUTH',
-  SET_SESSION = 'SET_SESSION',
   INCREMENT_LOADING = 'INCREMENT_LOADING',
   DECREMENT_LOADING = 'DECREMENT_LOADING',
+  SET_CURRENT_USER = 'SET_CURRENT_USER',
 }
 
 type IncrementLoadingAction = ActionInterface<ActionType.INCREMENT_LOADING>
 type DecrementLoadingAction = ActionInterface<ActionType.DECREMENT_LOADING>
-type SetSessionAction = ActionInterface<
-  ActionType.SET_SESSION,
-  AuthState['session']
->
-type HydrateAuthAction = ActionInterface<
-  ActionType.HYDRATE_AUTH,
-  Exclude<Partial<AuthState>, 'hydrated'>
+type SetCurrentUserAction = ActionInterface<
+  ActionType.SET_CURRENT_USER,
+  User['Row'] | null
 >
 
 export type ReducerAction =
   | IncrementLoadingAction
   | DecrementLoadingAction
-  | SetSessionAction
-  | HydrateAuthAction
+  | SetCurrentUserAction
 
 export default {
   decrementLoading: actionCreator(ActionType.DECREMENT_LOADING),
   incrementLoading: actionCreator(ActionType.INCREMENT_LOADING),
-  setSession: actionCreator(ActionType.SET_SESSION),
-  hydrateAuth: actionCreator(ActionType.HYDRATE_AUTH),
+  setCurrentUser: actionCreator(ActionType.SET_CURRENT_USER),
 }
 
 // Da Pipes

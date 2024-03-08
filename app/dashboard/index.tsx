@@ -9,7 +9,7 @@ export default function Dashboard() {
   const theme = useAppTheme()
   return (
     <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <Text>{JSON.stringify(state.auth.session, null, 2)}</Text>
+      <Text>{JSON.stringify(state.currentUser, null, 2)}</Text>
     </ScrollView>
   )
 }

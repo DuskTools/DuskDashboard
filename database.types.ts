@@ -70,24 +70,41 @@ export type Database = {
       }
       users: {
         Row: {
+          auth_id: string
+          avatar_url: string
           created_at: string
-          discordRefreshToken: string
-          discordToken: string
+          discord_refresh_token: string
+          discord_token: string
+          email: string
           id: string
         }
         Insert: {
+          auth_id: string
+          avatar_url: string
           created_at?: string
-          discordRefreshToken: string
-          discordToken: string
+          discord_refresh_token: string
+          discord_token: string
+          email: string
           id?: string
         }
         Update: {
+          auth_id?: string
+          avatar_url?: string
           created_at?: string
-          discordRefreshToken?: string
-          discordToken?: string
+          discord_refresh_token?: string
+          discord_token?: string
+          email?: string
           id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_users_auth_id_fkey"
+            columns: ["auth_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {

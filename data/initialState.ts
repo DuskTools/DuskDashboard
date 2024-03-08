@@ -1,18 +1,10 @@
 import { AppState } from '~types'
 
-const initialAuthData = {
-  session: null,
-  hydrated: false,
-}
-
 const initialState: AppState = {
-  store: {
-    current_user: null,
-    users: [],
-    campaigns: [],
-    clocks: [],
-  },
-  auth: initialAuthData,
+  currentUser: null,
+  users: [],
+  campaigns: [],
+  clocks: [],
   loading: 0,
 }
 

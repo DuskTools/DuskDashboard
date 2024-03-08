@@ -7,6 +7,7 @@ import DrawerContent from '~components/navigation/DrawerContent'
 import DrawerHeader from '~components/navigation/DrawerHeader'
 import { useAppContext } from '~context'
 import useAppTheme from '~theme/useAppTheme'
+import DrawerNav from '~components/navigation/DrawerNav'
 
 function useIsNavigationReady() {
   const rootNavigationState = useRootNavigationState()
@@ -17,26 +18,12 @@ export default function DashboardLayout() {
   const isNavigationReady = useIsNavigationReady()
   const [state] = useAppContext()
   const router = useRouter()
-  const theme = useAppTheme()
 
   useEffect(() => {
-    if (isNavigationReady && !state.auth.session) {
+    if (isNavigationReady && !state.currentUser) {
       router.push('/')
     }
-  }, [isNavigationReady, state.auth.session])
+  }, [isNavigationReady, state.currentUser])
 
-  return (
-    <Drawer
-      drawerContent={DrawerContent}
-      initialRouteName="index"
-      screenOptions={{
-        swipeEnabled: !!state.auth.session,
-        drawerPosition: 'right',
-        drawerStyle: { backgroundColor: theme.colors.surface },
-        header: ({ navigation }) => {
-          return <DrawerHeader toggleDrawer={() => navigation.toggleDrawer()} />
-        },
-      }}
-    />
-  )
+  return <DrawerNav />
 }

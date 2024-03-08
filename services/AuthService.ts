@@ -1,16 +1,14 @@
-import { Session } from '@supabase/supabase-js'
 import { makeRedirectUri } from 'expo-auth-session'
 import * as QueryParams from 'expo-auth-session/build/QueryParams'
-import { router } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
 
-import { Actions, AppDispatch } from '~context'
+import UserService from './UserService'
 import supabase from '~supabase'
 
 WebBrowser.maybeCompleteAuthSession() // required for web only
 const redirectTo = makeRedirectUri()
 
-const createSessionFromUrl = async (url: string) => {
+const createUserDetailsFromUrl = async (url: string) => {
   const { params, errorCode } = QueryParams.getQueryParams(url)
 
   if (errorCode) throw new Error(errorCode)
@@ -24,12 +22,18 @@ const createSessionFromUrl = async (url: string) => {
 
   if (!access_token) return
 
-  const { error } = await supabase.auth.setSession({
+  const { data, error } = await supabase.auth.setSession({
     access_token,
     refresh_token,
   })
   if (error) throw error
-  return { provider_token, provider_refresh_token }
+  return {
+    discord_token: provider_token,
+    discord_refresh_token: provider_refresh_token,
+    auth_id: data.session!.user.id,
+    avatar_url: data.session!.user.user_metadata.avatar_url,
+    email: data.session!.user.email!,
+  }
 }
 
 const login = async () => {
@@ -47,13 +51,11 @@ const login = async () => {
 
   if (res.type === 'success') {
     const { url } = res
-    console.log(createSessionFromUrl(url))
-  }
-}
+    const userParams = await createUserDetailsFromUrl(url)
+    if (userParams === undefined) throw new Error('No session')
 
-const handleLoginResponse = (dispatch: AppDispatch, session: Session) => {
-  Actions.setSession(dispatch, session)
-  router.push('/dashboard/')
+    return await UserService.findOrCreate(userParams)
+  }
 }
 
 const logout = async () => {
@@ -61,4 +63,4 @@ const logout = async () => {
   if (error) throw error
 }
 
-export default { login, handleLoginResponse, logout }
+export default { login, logout }

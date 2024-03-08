@@ -14,7 +14,7 @@ export default function DrawerNav() {
       drawerContent={DrawerContent}
       initialRouteName="index"
       screenOptions={{
-        swipeEnabled: !!state.auth.session,
+        swipeEnabled: !!state.currentUser,
         drawerPosition: 'right',
         drawerStyle: { backgroundColor: theme.colors.surface },
         header: ({ navigation }) => {
