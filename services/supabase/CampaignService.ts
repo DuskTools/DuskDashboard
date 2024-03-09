@@ -1,27 +1,4 @@
-import axios from 'axios'
-
 import supabase from '~supabase'
-import { AuthState } from '~types'
-
-
-async function findUserCampaigns(
-  session: Exclude<AuthState['session'], undefined | null>
-) {
-  try {
-
-    const response = await axios.get(
-      'https://www.discord.com/api/v10/users/@me/guilds',
-      {
-        headers: {
-          Authorization: `Bearer ${session.user.user_metadata.provider_token}`,
-        },
-      }
-    )
-    console.log(response)
-  } catch (e) {
-    console.log(e)
-  }
-}
 
 async function findOrCreateByDiscordId(discordGuildId: string) {
   const existingCampaign = await findByDiscordId(discordGuildId)
@@ -62,4 +39,4 @@ async function findByDiscordId(discordGuildId: string) {
   return data
 }
 
-export default { findOrCreateByDiscordId, findUserCampaigns }
+export default { findOrCreateByDiscordId }

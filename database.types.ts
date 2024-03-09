@@ -73,6 +73,7 @@ export type Database = {
           auth_id: string
           avatar_url: string
           created_at: string
+          discord_id: string
           discord_refresh_token: string
           discord_token: string
           email: string
@@ -82,6 +83,7 @@ export type Database = {
           auth_id: string
           avatar_url: string
           created_at?: string
+          discord_id: string
           discord_refresh_token: string
           discord_token: string
           email: string
@@ -91,6 +93,7 @@ export type Database = {
           auth_id?: string
           avatar_url?: string
           created_at?: string
+          discord_id?: string
           discord_refresh_token?: string
           discord_token?: string
           email?: string
@@ -100,7 +103,7 @@ export type Database = {
           {
             foreignKeyName: "public_users_auth_id_fkey"
             columns: ["auth_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }

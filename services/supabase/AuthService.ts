@@ -33,6 +33,7 @@ const createUserDetailsFromUrl = async (url: string) => {
     auth_id: data.session!.user.id,
     avatar_url: data.session!.user.user_metadata.avatar_url,
     email: data.session!.user.email!,
+    discord_id: data.session!.user.user_metadata.provider_id,
   }
 }
 
@@ -54,7 +55,7 @@ const login = async () => {
     const userParams = await createUserDetailsFromUrl(url)
     if (userParams === undefined) throw new Error('No session')
 
-    return await UserService.findOrCreate(userParams)
+    return await UserService.updateOrCreateOnLogin(userParams)
   }
 }
 

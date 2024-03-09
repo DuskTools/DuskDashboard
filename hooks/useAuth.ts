@@ -1,7 +1,7 @@
 import { router } from 'expo-router'
 
 import { Actions, useAppContext } from '~context'
-import AuthService from '~services/AuthService'
+import AuthService from '~services/supabase/AuthService'
 
 export default function useAuth() {
   const [, dispatch] = useAppContext()

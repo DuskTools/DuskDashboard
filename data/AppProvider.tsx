@@ -8,7 +8,7 @@ import initialState from './initialState'
 import reducer from './reducer'
 import { Actions } from '~context'
 import useAuth from '~hooks/useAuth'
-import UserService from '~services/UserService'
+import UserService from '~services/supabase/UserService'
 import supabase from '~supabase'
 
 export default function AppProvider({ children }: PropsWithChildren) {
