@@ -38,7 +38,7 @@ export default function AppProvider({ children }: PropsWithChildren) {
             Actions.decrementLoading(dispatch)
           })
       } else if (event === 'SIGNED_OUT') {
-        // handle sign in event
+        Actions.setCurrentUser(dispatch, null)
       } else if (event === 'PASSWORD_RECOVERY') {
         // handle password recovery event
       } else if (event === 'TOKEN_REFRESHED') {

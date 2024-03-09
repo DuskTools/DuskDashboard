@@ -4,7 +4,6 @@ import { Drawer, Text, Button } from 'react-native-paper'
 
 import { useAppContext } from '~context'
 import useAuth from '~hooks/useAuth'
-import AuthService from '~services/AuthService'
 
 export default function DrawerContent() {
   const { login, logout } = useAuth()

@@ -2,7 +2,7 @@ import { useRootNavigationState } from 'expo-router'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Button, Text } from 'react-native-paper'
 
-import useAuth from '../hooks/useAuth'
+import useAuth from '~hooks/useAuth'
 import useAppTheme from '~theme/useAppTheme'
 
 export default function App() {
