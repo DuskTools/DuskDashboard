@@ -1,28 +1,44 @@
-import { PropsWithChildren, useEffect, useReducer } from 'react'
+import { PropsWithChildren, useEffect, useReducer, useState } from 'react'
 
-import { router } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { ActivityIndicator } from 'react-native-paper'
 
 import AppContext from './AppContext'
 import initialState from './initialState'
 import reducer from './reducer'
 import { Actions } from '~context'
+import useAuth from '~hooks/useAuth'
+import UserService from '~services/UserService'
 import supabase from '~supabase'
 
 export default function AppProvider({ children }: PropsWithChildren) {
+  const [sessionLoaded, setSessionLoaded] = useState(false)
   const [state, dispatch] = useReducer(reducer, initialState)
+  const router = useRouter()
+  const { logout } = useAuth()
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       console.log(event, session)
 
       if (event === 'INITIAL_SESSION') {
-        // initial session established
+        setSessionLoaded(true)
       } else if (event === 'SIGNED_IN') {
-        // handle sign in event
+        Actions.incrementLoading(dispatch)
+        UserService.find({ auth_id: session!.user.id })
+          .then((user) => {
+            console.log(user)
+            if (user) {
+              Actions.setCurrentUser(dispatch, user)
+            } else {
+              logout()
+            }
+          })
+          .finally(() => {
+            Actions.decrementLoading(dispatch)
+          })
       } else if (event === 'SIGNED_OUT') {
-        Actions.setCurrentUser(dispatch, null)
-        router.push('/')
+        // handle sign in event
       } else if (event === 'PASSWORD_RECOVERY') {
         // handle password recovery event
       } else if (event === 'TOKEN_REFRESHED') {
@@ -35,15 +51,14 @@ export default function AppProvider({ children }: PropsWithChildren) {
     // call unsubscribe to remove the callback
     return data.subscription.unsubscribe
   }, [])
-  const hasCurrentUser = !!state.currentUser
 
   useEffect(() => {
-    if (hasCurrentUser) {
+    if (state.currentUser) {
       router.push('/dashboard/')
     }
-  }, [hasCurrentUser])
+  }, [state.currentUser])
 
-  const isLoading = state.loading > 0
+  const isLoading = state.loading > 0 || !sessionLoaded
 
   return (
     <AppContext.Provider value={[state, dispatch]}>

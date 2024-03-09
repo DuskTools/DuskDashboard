@@ -2,12 +2,12 @@ import { useRouter } from 'expo-router'
 import { View, Image } from 'react-native'
 import { Drawer, Text, Button } from 'react-native-paper'
 
-import useLogin from '../../hooks/useLogin'
 import { useAppContext } from '~context'
+import useAuth from '~hooks/useAuth'
 import AuthService from '~services/AuthService'
 
 export default function DrawerContent() {
-  const login = useLogin()
+  const { login, logout } = useAuth()
   const [state] = useAppContext()
   const router = useRouter()
 
@@ -35,7 +35,7 @@ export default function DrawerContent() {
                   {state.currentUser.email}
                 </Text>
               </View>
-              <Button onPress={AuthService.logout}>Logout</Button>
+              <Button onPress={logout}>Logout</Button>
             </>
           ) : (
             <Button onPress={login}>Login with Discord</Button>
