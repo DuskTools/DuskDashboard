@@ -1,6 +1,6 @@
 import { Dispatch } from 'react'
 
-import { User, UserCampaign } from '~types'
+import { Clock, User, UserCampaign } from '~types'
 
 export enum ActionType {
   INCREMENT_LOADING = 'INCREMENT_LOADING',
@@ -8,6 +8,7 @@ export enum ActionType {
   SET_CURRENT_USER = 'SET_CURRENT_USER',
   SET_CAMPAIGNS = 'SET_CAMPAIGNS',
   SET_AUTH_LOADED = 'SET_AUTH_LOADED',
+  UPDATE_CLOCK_STORE = 'UPDATE_CLOCK_STORE',
 }
 
 type IncrementLoadingAction = ActionInterface<ActionType.INCREMENT_LOADING>
@@ -21,6 +22,10 @@ type SetCampaignsAction = ActionInterface<
   UserCampaign[]
 >
 type SetAuthLoadedAction = ActionInterface<ActionType.SET_AUTH_LOADED>
+type UpdateClockStoreAction = ActionInterface<
+  ActionType.UPDATE_CLOCK_STORE,
+  { clock: Clock['Row']; campaign: UserCampaign }
+>
 
 export type ReducerAction =
   | IncrementLoadingAction
@@ -28,6 +33,7 @@ export type ReducerAction =
   | SetCurrentUserAction
   | SetCampaignsAction
   | SetAuthLoadedAction
+  | UpdateClockStoreAction
 
 export default {
   decrementLoading: actionCreator(ActionType.DECREMENT_LOADING),
@@ -35,6 +41,7 @@ export default {
   setCurrentUser: actionCreator(ActionType.SET_CURRENT_USER),
   setCampaigns: actionCreator(ActionType.SET_CAMPAIGNS),
   setAuthLoaded: actionCreator(ActionType.SET_AUTH_LOADED),
+  updateClockStore: actionCreator(ActionType.UPDATE_CLOCK_STORE),
 }
 
 // Da Pipes

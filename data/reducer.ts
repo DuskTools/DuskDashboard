@@ -9,6 +9,25 @@ export default function reducer(
 ): AppState {
   Logger.log('Reducer called with state:', state, 'and action:', action)
   switch (action.type) {
+    case ActionType.UPDATE_CLOCK_STORE:
+      const { clock, campaign } = action.payload
+      return {
+        ...state,
+        campaigns: state.campaigns.map((c) => {
+          if (c.id === campaign.id) {
+            return {
+              ...c,
+              clocks: c.clocks.map((cl) => {
+                if (cl.id === clock.id) {
+                  return clock
+                }
+                return cl
+              }),
+            }
+          }
+          return c
+        }),
+      }
     case ActionType.SET_AUTH_LOADED:
       return {
         ...state,
@@ -29,9 +48,7 @@ export default function reducer(
       return {
         ...state,
         currentUser: initialState.currentUser,
-        users: [],
         campaigns: [],
-        clocks: [],
       }
     case ActionType.INCREMENT_LOADING:
       return {

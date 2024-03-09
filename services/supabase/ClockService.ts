@@ -1,82 +1,34 @@
-// import supabase from '~supabase'
-// import { Clock, ClockCreateParams, ClockUpdateParams } from '~types'
+import supabase from '~supabase'
+import { Clock } from '~types'
 
-// async function create(clockParams: ClockCreateParams) {
-//   const { data, error } = await supabase
-//     .from('clocks')
-//     .insert(clockParams)
-//     .select()
-//     .single()
+const create = async (createParams: Clock['Insert']) => {
+  const { data, error } = await supabase
+    .from('clocks')
+    .insert(createParams)
+    .select()
+    .single()
+  if (error) throw error
+  return data
+}
 
-//   if (error) {
-//     console.log('Create clock error')
-//     console.log(error.message)
-//   }
+const update = async (
+  id: Clock['Row']['id'],
+  updateParams: Clock['Update']
+): Promise<Clock['Row']> => {
+  const { data, error } = await supabase
+    .from('clocks')
+    .update(updateParams)
+    .eq('id', id)
+    .select()
+    .single()
 
-//   return data!
-// }
+  if (error) {
+    throw error
+  }
 
-// async function getActiveClocks(campaign_id: string) {
-//   const { data, error } = await supabase
-//     .from('clocks')
-//     .select()
-//     .eq('campaign_id', campaign_id)
-//     .eq('active', true)
+  return data!
+}
 
-//   if (error) {
-//     console.log('get active clocks error')
-//     console.log(error.message)
-//   }
 
-//   return data!
-// }
 
-// async function getClock({
-//   campaign_id,
-//   name,
-// }: Pick<Clock, 'name' | 'campaign_id'>) {
-//   const { data, error } = await supabase
-//     .from('clocks')
-//     .select()
-//     .eq('campaign_id', campaign_id)
-//     .eq('name', name)
-//     .limit(1)
-//     .single()
-
-//   if (error) {
-//     console.log('get clock error')
-//     console.log(error.message)
-//   }
-
-//   if (!data) {
-//     throw new Error('No Clock found')
-//   }
-
-//   return data
-// }
-
-// async function updateClock(
-//   options: ClockUpdateParams & Pick<Clock, 'name' | 'campaign_id'>
-// ) {
-//   const { data, error } = await supabase
-//     .from('clocks')
-//     .update(options)
-//     .eq('campaign_id', options.campaign_id)
-//     .eq('name', options.name)
-//     .select()
-//     .single()
-
-//   if (error) {
-//     console.log('update clock error')
-//     console.log(error.message)
-//   }
-
-//   return data!
-// }
-
-// export default {
-//   updateClock,
-//   getClock,
-//   create,
-//   getActiveClocks,
-// }
+export default { create, update }
