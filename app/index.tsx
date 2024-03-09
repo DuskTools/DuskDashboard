@@ -1,19 +1,43 @@
+import { useEffect } from 'react'
+
 import { ScrollView } from 'react-native-gesture-handler'
-import { Button, Text } from 'react-native-paper'
+import { Text } from 'react-native-paper'
 
-import useAuth from '~hooks/useAuth'
-import useAppTheme from '~theme/useAppTheme'
+// import BotInviteLink from '~components/BotInviteLink'
+import Container from '~components/Container'
+import { Actions, useAppContext } from '~context'
+import useLoading from '~hooks/useLoading'
+import CampaignService from '~services/supabase/CampaignService'
 
-export default function App() {
-  const { login } = useAuth()
-  const theme = useAppTheme()
+export default function Dashboard() {
+  const [state, dispatch] = useAppContext()
+  const { loadingHarness } = useLoading()
+
+  useEffect(() => {
+    const processUser = async () => {
+      if (state.currentUser) {
+        await loadingHarness(async () => {
+          const campaigns = await CampaignService.campaignsForUser(
+            state.currentUser!
+          )
+          Actions.setCampaigns(dispatch, campaigns)
+        })
+      }
+    }
+    processUser()
+  }, [state.currentUser])
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <Text variant="headlineLarge">Dusk Tools</Text>
-      <Button mode="contained" onPress={login}>
-        Login with Discord
-      </Button>
-    </ScrollView>
+    <Container>
+      <ScrollView style={{ flex: 1 }}>
+        {state.campaigns.length ? (
+          state.campaigns.map((campaign) => (
+            <Text key={campaign.id}>{campaign.name}</Text>
+          ))
+        ) : (
+          <Text>No Campaigns Found</Text>
+        )}
+      </ScrollView>
+    </Container>
   )
 }

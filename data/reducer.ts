@@ -8,6 +8,11 @@ export default function reducer(
 ): AppState {
   console.log('Reducer called with state:', state, 'and action:', action)
   switch (action.type) {
+    case ActionType.SET_CAMPAIGNS:
+      return {
+        ...state,
+        campaigns: action.payload,
+      }
     case ActionType.SET_CURRENT_USER:
       if (action.payload) {
 

@@ -13,10 +13,14 @@ export type Clock = DatabaseTypes<'clocks'>
 export type Campaign = DatabaseTypes<'campaigns'>
 export type User = DatabaseTypes<'users'>
 
+export type UserCampaign = Campaign['Row'] & {
+  admin: boolean
+}
+
 export type AppState = {
   currentUser: User['Row'] | null
   users: User['Row'][]
-  campaigns: Campaign['Row'][]
+  campaigns: UserCampaign[]
   clocks: Clock['Row'][]
   loading: number
 }

@@ -1,21 +1,23 @@
-import { router } from 'expo-router'
-
+import useLoading from './useLoading'
 import { Actions, useAppContext } from '~context'
 import AuthService from '~services/supabase/AuthService'
 
 export default function useAuth() {
   const [, dispatch] = useAppContext()
+  const { loadingHarness } = useLoading()
 
   return {
     logout: async () => {
-      await AuthService.logout()
-      Actions.setCurrentUser(dispatch, null)
-      router.push('/')
+      await loadingHarness(async () => {
+        await AuthService.logout()
+        Actions.setCurrentUser(dispatch, null)
+      })
     },
     login: async () => {
-      const user = await AuthService.login()
-      Actions.setCurrentUser(dispatch, user || null)
-      router.push('/dashboard/')
+      await loadingHarness(async () => {
+        const user = await AuthService.login()
+        Actions.setCurrentUser(dispatch, user || null)
+      })
     },
   }
 }

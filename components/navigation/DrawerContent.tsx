@@ -1,4 +1,3 @@
-import { useRouter } from 'expo-router'
 import { View, Image } from 'react-native'
 import { Drawer, Text, Button } from 'react-native-paper'
 
@@ -8,7 +7,6 @@ import useAuth from '~hooks/useAuth'
 export default function DrawerContent() {
   const { login, logout } = useAuth()
   const [state] = useAppContext()
-  const router = useRouter()
 
   return (
     <View>
@@ -40,9 +38,6 @@ export default function DrawerContent() {
             <Button onPress={login}>Login with Discord</Button>
           )}
         </View>
-      </Drawer.Section>
-      <Drawer.Section>
-        <Drawer.Item label="Home" onPress={() => router.push('/')} />
       </Drawer.Section>
     </View>
   )

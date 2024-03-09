@@ -1,11 +1,12 @@
 import { Dispatch } from 'react'
 
-import { User } from '~types'
+import { Campaign, User } from '~types'
 
 export enum ActionType {
   INCREMENT_LOADING = 'INCREMENT_LOADING',
   DECREMENT_LOADING = 'DECREMENT_LOADING',
   SET_CURRENT_USER = 'SET_CURRENT_USER',
+  SET_CAMPAIGNS = 'SET_CAMPAIGNS',
 }
 
 type IncrementLoadingAction = ActionInterface<ActionType.INCREMENT_LOADING>
@@ -14,16 +15,22 @@ type SetCurrentUserAction = ActionInterface<
   ActionType.SET_CURRENT_USER,
   User['Row'] | null
 >
+type SetCampaignsAction = ActionInterface<
+  ActionType.SET_CAMPAIGNS,
+  Campaign['Row'][]
+>
 
 export type ReducerAction =
   | IncrementLoadingAction
   | DecrementLoadingAction
   | SetCurrentUserAction
+  | SetCampaignsAction
 
 export default {
   decrementLoading: actionCreator(ActionType.DECREMENT_LOADING),
   incrementLoading: actionCreator(ActionType.INCREMENT_LOADING),
   setCurrentUser: actionCreator(ActionType.SET_CURRENT_USER),
+  setCampaigns: actionCreator(ActionType.SET_CAMPAIGNS),
 }
 
 // Da Pipes
