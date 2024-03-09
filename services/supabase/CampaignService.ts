@@ -7,7 +7,7 @@ async function campaignsForUser(user: User['Row']): Promise<UserCampaign[]> {
     .select(
       `
     *,
-    campaign:campaigns(*)
+    campaign:campaigns(*, clocks:clocks(*))
   `
     )
     .eq('user_id', user.id)
@@ -15,6 +15,7 @@ async function campaignsForUser(user: User['Row']): Promise<UserCampaign[]> {
   if (error) {
     throw error
   }
+  console.log(data)
 
   return (
     (data

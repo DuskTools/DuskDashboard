@@ -5,6 +5,7 @@ import AppContext from './AppContext'
 import initialState from './initialState'
 import reducer from './reducer'
 import Logger from '~services/Logger'
+import CampaignService from '~services/supabase/CampaignService'
 import UserService from '~services/supabase/UserService'
 import supabase from '~supabase'
 
@@ -16,7 +17,7 @@ export default function AppProvider({ children }: PropsWithChildren) {
       Logger.log(event, session)
 
       if (event === 'INITIAL_SESSION') {
-        //initial session
+        Actions.setAuthLoaded(dispatch)
       } else if (event === 'SIGNED_IN') {
         Actions.incrementLoading(dispatch)
         UserService.find({ auth_id: session!.user.id })
@@ -42,6 +43,23 @@ export default function AppProvider({ children }: PropsWithChildren) {
     // call unsubscribe to remove the callback
     return data.subscription.unsubscribe
   }, [])
+
+  useEffect(() => {
+    const processUser = async () => {
+      if (state.currentUser) {
+        try {
+          Actions.incrementLoading(dispatch)
+          const campaigns = await CampaignService.campaignsForUser(
+            state.currentUser!
+          )
+          Actions.setCampaigns(dispatch, campaigns)
+        } finally {
+          Actions.decrementLoading(dispatch)
+        }
+      }
+    }
+    processUser()
+  }, [state.currentUser])
 
   return (
     <AppContext.Provider value={[state, dispatch]}>

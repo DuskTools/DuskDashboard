@@ -14,12 +14,12 @@ export type User = DatabaseTypes<'users'>
 
 export type UserCampaign = Campaign['Row'] & {
   admin: boolean
+  clocks: Clock['Row'][]
 }
 
 export type AppState = {
   currentUser: User['Row'] | null
-  users: User['Row'][]
+  authLoaded: boolean
   campaigns: UserCampaign[]
-  clocks: Clock['Row'][]
   loading: number
 }

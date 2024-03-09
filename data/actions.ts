@@ -7,6 +7,7 @@ export enum ActionType {
   DECREMENT_LOADING = 'DECREMENT_LOADING',
   SET_CURRENT_USER = 'SET_CURRENT_USER',
   SET_CAMPAIGNS = 'SET_CAMPAIGNS',
+  SET_AUTH_LOADED = 'SET_AUTH_LOADED',
 }
 
 type IncrementLoadingAction = ActionInterface<ActionType.INCREMENT_LOADING>
@@ -19,18 +20,21 @@ type SetCampaignsAction = ActionInterface<
   ActionType.SET_CAMPAIGNS,
   UserCampaign[]
 >
+type SetAuthLoadedAction = ActionInterface<ActionType.SET_AUTH_LOADED>
 
 export type ReducerAction =
   | IncrementLoadingAction
   | DecrementLoadingAction
   | SetCurrentUserAction
   | SetCampaignsAction
+  | SetAuthLoadedAction
 
 export default {
   decrementLoading: actionCreator(ActionType.DECREMENT_LOADING),
   incrementLoading: actionCreator(ActionType.INCREMENT_LOADING),
   setCurrentUser: actionCreator(ActionType.SET_CURRENT_USER),
   setCampaigns: actionCreator(ActionType.SET_CAMPAIGNS),
+  setAuthLoaded: actionCreator(ActionType.SET_AUTH_LOADED),
 }
 
 // Da Pipes

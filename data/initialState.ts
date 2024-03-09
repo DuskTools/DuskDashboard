@@ -2,9 +2,8 @@ import { AppState } from '~types'
 
 const initialState: AppState = {
   currentUser: null,
-  users: [],
   campaigns: [],
-  clocks: [],
+  authLoaded: false,
   loading: 0,
 }
 

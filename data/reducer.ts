@@ -9,6 +9,11 @@ export default function reducer(
 ): AppState {
   Logger.log('Reducer called with state:', state, 'and action:', action)
   switch (action.type) {
+    case ActionType.SET_AUTH_LOADED:
+      return {
+        ...state,
+        authLoaded: true,
+      }
     case ActionType.SET_CAMPAIGNS:
       return {
         ...state,
