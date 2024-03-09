@@ -1,5 +1,5 @@
-import { View, Image } from 'react-native'
-import { Drawer, Text, Button } from 'react-native-paper'
+import { Image, View } from 'react-native'
+import { Button, Drawer, Text } from 'react-native-paper'
 
 import { useAppContext } from '~context'
 import useAuth from '~hooks/useAuth'

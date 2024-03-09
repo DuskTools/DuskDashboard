@@ -15,7 +15,6 @@ export default function reducer(
       }
     case ActionType.SET_CURRENT_USER:
       if (action.payload) {
-
         return {
           ...state,
           currentUser: action.payload,
