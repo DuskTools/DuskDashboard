@@ -1,19 +1,32 @@
-import { useLocalSearchParams } from 'expo-router'
-import { Text } from 'react-native-paper'
+import { Button, Text } from 'react-native-paper'
 
-import useAppContext from '../../data/useAppContext'
 import Container from '~components/Container'
+import useCurrentCampaign from '~hooks/useCurrentCampaign'
+import supabase from '~supabase'
 
 export default function Campaign() {
-  const { campaignId } = useLocalSearchParams()
-  const [{ campaigns }] = useAppContext()
-  const campaign = campaigns.find((c) => c.id === campaignId)
+  const currentCampaign = useCurrentCampaign()
+
+  const sendMsg = async () => {
+    if (currentCampaign) {
+      await supabase.functions.invoke('send-message-to-notification-channel', {
+        body: {
+          notification_channel: currentCampaign?.notification_channel,
+        },
+      })
+    }
+  }
 
   return (
     <Container auth>
-      <Text>
-        {campaign ? campaign.name : `No Campaign found for ${campaignId}`}
-      </Text>
+      {currentCampaign ? (
+        <>
+          <Text>{currentCampaign.name}</Text>
+          <Button onPress={sendMsg}>Send Message</Button>
+        </>
+      ) : (
+        <Text>No Campaign found</Text>
+      )}
     </Container>
   )
 }

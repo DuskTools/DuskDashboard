@@ -54,48 +54,51 @@ export type Database = {
           discord_guild_id: string
           id: string
           name: string
+          notification_channel: string
         }
         Insert: {
           created_at?: string
           discord_guild_id: string
           id?: string
           name: string
+          notification_channel: string
         }
         Update: {
           created_at?: string
           discord_guild_id?: string
           id?: string
           name?: string
+          notification_channel?: string
         }
         Relationships: []
       }
       clocks: {
         Row: {
           active: boolean
-          campaign_id: string | null
+          campaign_id: string
           created_at: string
           id: string
-          link: string
+          link: string | null
           name: string
           progress: number
           segments: number
         }
         Insert: {
           active?: boolean
-          campaign_id?: string | null
+          campaign_id?: string
           created_at?: string
           id?: string
-          link: string
+          link?: string | null
           name: string
           progress?: number
           segments: number
         }
         Update: {
           active?: boolean
-          campaign_id?: string | null
+          campaign_id?: string
           created_at?: string
           id?: string
-          link?: string
+          link?: string | null
           name?: string
           progress?: number
           segments?: number

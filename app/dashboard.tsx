@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import { FlatList } from 'react-native-gesture-handler'
 import { Text } from 'react-native-paper'
 
