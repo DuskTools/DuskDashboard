@@ -9,7 +9,7 @@ export default function DrawerContent() {
   const [state] = useAppContext()
 
   return (
-    <View>
+    <View style={{ minWidth: 200 }}>
       <Drawer.Section>
         <View style={{ padding: 15 }}>
           {state.currentUser ? (

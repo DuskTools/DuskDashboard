@@ -19,8 +19,7 @@ const create = async (createParams: User['Insert']): Promise<User['Row']> => {
     .select()
     .single()
   if (error) {
-    console.log('Find or create user error')
-    console.log(error)
+    throw error
   }
 
   return data!
@@ -38,8 +37,7 @@ const update = async (
     .single()
 
   if (error) {
-    console.log('Update User Error')
-    console.log(error)
+    throw error
   }
 
   return data!
@@ -54,8 +52,7 @@ const find = async ({
     .eq('auth_id', auth_id)
     .maybeSingle()
   if (error) {
-    console.log('Find User Error')
-    console.log(error)
+    throw error
   }
 
   return data

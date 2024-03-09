@@ -13,7 +13,6 @@ async function campaignsForUser(user: User['Row']): Promise<UserCampaign[]> {
     .eq('user_id', user.id)
 
   if (error) {
-    console.log(error)
     throw error
   }
 

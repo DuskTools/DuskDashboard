@@ -4,6 +4,7 @@ import Actions from './actions'
 import AppContext from './AppContext'
 import initialState from './initialState'
 import reducer from './reducer'
+import Logger from '~services/Logger'
 import UserService from '~services/supabase/UserService'
 import supabase from '~supabase'
 
@@ -12,7 +13,7 @@ export default function AppProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event, session)
+      Logger.log(event, session)
 
       if (event === 'INITIAL_SESSION') {
         //initial session

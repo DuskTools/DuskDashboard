@@ -1,6 +1,6 @@
 import { Dispatch } from 'react'
 
-import { Campaign, User } from '~types'
+import { User, UserCampaign } from '~types'
 
 export enum ActionType {
   INCREMENT_LOADING = 'INCREMENT_LOADING',
@@ -17,7 +17,7 @@ type SetCurrentUserAction = ActionInterface<
 >
 type SetCampaignsAction = ActionInterface<
   ActionType.SET_CAMPAIGNS,
-  Campaign['Row'][]
+  UserCampaign[]
 >
 
 export type ReducerAction =

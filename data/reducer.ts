@@ -1,12 +1,13 @@
 import { ActionType, ReducerAction } from './actions'
 import initialState from './initialState'
+import Logger from '~services/Logger'
 import { AppState } from '~types'
 
 export default function reducer(
   state: AppState,
   action: ReducerAction
 ): AppState {
-  console.log('Reducer called with state:', state, 'and action:', action)
+  Logger.log('Reducer called with state:', state, 'and action:', action)
   switch (action.type) {
     case ActionType.SET_CAMPAIGNS:
       return {
