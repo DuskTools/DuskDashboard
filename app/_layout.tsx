@@ -11,7 +11,7 @@ export default function RootLayout() {
 
   return (
     <AppProvider>
-      <StatusBar translucent style="light" />
+      <StatusBar style="light" />
       <PaperProvider theme={theme}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Slot />

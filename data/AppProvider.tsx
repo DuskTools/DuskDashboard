@@ -18,16 +18,18 @@ export default function AppProvider({ children }: PropsWithChildren) {
 
       if (event === 'INITIAL_SESSION') {
         Actions.setAuthLoaded(dispatch)
-        Actions.incrementLoading(dispatch)
-        UserService.find({ auth_id: session!.user.id })
-          .then((user) => {
-            if (user) {
-              Actions.setCurrentUser(dispatch, user)
-            }
-          })
-          .finally(() => {
-            Actions.decrementLoading(dispatch)
-          })
+        if (session) {
+          Actions.incrementLoading(dispatch)
+          UserService.find({ auth_id: session.user.id })
+            .then((user) => {
+              if (user) {
+                Actions.setCurrentUser(dispatch, user)
+              }
+            })
+            .finally(() => {
+              Actions.decrementLoading(dispatch)
+            })
+        }
       } else if (event === 'SIGNED_IN') {
         Actions.incrementLoading(dispatch)
         UserService.find({ auth_id: session!.user.id })
