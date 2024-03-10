@@ -9,7 +9,7 @@ export default function Campaigns() {
   const [{ campaigns }] = useAppContext()
   console.log(campaigns)
   return (
-    <Container auth loading={campaigns === null}>
+    <Container loading={campaigns === null}>
       {campaigns && (
         <FlatList
           data={campaigns}

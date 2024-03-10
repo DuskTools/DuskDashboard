@@ -9,10 +9,11 @@ export default function DrawerNav() {
   const theme = useAppTheme()
   const [state] = useAppContext()
 
+  const initialRouteName = state.currentUser ? 'campaigns' : 'index'
   return (
     <Drawer
       drawerContent={DrawerContent}
-      initialRouteName="index"
+      initialRouteName={initialRouteName}
       screenOptions={{
         swipeEnabled: !!state.currentUser,
         drawerPosition: 'right',
@@ -21,6 +22,15 @@ export default function DrawerNav() {
           return <Header toggleDrawer={() => navigation.toggleDrawer()} />
         },
       }}
-    />
+    >
+      {state.currentUser ? (
+        <>
+          <Drawer.Screen name="campaigns" />
+          <Drawer.Screen name="[campaignId]" />
+        </>
+      ) : (
+        <Drawer.Screen name="index" />
+      )}
+    </Drawer>
   )
 }

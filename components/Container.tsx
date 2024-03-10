@@ -1,10 +1,8 @@
-import { PropsWithChildren, useEffect } from 'react'
+import { PropsWithChildren } from 'react'
 
-import { router } from 'expo-router'
 import { View, ViewStyle } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 
-import { useAppContext } from '~context'
 import useLoading from '~hooks/useLoading'
 import useAppTheme from '~theme/useAppTheme'
 
@@ -14,21 +12,10 @@ type Props = PropsWithChildren<{
   loading?: boolean
 }>
 
-export default function Container({
-  children,
-  style,
-  auth = false,
-  loading = false,
-}: Props) {
-  const [{ currentUser }] = useAppContext()
+export default function Container({ children, style, loading = false }: Props) {
   const { isLoading } = useLoading()
   const theme = useAppTheme()
 
-  useEffect(() => {
-    if (auth && !currentUser && !isLoading) {
-      router.push('/')
-    }
-  }, [auth, currentUser, isLoading])
   const showLoading = isLoading || loading
 
   return (

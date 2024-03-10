@@ -10,19 +10,18 @@ export default function reducer(
   Logger.log('Reducer called with state:', state, 'and action:', action)
   switch (action.type) {
     case ActionType.UPDATE_CLOCK_STORE:
-      const { clock, campaign } = action.payload
       if (state.campaigns === null) {
         return state
       }
       return {
         ...state,
         campaigns: state.campaigns.map((c) => {
-          if (c.id === campaign.id) {
+          if (c.id === action.payload.campaign.id) {
             return {
               ...c,
               clocks: c.clocks.map((cl) => {
-                if (cl.id === clock.id) {
-                  return clock
+                if (cl.id === action.payload.clock.id) {
+                  return action.payload.clock
                 }
                 return cl
               }),
