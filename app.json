@@ -12,7 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.dusktools.duskdashboard"
@@ -37,7 +39,10 @@
     "experiments": {
       "typedRoutes": true
     },
-    "plugins": ["expo-router", "expo-secure-store"],
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
     "extra": {
       "router": {
         "origin": false
@@ -46,6 +51,12 @@
         "projectId": "bc36b2f3-0dfb-48b7-b853-74b352318a31"
       }
     },
-    "owner": "dusktools"
+    "owner": "dusktools",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/bc36b2f3-0dfb-48b7-b853-74b352318a31"
+    }
   }
 }
