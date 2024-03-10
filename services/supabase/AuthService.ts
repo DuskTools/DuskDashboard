@@ -1,11 +1,12 @@
 import { makeRedirectUri } from 'expo-auth-session'
 import * as QueryParams from 'expo-auth-session/build/QueryParams'
 import * as WebBrowser from 'expo-web-browser'
+import { Platform } from 'react-native'
 
 import UserService from './UserService'
 import supabase from '~supabase'
 
-WebBrowser.maybeCompleteAuthSession() // required for web only
+Platform.OS === 'web' && WebBrowser.maybeCompleteAuthSession()
 const redirectTo = makeRedirectUri()
 
 const createUserDetailsFromUrl = async (url: string) => {
@@ -49,6 +50,7 @@ const login = async () => {
   })
   if (error) throw error
 
+  console.log(redirectTo)
   const res = await WebBrowser.openAuthSessionAsync(data?.url ?? '', redirectTo)
 
   if (res.type === 'success') {

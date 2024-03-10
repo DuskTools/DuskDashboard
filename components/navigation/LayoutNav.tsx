@@ -1,11 +1,10 @@
 import Drawer from 'expo-router/drawer'
 
 import DrawerContent from './DrawerContent'
-import Header from '~components/navigation/DrawerHeader'
 import { useAppContext } from '~context'
 import useAppTheme from '~theme/useAppTheme'
 
-export default function DrawerNav() {
+export default function LayoutNav() {
   const theme = useAppTheme()
   const [state] = useAppContext()
 
@@ -15,22 +14,15 @@ export default function DrawerNav() {
       drawerContent={DrawerContent}
       initialRouteName={initialRouteName}
       screenOptions={{
+        // headerShown: !!state.currentUser,
         swipeEnabled: !!state.currentUser,
-        drawerPosition: 'right',
         drawerStyle: { backgroundColor: theme.colors.surface },
-        header: ({ navigation }) => {
-          return <Header toggleDrawer={() => navigation.toggleDrawer()} />
+        headerTitleStyle: { color: theme.colors.primary },
+        headerTintColor: theme.colors.primary,
+        headerStyle: {
+          backgroundColor: theme.colors.background,
         },
       }}
-    >
-      {state.currentUser ? (
-        <>
-          <Drawer.Screen name="campaigns" />
-          <Drawer.Screen name="[campaignId]" />
-        </>
-      ) : (
-        <Drawer.Screen name="index" />
-      )}
-    </Drawer>
+    />
   )
 }
