@@ -34,8 +34,10 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
 
   const tickDown = async () => {
     setClockLoading(true)
+    const newProgress = clock.progress - 1 || 0
     const newClock = await ClockService.update(clock.id, {
-      progress: clock.progress - 1 || 0,
+      progress: newProgress,
+      active: true,
     })
     Actions.updateClockStore(dispatch, {
       clock: newClock,
