@@ -15,7 +15,6 @@ async function campaignsForUser(user: User['Row']): Promise<UserCampaign[]> {
   if (error) {
     throw error
   }
-  console.log(data)
 
   return (
     (data

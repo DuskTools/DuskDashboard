@@ -6,5 +6,7 @@ export default function useCurrentCampaign() {
   const { campaignId } = useLocalSearchParams()
   const [{ campaigns }] = useAppContext()
 
-  return campaigns.find((c) => c.id === campaignId)
+  const currentCampaign = campaigns?.find((c) => c.id === campaignId)
+
+  return currentCampaign
 }

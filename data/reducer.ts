@@ -11,6 +11,9 @@ export default function reducer(
   switch (action.type) {
     case ActionType.UPDATE_CLOCK_STORE:
       const { clock, campaign } = action.payload
+      if (state.campaigns === null) {
+        return state
+      }
       return {
         ...state,
         campaigns: state.campaigns.map((c) => {

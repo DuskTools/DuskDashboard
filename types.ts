@@ -20,6 +20,6 @@ export type UserCampaign = Campaign['Row'] & {
 export type AppState = {
   currentUser: User['Row'] | null
   authLoaded: boolean
-  campaigns: UserCampaign[]
+  campaigns: UserCampaign[] | null
   loading: number
 }

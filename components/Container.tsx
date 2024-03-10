@@ -8,9 +8,18 @@ import { useAppContext } from '~context'
 import useLoading from '~hooks/useLoading'
 import useAppTheme from '~theme/useAppTheme'
 
-type Props = PropsWithChildren<{ style?: ViewStyle; auth?: boolean }>
+type Props = PropsWithChildren<{
+  style?: ViewStyle
+  auth?: boolean
+  loading?: boolean
+}>
 
-export default function Container({ children, style, auth = false }: Props) {
+export default function Container({
+  children,
+  style,
+  auth = false,
+  loading = false,
+}: Props) {
   const [{ currentUser }] = useAppContext()
   const { isLoading } = useLoading()
   const theme = useAppTheme()
@@ -20,6 +29,7 @@ export default function Container({ children, style, auth = false }: Props) {
       router.push('/')
     }
   }, [auth, currentUser, isLoading])
+  const showLoading = isLoading || loading
 
   return (
     <View
@@ -33,7 +43,7 @@ export default function Container({ children, style, auth = false }: Props) {
         },
       ]}
     >
-      {isLoading && isLoading ? <ActivityIndicator /> : children}
+      {showLoading && isLoading ? <ActivityIndicator /> : children}
     </View>
   )
 }

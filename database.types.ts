@@ -80,6 +80,7 @@ export type Database = {
           id: string
           link: string | null
           name: string
+          notify_discord: boolean
           progress: number
           segments: number
         }
@@ -90,6 +91,7 @@ export type Database = {
           id?: string
           link?: string | null
           name: string
+          notify_discord?: boolean
           progress?: number
           segments: number
         }
@@ -100,6 +102,7 @@ export type Database = {
           id?: string
           link?: string | null
           name?: string
+          notify_discord?: boolean
           progress?: number
           segments?: number
         }

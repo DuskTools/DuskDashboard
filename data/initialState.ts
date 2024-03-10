@@ -2,7 +2,7 @@ import { AppState } from '~types'
 
 const initialState: AppState = {
   currentUser: null,
-  campaigns: [],
+  campaigns: null,
   authLoaded: false,
   loading: 0,
 }

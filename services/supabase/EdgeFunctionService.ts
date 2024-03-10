@@ -17,7 +17,7 @@ type SynCampaignWithDiscord = {
 
 const syncCampaignWithDiscord = (body: SynCampaignWithDiscord) => {
   return supabase.functions.invoke('sync-campaign-with-discord', {
-    body
+    body,
   })
 }
 

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { ActivityIndicator, Button, Card } from 'react-native-paper'
+import { ActivityIndicator, Button, Card, Text } from 'react-native-paper'
 
 import { Actions, useAppContext } from '~context'
 import useCurrentCampaign from '~hooks/useCurrentCampaign'
@@ -24,10 +24,11 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
       clock: newClock,
       campaign: currentCampaign!,
     })
-    EdgeFunctionService.sendMessage({
-      notification_channel: currentCampaign.discord_guild_id,
-      content: `**${newClock.name}** has ticked up to ${newClock.progress}/${newClock.segments}`,
-    })
+    newClock.notify_discord &&
+      EdgeFunctionService.sendMessage({
+        notification_channel: currentCampaign.notification_channel,
+        content: `**${newClock.name}** has ticked up to ${newClock.progress}/${newClock.segments}`,
+      })
     setClockLoading(false)
   }
 
@@ -40,10 +41,24 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
       clock: newClock,
       campaign: currentCampaign!,
     })
-    EdgeFunctionService.sendMessage({
-      notification_channel: currentCampaign.discord_guild_id,
-      content: `**${newClock.name}** has ticked down to ${newClock.progress}/${newClock.segments}`,
+    newClock.notify_discord &&
+      EdgeFunctionService.sendMessage({
+        notification_channel: currentCampaign.notification_channel,
+        content: `**${newClock.name}** has ticked down to ${newClock.progress}/${newClock.segments}`,
+      })
+    setClockLoading(false)
+  }
+
+  const toggleNotifications = async () => {
+    setClockLoading(true)
+    const newClock = await ClockService.update(clock.id, {
+      notify_discord: !clock.notify_discord,
     })
+    Actions.updateClockStore(dispatch, {
+      clock: newClock,
+      campaign: currentCampaign!,
+    })
+
     setClockLoading(false)
   }
 
@@ -59,20 +74,35 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
         }
         title={clock.name}
       />
-      <Card.Actions>
-        <Button
-          disabled={clockLoading || clock.progress === clock.segments}
-          onPress={tickUp}
-        >
-          Tick Up
-        </Button>
-        <Button
-          disabled={clockLoading || clock.progress === 0}
-          onPress={tickDown}
-        >
-          Tick Down
-        </Button>
-      </Card.Actions>
+      <Card.Content>
+        {clock.notify_discord ? (
+          <>
+            <Text>Notifications Enabled</Text>
+            <Button onPress={toggleNotifications}>Disable Notifications</Button>
+          </>
+        ) : (
+          <>
+            <Text>Notifications Disabled</Text>
+            <Button onPress={toggleNotifications}>Enable Notifications</Button>
+          </>
+        )}
+      </Card.Content>
+      {currentCampaign.admin && (
+        <Card.Actions>
+          <Button
+            disabled={clockLoading || clock.progress === clock.segments}
+            onPress={tickUp}
+          >
+            Tick Up
+          </Button>
+          <Button
+            disabled={clockLoading || clock.progress === 0}
+            onPress={tickDown}
+          >
+            Tick Down
+          </Button>
+        </Card.Actions>
+      )}
     </Card>
   )
 }
