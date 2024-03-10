@@ -7,6 +7,7 @@ import { useAppContext } from '~context'
 
 export default function Campaigns() {
   const [{ campaigns }] = useAppContext()
+  console.log(campaigns)
   return (
     <Container auth loading={campaigns === null}>
       {campaigns && (
