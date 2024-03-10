@@ -1,8 +1,9 @@
 import { PropsWithChildren } from 'react'
 
 import { router } from 'expo-router'
-import { Image, SafeAreaView, View } from 'react-native'
+import { Image, View } from 'react-native'
 import { Button, Drawer, Text } from 'react-native-paper'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useAppContext } from '~context'
 import useAuth from '~hooks/useAuth'
@@ -16,9 +17,10 @@ const Section = ({ children }: PropsWithChildren) => (
 export default function DrawerContent() {
   const { login, logout } = useAuth()
   const [state] = useAppContext()
+  const { top } = useSafeAreaInsets()
 
   return (
-    <SafeAreaView style={{ minWidth: 200 }}>
+    <View style={{ minWidth: 200, paddingTop: top }}>
       <Section>
         {state.currentUser ? (
           <>
@@ -51,6 +53,6 @@ export default function DrawerContent() {
           Campaigns
         </Button>
       </Section>
-    </SafeAreaView>
+    </View>
   )
 }
