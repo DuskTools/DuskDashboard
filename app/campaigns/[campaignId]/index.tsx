@@ -9,6 +9,7 @@ import EdgeFunctionService from '~services/supabase/EdgeFunctionService'
 
 export default function Campaign() {
   const currentCampaign = useCurrentCampaign()
+  if (!currentCampaign) return null
 
   const sendMsg = async () => {
     if (currentCampaign) {
@@ -29,28 +30,23 @@ export default function Campaign() {
 
   return (
     <Container auth>
-      {currentCampaign ? (
-        <View style={{ flex: 1 }}>
-          <Text variant="displayLarge">{currentCampaign.name}</Text>
-          <Text variant="displaySmall">Clocks</Text>
-          <FlatList
-            contentContainerStyle={{ gap: 20 }}
-            data={[...currentCampaign.clocks, 'new']}
-            renderItem={({ item }) =>
-              typeof item === 'string' ? (
-                <NewClockCell />
-              ) : (
-                <ClockCell clock={item} />
-              )
-            }
-            ListEmptyComponent={() => <Text>No Clocks</Text>}
-          />
-          <Button onPress={sendMsg}>Send Message</Button>
-          <Button onPress={sync}>Sync with Discord</Button>
-        </View>
-      ) : (
-        <Text>No Campaign found</Text>
-      )}
+      <View style={{ flex: 1 }}>
+        <FlatList
+          contentContainerStyle={{ gap: 20 }}
+          data={[...currentCampaign.clocks, 'new']}
+          renderItem={({ item }) =>
+            typeof item === 'string' ? (
+              <NewClockCell />
+            ) : (
+              <ClockCell clock={item} />
+            )
+          }
+          ListEmptyComponent={() => <Text>No Clocks</Text>}
+        />
+        <Button onPress={sendMsg}>Send Message</Button>
+        <Button onPress={sync}>Sync with Discord</Button>
+      </View>
+      )
     </Container>
   )
 }

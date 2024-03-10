@@ -1,20 +1,20 @@
+import { Slot } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Provider as PaperProvider } from 'react-native-paper'
 
-import LayoutNav from '~components/navigation/LayoutNav'
 import { AppProvider } from '~context'
 import useAppTheme from '~theme/useAppTheme'
 
-export default function Layout() {
+export default function RootLayout() {
   const theme = useAppTheme()
 
   return (
     <AppProvider>
-      <StatusBar translucent style="auto" />
+      <StatusBar translucent style="light" />
       <PaperProvider theme={theme}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <LayoutNav />
+          <Slot />
         </GestureHandlerRootView>
       </PaperProvider>
     </AppProvider>

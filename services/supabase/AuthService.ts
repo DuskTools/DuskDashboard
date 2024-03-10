@@ -43,14 +43,12 @@ const login = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'discord',
     options: {
-      queryParams: { scopes: 'guilds' },
       redirectTo,
       skipBrowserRedirect: true,
     },
   })
   if (error) throw error
 
-  console.log(redirectTo)
   const res = await WebBrowser.openAuthSessionAsync(data?.url ?? '', redirectTo)
 
   if (res.type === 'success') {

@@ -1,9 +1,9 @@
-import { useLocalSearchParams } from 'expo-router'
+import { useGlobalSearchParams } from 'expo-router'
 
 import useAppContext from '../data/useAppContext'
 
 export default function useCurrentCampaign() {
-  const { campaignId } = useLocalSearchParams()
+  const { campaignId } = useGlobalSearchParams()
   const [{ campaigns }] = useAppContext()
 
   const currentCampaign = campaigns?.find((c) => c.id === campaignId)

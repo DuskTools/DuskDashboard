@@ -43,9 +43,10 @@ export default function AppProvider({ children }: PropsWithChildren) {
     return data.subscription.unsubscribe
   }, [])
 
+  const userPresent = !!state.currentUser
   useEffect(() => {
     const processUser = async () => {
-      if (state.currentUser) {
+      if (userPresent) {
         try {
           Actions.incrementLoading(dispatch)
           const campaigns = await CampaignService.campaignsForUser(
@@ -58,7 +59,7 @@ export default function AppProvider({ children }: PropsWithChildren) {
       }
     }
     processUser()
-  }, [state.currentUser])
+  }, [userPresent])
 
   return (
     <AppContext.Provider value={[state, dispatch]}>

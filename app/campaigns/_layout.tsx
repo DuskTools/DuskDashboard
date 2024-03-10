@@ -1,12 +1,14 @@
 import Drawer from 'expo-router/drawer'
 
-import DrawerContent from './DrawerContent'
-import { useAppContext } from '~context'
+import useAppContext from '../../data/useAppContext'
+import DrawerContent from '~components/navigation/DrawerContent'
+import useCurrentCampaign from '~hooks/useCurrentCampaign'
 import useAppTheme from '~theme/useAppTheme'
 
-export default function LayoutNav() {
+export default function DrawerNav() {
   const theme = useAppTheme()
   const [state] = useAppContext()
+  const currentCampaign = useCurrentCampaign()
 
   const initialRouteName = state.currentUser ? 'campaigns' : 'index'
   return (
@@ -24,9 +26,11 @@ export default function LayoutNav() {
         },
       }}
     >
-      <Drawer.Screen name="index" />
-      <Drawer.Screen name="campaigns/index" />
-      <Drawer.Screen name="campaigns/[campaignId]" />
+      <Drawer.Screen name="index" options={{ title: 'Campaigns' }} />
+      <Drawer.Screen
+        name="[campaignId]"
+        options={{ title: currentCampaign?.name }}
+      />
     </Drawer>
   )
 }
