@@ -40,7 +40,6 @@ export default function AppProvider({ children }: PropsWithChildren) {
       }
     })
 
-    // call unsubscribe to remove the callback
     return data.subscription.unsubscribe
   }, [])
 
