@@ -1,10 +1,8 @@
-
 import useAppContext from '../data/useAppContext'
 import { Actions } from '~context'
 
 export default function useLoading() {
   const [state, dispatch] = useAppContext()
-
 
   const isLoading = state.loading > 0 || !state.authLoaded
   const incrementLoading = () => Actions.incrementLoading(dispatch)

@@ -13,11 +13,11 @@
     },
     "development": {
       "developmentClient": true,
-      "distribution": "internal",
+      "distribution": "internal"
     },
     "preview": {
       "distribution": "internal",
-      "channel": "preview",
+      "channel": "preview"
     },
     "preview-simulator": {
       "channel": "preview",
@@ -35,7 +35,7 @@
       "android": {
         "track": "internal",
         "releaseStatus": "draft"
-      },
+      }
     }
   }
 }
