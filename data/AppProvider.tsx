@@ -1,7 +1,5 @@
 import { PropsWithChildren, useEffect, useReducer } from 'react'
 
-import { router } from 'expo-router'
-
 import Actions from './actions'
 import AppContext from './AppContext'
 import initialState from './initialState'
@@ -26,7 +24,6 @@ export default function AppProvider({ children }: PropsWithChildren) {
           .then((user) => {
             if (user) {
               Actions.setCurrentUser(dispatch, user)
-              router.push('/campaigns/')
             }
           })
           .finally(() => {
