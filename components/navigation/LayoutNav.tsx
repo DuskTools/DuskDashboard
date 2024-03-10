@@ -23,6 +23,10 @@ export default function LayoutNav() {
           backgroundColor: theme.colors.background,
         },
       }}
-    />
+    >
+      <Drawer.Screen name="index" />
+      <Drawer.Screen name="campaigns/index" />
+      <Drawer.Screen name="campaigns/[campaignId]" />
+    </Drawer>
   )
 }
