@@ -1,3 +1,4 @@
+import Drawer from 'expo-router/drawer'
 import { FlatList, View } from 'react-native'
 import { Button, Text } from 'react-native-paper'
 
@@ -28,29 +29,36 @@ export default function Campaign() {
   }
 
   return (
-    <Container auth>
-      {currentCampaign ? (
-        <View style={{ flex: 1 }}>
-          <Text variant="displayLarge">{currentCampaign.name}</Text>
-          <Text variant="displaySmall">Clocks</Text>
-          <FlatList
-            contentContainerStyle={{ gap: 20 }}
-            data={[...currentCampaign.clocks, 'new']}
-            renderItem={({ item }) =>
-              typeof item === 'string' ? (
-                <NewClockCell />
-              ) : (
-                <ClockCell clock={item} />
-              )
-            }
-            ListEmptyComponent={() => <Text>No Clocks</Text>}
-          />
-          <Button onPress={sendMsg}>Send Message</Button>
-          <Button onPress={sync}>Sync with Discord</Button>
-        </View>
-      ) : (
-        <Text>No Campaign found</Text>
-      )}
-    </Container>
+    <>
+      <Drawer.Screen
+        options={{
+          title: 'Home',
+        }}
+      />
+      <Container auth>
+        {currentCampaign ? (
+          <View style={{ flex: 1 }}>
+            <Text variant="displayLarge">{currentCampaign.name}</Text>
+            <Text variant="displaySmall">Clocks</Text>
+            <FlatList
+              contentContainerStyle={{ gap: 20 }}
+              data={[...currentCampaign.clocks, 'new']}
+              renderItem={({ item }) =>
+                typeof item === 'string' ? (
+                  <NewClockCell />
+                ) : (
+                  <ClockCell clock={item} />
+                )
+              }
+              ListEmptyComponent={() => <Text>No Clocks</Text>}
+            />
+            <Button onPress={sendMsg}>Send Message</Button>
+            <Button onPress={sync}>Sync with Discord</Button>
+          </View>
+        ) : (
+          <Text>No Campaign found</Text>
+        )}
+      </Container>
+    </>
   )
 }

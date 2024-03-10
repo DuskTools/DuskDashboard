@@ -14,7 +14,7 @@ export default function LayoutNav() {
       drawerContent={DrawerContent}
       initialRouteName={initialRouteName}
       screenOptions={{
-        // headerShown: !!state.currentUser,
+        headerShown: !!state.currentUser,
         swipeEnabled: !!state.currentUser,
         drawerStyle: { backgroundColor: theme.colors.surface },
         headerTitleStyle: { color: theme.colors.primary },

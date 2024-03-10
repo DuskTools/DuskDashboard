@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react'
 
 import { router } from 'expo-router'
-import { Image, View } from 'react-native'
+import { Image, SafeAreaView, View } from 'react-native'
 import { Button, Drawer, Text } from 'react-native-paper'
 
 import { useAppContext } from '~context'
@@ -18,7 +18,7 @@ export default function DrawerContent() {
   const [state] = useAppContext()
 
   return (
-    <View style={{ minWidth: 200 }}>
+    <SafeAreaView style={{ minWidth: 200 }}>
       <Section>
         {state.currentUser ? (
           <>
@@ -51,6 +51,6 @@ export default function DrawerContent() {
           Campaigns
         </Button>
       </Section>
-    </View>
+    </SafeAreaView>
   )
 }
