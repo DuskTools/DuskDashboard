@@ -26,7 +26,7 @@ export default function CampaignLayout() {
           }}
         />
         <Tabs.Screen
-          name="foo"
+          name="clocks"
           options={{ title: 'Dashboard', tabBarLabel: 'Second One' }}
         />
       </Tabs>

@@ -46,7 +46,6 @@ export default function Campaign() {
         <Button onPress={sendMsg}>Send Message</Button>
         <Button onPress={sync}>Sync with Discord</Button>
       </View>
-      )
     </Container>
   )
 }

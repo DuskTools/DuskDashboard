@@ -1,5 +1,4 @@
 import { FlatList } from 'react-native'
-import { Text } from 'react-native-paper'
 
 import CampaignCell from '~components/CampaignCell'
 import Container from '~components/Container'
