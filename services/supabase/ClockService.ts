@@ -29,6 +29,4 @@ const update = async (
   return data!
 }
 
-
-
 export default { create, update }
