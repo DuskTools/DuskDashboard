@@ -29,6 +29,7 @@ export default function DrawerNav() {
         headerTitleStyle: { color: theme.colors.primary },
         headerTintColor: theme.colors.primary,
         headerStyle: {
+          borderBottomColor: theme.colors.shadow,
           backgroundColor: theme.colors.background,
         },
       }}

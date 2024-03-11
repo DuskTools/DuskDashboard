@@ -1,9 +1,7 @@
-import { FlatList, View } from 'react-native'
-import { Button, Text } from 'react-native-paper'
+import { View } from 'react-native'
+import { Button } from 'react-native-paper'
 
-import ClockCell from '~components/ClockCell'
 import Container from '~components/Container'
-import NewClockCell from '~components/NewClockCell'
 import useCurrentCampaign from '~hooks/useCurrentCampaign'
 import EdgeFunctionService from '~services/supabase/EdgeFunctionService'
 
@@ -31,18 +29,6 @@ export default function Campaign() {
   return (
     <Container auth>
       <View style={{ flex: 1 }}>
-        <FlatList
-          contentContainerStyle={{ gap: 20 }}
-          data={[...currentCampaign.clocks, 'new']}
-          renderItem={({ item }) =>
-            typeof item === 'string' ? (
-              <NewClockCell />
-            ) : (
-              <ClockCell clock={item} />
-            )
-          }
-          ListEmptyComponent={() => <Text>No Clocks</Text>}
-        />
         <Button onPress={sendMsg}>Send Message</Button>
         <Button onPress={sync}>Sync with Discord</Button>
       </View>

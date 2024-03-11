@@ -1,4 +1,5 @@
 import { Redirect, Tabs } from 'expo-router'
+import { Icon } from 'react-native-paper'
 
 import useCurrentCampaign from '~hooks/useCurrentCampaign'
 import useLoading from '~hooks/useLoading'
@@ -20,10 +21,12 @@ export default function CampaignLayout() {
           headerShown: false,
           tabBarActiveTintColor: theme.colors.primary,
           tabBarLabelPosition: 'below-icon',
+          tabBarActiveBackgroundColor: theme.colors.background,
+          tabBarInactiveBackgroundColor: theme.colors.shadow,
           tabBarStyle: {
             shadowColor: theme.colors.shadow,
             backgroundColor: theme.colors.background,
-            borderColor: theme.colors.shadow,
+            borderTopColor: theme.colors.shadow,
           },
         }}
       >
@@ -32,11 +35,16 @@ export default function CampaignLayout() {
           options={{
             title: 'Dashboard',
             tabBarLabel: 'Dashboard',
+            tabBarIcon: () => <Icon source="knife-military" size={20} />,
           }}
         />
         <Tabs.Screen
           name="clocks"
-          options={{ title: 'Dashboard', tabBarLabel: 'Second One' }}
+          options={{
+            title: 'Dashboard',
+            tabBarLabel: 'Clocks',
+            tabBarIcon: () => <Icon source="progress-clock" size={20} />,
+          }}
         />
       </Tabs>
     </>

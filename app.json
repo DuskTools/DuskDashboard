@@ -12,16 +12,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.dusktools.duskdashboard"
-    },
-    "androidStatusBar": {
-      "backgroundColor": "#fff",
-      "barStyle": "light-content",
-      "translucent": true,
-      "hidden": false
     },
     "android": {
       "adaptiveIcon": {
@@ -37,7 +33,10 @@
     "experiments": {
       "typedRoutes": true
     },
-    "plugins": ["expo-router", "expo-secure-store"],
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
     "extra": {
       "router": {
         "origin": false

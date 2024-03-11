@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react'
 
+import { DrawerContentComponentProps } from '@react-navigation/drawer'
 import { router } from 'expo-router'
 import { Image, View } from 'react-native'
 import { Button, Drawer, Text } from 'react-native-paper'
@@ -14,7 +15,7 @@ const Section = ({ children }: PropsWithChildren) => (
   </Drawer.Section>
 )
 
-export default function DrawerContent() {
+export default function DrawerContent(props: DrawerContentComponentProps) {
   const { login, logout } = useAuth()
   const [state] = useAppContext()
   const { top } = useSafeAreaInsets()
@@ -42,7 +43,14 @@ export default function DrawerContent() {
                 {state.currentUser.email}
               </Text>
             </View>
-            <Button onPress={logout}>Logout</Button>
+            <Button
+              onPress={() => {
+                props.navigation.closeDrawer()
+                logout()
+              }}
+            >
+              Logout
+            </Button>
           </>
         ) : (
           <Button onPress={login}>Login with Discord</Button>
