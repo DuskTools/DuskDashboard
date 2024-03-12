@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { Button, Card } from 'react-native-paper'
 import { z } from 'zod'
 
-import { Controller, useForm } from 'react-hook-form'
-import { TextInput, View } from 'react-native'
-import { Button, Card } from 'react-native-paper'
-
+import ControlledSelect from './fields/ControlledSelect'
+import ControlledTextInput from './fields/ControlledTextInput'
 import { Clock } from '~types'
 
 type Props = {
@@ -14,12 +14,12 @@ type Props = {
 const defaultValues: Clock['Insert'] = {
   name: '',
   segments: 8,
-  progress: 0,
   notify_discord: true,
 }
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required.'),
+  segments: z.string().min(1, 'Segments is required'),
 })
 
 export default function NewClockForm(props: Props) {
@@ -32,24 +32,29 @@ export default function NewClockForm(props: Props) {
     resolver: zodResolver(schema),
   })
   return (
-    <Card>
+    <Card mode="contained">
       <Card.Title title="New Clock" />
       <Card.Content>
-        <Controller
+        <ControlledTextInput
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              placeholder="The Gan"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
           name="name"
+          fieldError={errors.name}
+        />
+        <ControlledSelect
+          control={control}
+          name="segments"
+          items={[
+            { label: '4', value: 4 },
+            { label: '6', value: 6 },
+            { label: '8', value: 8 },
+            { label: '10', value: 10 },
+            { label: '12', value: 12 },
+          ]}
+          fieldError={errors.segments}
         />
       </Card.Content>
       <Card.Actions>
-        <Button onPress={handleSubmit(props.onSubmit)}>Make a new Clock</Button>
+        <Button onPress={handleSubmit(props.onSubmit)}>Make Clock</Button>
       </Card.Actions>
     </Card>
   )
