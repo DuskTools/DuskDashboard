@@ -1,12 +1,8 @@
 import { useMaterial3Theme } from '@pchmn/expo-material3-theme'
-import { useColorScheme } from 'react-native'
-import { MD3DarkTheme, MD3LightTheme } from 'react-native-paper'
+import { MD3DarkTheme } from 'react-native-paper'
 
 export default function useAppTheme() {
-  const colorScheme = useColorScheme()
   const { theme } = useMaterial3Theme()
 
-  return colorScheme === 'dark'
-    ? { ...MD3DarkTheme, colors: theme.dark }
-    : { ...MD3LightTheme, colors: theme.light }
+  return { ...MD3DarkTheme, colors: theme.dark }
 }

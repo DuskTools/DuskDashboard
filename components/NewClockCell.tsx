@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Pressable } from 'react-native'
-import { Card, Modal, Portal, Text } from 'react-native-paper'
+import { Card, Modal, Portal } from 'react-native-paper'
 
 export default function NewClockCell() {
   const [visible, setVisible] = useState(false)
@@ -15,23 +15,14 @@ export default function NewClockCell() {
         </Card>
       </Pressable>
       <Portal>
-        <Modal
+        {/* <Modal
           visible={visible}
           onDismiss={hideModal}
           contentContainerStyle={{
-            backgroundColor: 'red',
             padding: 20,
             margin: 20,
           }}
-        >
-          <Text>Example Modal. Click outside this area to dismiss.</Text>
-          <Text>Example Modal. Click outside this area to dismiss.</Text>
-          <Text>Example Modal. Click outside this area to dismiss.</Text>
-          <Text>Example Modal. Click outside this area to dismiss.</Text>
-          <Text>Example Modal. Click outside this area to dismiss.</Text>
-          <Text>Example Modal. Click outside this area to dismiss.</Text>
-          <Text>Example Modal. Click outside this area to dismiss.</Text>
-        </Modal>
+        ></Modal> */}
       </Portal>
     </>
   )
