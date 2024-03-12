@@ -1,5 +1,9 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
 import { Controller, useForm } from 'react-hook-form'
 import { TextInput, View } from 'react-native'
+import { Button, Card } from 'react-native-paper'
 
 import { Clock } from '~types'
 
@@ -14,6 +18,10 @@ const defaultValues: Clock['Insert'] = {
   notify_discord: true,
 }
 
+const schema = z.object({
+  name: z.string().min(1, 'Name is required.'),
+})
+
 export default function NewClockForm(props: Props) {
   const {
     control,
@@ -21,24 +29,28 @@ export default function NewClockForm(props: Props) {
     formState: { errors },
   } = useForm({
     defaultValues,
+    resolver: zodResolver(schema),
   })
   return (
-    <View>
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            placeholder="The Gan"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
-        )}
-        name="name"
-      />
-    </View>
+    <Card>
+      <Card.Title title="New Clock" />
+      <Card.Content>
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              placeholder="The Gan"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="name"
+        />
+      </Card.Content>
+      <Card.Actions>
+        <Button onPress={handleSubmit(props.onSubmit)}>Make a new Clock</Button>
+      </Card.Actions>
+    </Card>
   )
 }

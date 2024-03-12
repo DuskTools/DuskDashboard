@@ -22,9 +22,7 @@ const update = async (
     .select()
     .single()
 
-  if (error) {
-    throw error
-  }
+  if (error) throw error
 
   return data!
 }

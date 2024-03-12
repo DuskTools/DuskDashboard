@@ -9,10 +9,13 @@ export enum ActionType {
   SET_CAMPAIGNS = 'SET_CAMPAIGNS',
   SET_AUTH_LOADED = 'SET_AUTH_LOADED',
   UPDATE_CLOCK_STORE = 'UPDATE_CLOCK_STORE',
+  ADD_CLOCK = 'ADD_CLOCK',
 }
 
 type IncrementLoadingAction = ActionInterface<ActionType.INCREMENT_LOADING>
 type DecrementLoadingAction = ActionInterface<ActionType.DECREMENT_LOADING>
+type SetAuthLoadedAction = ActionInterface<ActionType.SET_AUTH_LOADED>
+
 type SetCurrentUserAction = ActionInterface<
   ActionType.SET_CURRENT_USER,
   User['Row'] | null
@@ -21,10 +24,13 @@ type SetCampaignsAction = ActionInterface<
   ActionType.SET_CAMPAIGNS,
   UserCampaign[]
 >
-type SetAuthLoadedAction = ActionInterface<ActionType.SET_AUTH_LOADED>
 type UpdateClockStoreAction = ActionInterface<
   ActionType.UPDATE_CLOCK_STORE,
   { clock: Clock['Row']; campaign: UserCampaign }
+>
+type AddClockAction = ActionInterface<
+  ActionType.ADD_CLOCK,
+  { clock: Clock['Insert']; campaign: UserCampaign }
 >
 
 export type ReducerAction =
@@ -34,6 +40,7 @@ export type ReducerAction =
   | SetCampaignsAction
   | SetAuthLoadedAction
   | UpdateClockStoreAction
+  | AddClockAction
 
 export default {
   decrementLoading: actionCreator(ActionType.DECREMENT_LOADING),
@@ -42,6 +49,7 @@ export default {
   setCampaigns: actionCreator(ActionType.SET_CAMPAIGNS),
   setAuthLoaded: actionCreator(ActionType.SET_AUTH_LOADED),
   updateClockStore: actionCreator(ActionType.UPDATE_CLOCK_STORE),
+  addClock: actionCreator(ActionType.ADD_CLOCK),
 }
 
 // Da Pipes

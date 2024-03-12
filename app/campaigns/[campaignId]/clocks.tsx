@@ -11,8 +11,12 @@ export default function Foo() {
   if (!currentCampaign) return null
   const { clocks } = currentCampaign
 
-  const activeClocks = clocks.filter(({ active }) => active)
-  const inactiveClocks = clocks.filter(({ active }) => !active)
+  const activeClocks = clocks.filter(
+    ({ segments, progress }) => segments !== progress
+  )
+  const inactiveClocks = clocks.filter(
+    ({ segments, progress }) => segments === progress
+  )
 
   return (
     <Container auth>
