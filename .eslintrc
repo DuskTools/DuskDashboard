@@ -6,14 +6,21 @@
     "prettier",
     "universe/native"
   ],
-  "ignorePatterns": ["dist /**/*", "babel.config.js", "app.config.js", "metro.config.js"],
+  "ignorePatterns": [
+    "dist/*",
+    "babel.config.js",
+    "app.config.js",
+    "metro.config.js"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": "latest",
-    "project": ["./tsconfig.json"],
+    "project": [
+      "./tsconfig.json"
+    ],
     "sourceType": "module"
   },
   "plugins": [
@@ -48,7 +55,11 @@
           "caseInsensitive": true,
           "order": "asc"
         },
-        "groups": ["builtin", "external", "internal"],
+        "groups": [
+          "builtin",
+          "external",
+          "internal"
+        ],
         "newlines-between": "always",
         "pathGroups": [
           {
@@ -57,7 +68,9 @@
             "position": "before"
           }
         ],
-        "pathGroupsExcludedImportTypes": ["react"]
+        "pathGroupsExcludedImportTypes": [
+          "react"
+        ]
       }
     ],
     "no-only-tests/no-only-tests": "error",
