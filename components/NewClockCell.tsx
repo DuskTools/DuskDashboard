@@ -20,7 +20,10 @@ export default function NewClockCell() {
   const hideModal = () => setVisible(false)
   const onSubmit = async (clockParams: Clock['Insert']) =>
     loadingHarness(async () => {
-      const newClock = await ClockService.create(clockParams)
+      const newClock = await ClockService.create({
+        ...clockParams,
+        campaign_id: currentCampaign!.id,
+      })
       Actions.addClock(dispatch, {
         clock: newClock,
         campaign: currentCampaign!,

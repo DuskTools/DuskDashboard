@@ -1,15 +1,8 @@
 import { Controller, Control, FieldError } from 'react-hook-form'
-import {
-  SegmentedButtons,
-  SegmentedButtonsProps,
-  Text,
-} from 'react-native-paper'
+import { Switch, SwitchProps, Text } from 'react-native-paper'
 
 interface Props
-  extends Omit<
-    SegmentedButtonsProps,
-    'onValueChange' | 'multiSelect' | 'value'
-  > {
+  extends Omit<SwitchProps, 'onValueChange' | 'multiSelect' | 'value'> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any, unknown>
   name: string
@@ -33,11 +26,10 @@ export default function ControlledSelect({
           return (
             <>
               {label && <Text variant="labelSmall">{label}</Text>}
-              <SegmentedButtons
+              <Switch
                 {...rest}
-                multiSelect={false}
-                value={String(field.value)}
-                onValueChange={(val) => field.onChange(Number(val))}
+                value={field.value}
+                onValueChange={(val) => field.onChange(val)}
               />
             </>
           )

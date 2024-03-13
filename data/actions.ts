@@ -30,7 +30,7 @@ type UpdateClockStoreAction = ActionInterface<
 >
 type AddClockAction = ActionInterface<
   ActionType.ADD_CLOCK,
-  { clock: Clock['Insert']; campaign: UserCampaign }
+  { clock: Clock['Row']; campaign: UserCampaign }
 >
 
 export type ReducerAction =
