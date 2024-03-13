@@ -18,7 +18,6 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
     setClockLoading(true)
     const newClock = await ClockService.update(clock.id, {
       progress: clock.progress + 1,
-      active: clock.progress + 1 !== clock.segments,
     })
     Actions.updateClockStore(dispatch, {
       clock: newClock,
@@ -37,7 +36,6 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
     const newProgress = clock.progress - 1 || 0
     const newClock = await ClockService.update(clock.id, {
       progress: newProgress,
-      active: true,
     })
     Actions.updateClockStore(dispatch, {
       clock: newClock,
@@ -71,7 +69,7 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
           clockLoading ? (
             <ActivityIndicator />
           ) : (
-            `${clock.progress}/${clock.segments} (${clock.active ? 'Active' : 'Inactive'})`
+            `${clock.progress}/${clock.segments} (${clock.segments !== clock.progress ? 'Active' : 'Inactive'})`
           )
         }
         title={clock.name}
