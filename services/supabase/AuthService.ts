@@ -1,9 +1,13 @@
+import { AuthChangeEvent, Session, User } from '@supabase/supabase-js'
 import { makeRedirectUri } from 'expo-auth-session'
 import * as QueryParams from 'expo-auth-session/build/QueryParams'
 import * as WebBrowser from 'expo-web-browser'
 import { Platform } from 'react-native'
 
 import UserService from './UserService'
+import { AppDispatch } from '../../data/actions'
+import { Actions } from '~context'
+import Logger from '~services/Logger'
 import supabase from '~supabase'
 
 Platform.OS === 'web' && WebBrowser.maybeCompleteAuthSession()
@@ -32,10 +36,60 @@ const createUserDetailsFromUrl = async (url: string) => {
   return {
     discord_token: provider_token,
     discord_refresh_token: provider_refresh_token,
-    auth_id: data.user!.id,
-    avatar_url: data.user!.user_metadata.avatar_url,
-    email: data.user!.email!,
-    discord_id: data.user!.user_metadata.provider_id,
+    ...extractUserDetailsFromUser(data.user!),
+  }
+}
+
+const onAuthSessionChangeFactory =
+  (dispatch: AppDispatch) =>
+  (event: AuthChangeEvent, session: Session | null) => {
+    Logger.log(event, session)
+
+    if (event === 'INITIAL_SESSION') {
+      Actions.setAuthLoaded(dispatch)
+      console.log(session?.user.user_metadata)
+      if (session) {
+        Actions.incrementLoading(dispatch)
+        UserService.updateOrCreateOnLogin(
+          extractUserDetailsFromUser(session.user)
+        )
+          .then((user) => {
+            Actions.setCurrentUser(dispatch, user)
+          })
+          .finally(() => {
+            Actions.decrementLoading(dispatch)
+          })
+      }
+    } else if (event === 'SIGNED_IN') {
+      if (session) {
+        Actions.incrementLoading(dispatch)
+        UserService.updateOrCreateOnLogin(
+          extractUserDetailsFromUser(session.user)
+        )
+          .then((user) => {
+            Actions.setCurrentUser(dispatch, user)
+          })
+          .finally(() => {
+            Actions.decrementLoading(dispatch)
+          })
+      }
+    } else if (event === 'SIGNED_OUT') {
+      Actions.setCurrentUser(dispatch, null)
+    } else if (event === 'PASSWORD_RECOVERY') {
+      // handle password recovery event
+    } else if (event === 'TOKEN_REFRESHED') {
+      // handle token refreshed event
+    } else if (event === 'USER_UPDATED') {
+      // AuthService.handleLoginResponse(dispatch, session!)
+    }
+  }
+
+const extractUserDetailsFromUser = (user: User) => {
+  return {
+    auth_id: user!.id,
+    avatar_url: user!.user_metadata.avatar_url,
+    email: user!.email!,
+    discord_id: user!.user_metadata.provider_id,
   }
 }
 
@@ -64,4 +118,4 @@ const logout = async () => {
   if (error) throw error
 }
 
-export default { login, logout }
+export default { login, logout, onAuthSessionChangeFactory }

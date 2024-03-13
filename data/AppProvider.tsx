@@ -4,55 +4,17 @@ import Actions from './actions'
 import AppContext from './AppContext'
 import initialState from './initialState'
 import reducer from './reducer'
-import Logger from '~services/Logger'
+import AuthService from '~services/supabase/AuthService'
 import CampaignService from '~services/supabase/CampaignService'
-import UserService from '~services/supabase/UserService'
 import supabase from '~supabase'
 
 export default function AppProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
-      Logger.log(event, session)
-
-      if (event === 'INITIAL_SESSION') {
-        Actions.setAuthLoaded(dispatch)
-        if (session) {
-          Actions.incrementLoading(dispatch)
-          try {
-            const user = await UserService.updateOrCreateOnLogin({
-              auth_id: session.user.id,
-              discord_id: session.user.user_metadata.discord_id,
-            })
-            Actions.setCurrentUser(dispatch, user)
-          } finally {
-            Actions.decrementLoading(dispatch)
-          }
-        }
-      } else if (event === 'SIGNED_IN') {
-        if (session) {
-          Actions.incrementLoading(dispatch)
-          try {
-            const user = await UserService.updateOrCreateOnLogin({
-              auth_id: session.user.id,
-              discord_id: session.user.user_metadata.discord_id,
-            })
-            Actions.setCurrentUser(dispatch, user)
-          } finally {
-            Actions.decrementLoading(dispatch)
-          }
-        }
-      } else if (event === 'SIGNED_OUT') {
-        Actions.setCurrentUser(dispatch, null)
-      } else if (event === 'PASSWORD_RECOVERY') {
-        // handle password recovery event
-      } else if (event === 'TOKEN_REFRESHED') {
-        // handle token refreshed event
-      } else if (event === 'USER_UPDATED') {
-        // AuthService.handleLoginResponse(dispatch, session!)
-      }
-    })
+    const { data } = supabase.auth.onAuthStateChange(
+      AuthService.onAuthSessionChangeFactory(dispatch)
+    )
 
     return data.subscription.unsubscribe
   }, [])
