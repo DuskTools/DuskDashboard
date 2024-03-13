@@ -1,12 +1,10 @@
 name: Build and Deploy
 on:
   workflow_run:
+    branches: [main]
     workflows: ['CI']
     types:
       - completed
-  push:
-    branches:
-      - main
 jobs:
   deploy-web:
     name: Build and DeployDeploy Web App to Netlify
