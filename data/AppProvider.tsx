@@ -13,34 +13,36 @@ export default function AppProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
       Logger.log(event, session)
 
       if (event === 'INITIAL_SESSION') {
         Actions.setAuthLoaded(dispatch)
         if (session) {
           Actions.incrementLoading(dispatch)
-          UserService.find({ auth_id: session.user.id })
-            .then((user) => {
-              if (user) {
-                Actions.setCurrentUser(dispatch, user)
-              }
+          try {
+            const user = await UserService.updateOrCreateOnLogin({
+              auth_id: session.user.id,
+              discord_id: session.user.user_metadata.discord_id,
             })
-            .finally(() => {
-              Actions.decrementLoading(dispatch)
-            })
+            Actions.setCurrentUser(dispatch, user)
+          } finally {
+            Actions.decrementLoading(dispatch)
+          }
         }
       } else if (event === 'SIGNED_IN') {
-        Actions.incrementLoading(dispatch)
-        UserService.find({ auth_id: session!.user.id })
-          .then((user) => {
-            if (user) {
-              Actions.setCurrentUser(dispatch, user)
-            }
-          })
-          .finally(() => {
+        if (session) {
+          Actions.incrementLoading(dispatch)
+          try {
+            const user = await UserService.updateOrCreateOnLogin({
+              auth_id: session.user.id,
+              discord_id: session.user.user_metadata.discord_id,
+            })
+            Actions.setCurrentUser(dispatch, user)
+          } finally {
             Actions.decrementLoading(dispatch)
-          })
+          }
+        }
       } else if (event === 'SIGNED_OUT') {
         Actions.setCurrentUser(dispatch, null)
       } else if (event === 'PASSWORD_RECOVERY') {

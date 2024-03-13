@@ -115,33 +115,33 @@ export type Database = {
       }
       users: {
         Row: {
-          auth_id: string
-          avatar_url: string
+          auth_id: string | null
+          avatar_url: string | null
           created_at: string
           discord_id: string
-          discord_refresh_token: string
-          discord_token: string
-          email: string
+          discord_refresh_token: string | null
+          discord_token: string | null
+          email: string | null
           id: string
         }
         Insert: {
-          auth_id: string
-          avatar_url: string
+          auth_id?: string | null
+          avatar_url?: string | null
           created_at?: string
           discord_id: string
-          discord_refresh_token: string
-          discord_token: string
-          email: string
+          discord_refresh_token?: string | null
+          discord_token?: string | null
+          email?: string | null
           id?: string
         }
         Update: {
-          auth_id?: string
-          avatar_url?: string
+          auth_id?: string | null
+          avatar_url?: string | null
           created_at?: string
           discord_id?: string
-          discord_refresh_token?: string
-          discord_token?: string
-          email?: string
+          discord_refresh_token?: string | null
+          discord_token?: string | null
+          email?: string | null
           id?: string
         }
         Relationships: [

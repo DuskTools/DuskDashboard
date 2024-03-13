@@ -44,12 +44,12 @@ const update = async (
 }
 
 const find = async ({
-  auth_id,
-}: Pick<User['Row'], 'auth_id'>): Promise<User['Row'] | null> => {
+  discord_id,
+}: Pick<User['Row'], 'discord_id'>): Promise<User['Row'] | null> => {
   const { data, error } = await supabase
     .from('users')
     .select()
-    .eq('auth_id', auth_id)
+    .eq('discord_id', discord_id)
     .maybeSingle()
   if (error) {
     throw error
