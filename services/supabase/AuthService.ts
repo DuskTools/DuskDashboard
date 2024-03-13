@@ -40,39 +40,31 @@ const createUserDetailsFromUrl = async (url: string) => {
   }
 }
 
-const onAuthSessionChangeFactory =
-  (dispatch: AppDispatch) =>
-  (event: AuthChangeEvent, session: Session | null) => {
-    Logger.log(event, session)
+const handleSession = async (
+  dispatch: AppDispatch,
+  session: Session | null
+) => {
+  if (session) {
+    Actions.incrementLoading(dispatch)
+    try {
+      const user = await UserService.updateOrCreateOnLogin(
+        extractUserDetailsFromUser(session.user)
+      )
+      Actions.setCurrentUser(dispatch, user)
+    } finally {
+      Actions.decrementLoading(dispatch)
+    }
+  }
+}
 
+const onAuthSessionChangeFactory = (dispatch: AppDispatch) => {
+  return (event: AuthChangeEvent, session: Session | null) => {
+    Logger.log(event, session)
     if (event === 'INITIAL_SESSION') {
       Actions.setAuthLoaded(dispatch)
-      console.log(session?.user.user_metadata)
-      if (session) {
-        Actions.incrementLoading(dispatch)
-        UserService.updateOrCreateOnLogin(
-          extractUserDetailsFromUser(session.user)
-        )
-          .then((user) => {
-            Actions.setCurrentUser(dispatch, user)
-          })
-          .finally(() => {
-            Actions.decrementLoading(dispatch)
-          })
-      }
+      handleSession(dispatch, session)
     } else if (event === 'SIGNED_IN') {
-      if (session) {
-        Actions.incrementLoading(dispatch)
-        UserService.updateOrCreateOnLogin(
-          extractUserDetailsFromUser(session.user)
-        )
-          .then((user) => {
-            Actions.setCurrentUser(dispatch, user)
-          })
-          .finally(() => {
-            Actions.decrementLoading(dispatch)
-          })
-      }
+      handleSession(dispatch, session)
     } else if (event === 'SIGNED_OUT') {
       Actions.setCurrentUser(dispatch, null)
     } else if (event === 'PASSWORD_RECOVERY') {
@@ -83,6 +75,7 @@ const onAuthSessionChangeFactory =
       // AuthService.handleLoginResponse(dispatch, session!)
     }
   }
+}
 
 const extractUserDetailsFromUser = (user: User) => {
   return {
