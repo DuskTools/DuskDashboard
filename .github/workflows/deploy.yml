@@ -1,0 +1,41 @@
+name: Build and Deploy
+on:
+  workflow_run:
+    workflows: ['CI']
+    types:
+      - completed
+  push:
+    branches:
+      - main
+jobs:
+  deploy-web:
+    name: Build and DeployDeploy Web App to Netlify
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: ['21.5.0']
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Use Node ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: Build the web app
+        run: npm run build:web
+
+      - name: Deploy to Netlify
+        uses: jsmrcaga/action-netlify-deploy@v2.0.0
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_TO_PROD: true
+          build_directory: dist
