@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
-import { ActivityIndicator, Button, Card, Text } from 'react-native-paper'
+import { ActivityIndicator, Button, Card } from 'react-native-paper'
 
+import AppText from './AppText'
 import { Actions, useAppContext } from '~context'
 import useCurrentCampaign from '~hooks/useCurrentCampaign'
 import ClockService from '~services/supabase/ClockService'
@@ -77,12 +78,12 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
       <Card.Content>
         {clock.notify_discord ? (
           <>
-            <Text>Notifications Enabled</Text>
+            <AppText>Notifications Enabled</AppText>
             <Button onPress={toggleNotifications}>Disable Notifications</Button>
           </>
         ) : (
           <>
-            <Text>Notifications Disabled</Text>
+            <AppText>Notifications Disabled</AppText>
             <Button onPress={toggleNotifications}>Enable Notifications</Button>
           </>
         )}

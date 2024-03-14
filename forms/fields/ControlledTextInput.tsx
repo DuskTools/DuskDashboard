@@ -1,5 +1,7 @@
 import { Controller, Control, FieldError } from 'react-hook-form'
-import { TextInputProps, Text, TextInput } from 'react-native-paper'
+import { TextInputProps, TextInput } from 'react-native-paper'
+
+import AppText from '~components/AppText'
 
 interface Props extends TextInputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,7 +35,7 @@ export default function ControlledTextInput({
         )}
       />
       {fieldError?.message && (
-        <Text variant="bodySmall">{fieldError.message}</Text>
+        <AppText variant="bodySmall">{fieldError.message}</AppText>
       )}
     </>
   )

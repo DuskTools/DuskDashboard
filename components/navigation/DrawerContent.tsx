@@ -3,9 +3,10 @@ import { PropsWithChildren } from 'react'
 import { DrawerContentComponentProps } from '@react-navigation/drawer'
 import { router } from 'expo-router'
 import { Image, View } from 'react-native'
-import { Button, Drawer, Text } from 'react-native-paper'
+import { Button, Drawer } from 'react-native-paper'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import AppText from '~components/AppText'
 import { useAppContext } from '~context'
 import useAuth from '~hooks/useAuth'
 
@@ -33,15 +34,17 @@ export default function DrawerContent(props: DrawerContentComponentProps) {
                 paddingBottom: 10,
               }}
             >
-              <Image
-                style={{ borderRadius: 50, height: 50, width: 50 }}
-                source={{
-                  uri: state.currentUser.avatar_url,
-                }}
-              />
-              <Text style={{ textAlign: 'center' }}>
+              {state.currentUser.avatar_url && (
+                <Image
+                  style={{ borderRadius: 50, height: 50, width: 50 }}
+                  source={{
+                    uri: state.currentUser.avatar_url,
+                  }}
+                />
+              )}
+              <AppText style={{ textAlign: 'center' }}>
                 {state.currentUser.email}
-              </Text>
+              </AppText>
             </View>
             <Button
               onPress={() => {

@@ -1,9 +1,7 @@
 import { Controller, Control, FieldError } from 'react-hook-form'
-import {
-  SegmentedButtons,
-  SegmentedButtonsProps,
-  Text,
-} from 'react-native-paper'
+import { SegmentedButtons, SegmentedButtonsProps } from 'react-native-paper'
+
+import AppText from '~components/AppText'
 
 interface Props
   extends Omit<
@@ -32,7 +30,7 @@ export default function ControlledSelect({
         render={({ field }) => {
           return (
             <>
-              {label && <Text variant="labelSmall">{label}</Text>}
+              {label && <AppText variant="labelSmall">{label}</AppText>}
               <SegmentedButtons
                 {...rest}
                 multiSelect={false}
@@ -44,7 +42,7 @@ export default function ControlledSelect({
         }}
       />
       {fieldError?.message && (
-        <Text variant="bodySmall">{fieldError.message}</Text>
+        <AppText variant="bodySmall">{fieldError.message}</AppText>
       )}
     </>
   )

@@ -1,5 +1,7 @@
 import { Controller, Control, FieldError } from 'react-hook-form'
-import { Switch, SwitchProps, Text } from 'react-native-paper'
+import { Switch, SwitchProps } from 'react-native-paper'
+
+import AppText from '~components/AppText'
 
 interface Props
   extends Omit<SwitchProps, 'onValueChange' | 'multiSelect' | 'value'> {
@@ -25,7 +27,7 @@ export default function ControlledSelect({
         render={({ field }) => {
           return (
             <>
-              {label && <Text variant="labelSmall">{label}</Text>}
+              {label && <AppText variant="labelSmall">{label}</AppText>}
               <Switch
                 {...rest}
                 value={field.value}
@@ -36,7 +38,7 @@ export default function ControlledSelect({
         }}
       />
       {fieldError?.message && (
-        <Text variant="bodySmall">{fieldError.message}</Text>
+        <AppText variant="bodySmall">{fieldError.message}</AppText>
       )}
     </>
   )

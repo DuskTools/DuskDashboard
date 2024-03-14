@@ -19,6 +19,26 @@ export default function AppProvider({ children }: PropsWithChildren) {
     return data.subscription.unsubscribe
   }, [])
 
+  useEffect(() => {
+    const allChanges = supabase
+      .channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+        },
+        (payload) => console.log(payload)
+      )
+      .subscribe()
+
+    console.log(allChanges)
+
+    return () => {
+      allChanges.unsubscribe()
+    }
+  }, [])
+
   const userPresent = !!state.currentUser
   useEffect(() => {
     const processUser = async () => {

@@ -1,6 +1,7 @@
 import { View, FlatList } from 'react-native'
-import { Card, Divider, Text } from 'react-native-paper'
+import { Card, Divider } from 'react-native-paper'
 
+import AppText from '~components/AppText'
 import ClockCell from '~components/ClockCell'
 import Container from '~components/Container'
 import NewClockCell from '~components/NewClockCell'
@@ -21,7 +22,7 @@ export default function Foo() {
   return (
     <Container auth>
       <View style={{ flex: 1 }}>
-        <Text variant="headlineSmall">Active Clocks</Text>
+        <AppText variant="headlineSmall">Active Clocks</AppText>
         <FlatList
           contentContainerStyle={{ gap: 20 }}
           data={[...activeClocks, 'new']}
@@ -35,14 +36,14 @@ export default function Foo() {
           ListEmptyComponent={() => <NewClockCell />}
         />
         <Divider />
-        <Text variant="headlineSmall">Inactive Clocks</Text>
+        <AppText variant="headlineSmall">Inactive Clocks</AppText>
         <FlatList
           contentContainerStyle={{ gap: 20 }}
           data={inactiveClocks}
           renderItem={({ item }) => <ClockCell clock={item} />}
           ListEmptyComponent={() => (
             <Card>
-              <Text>No Inactive Clocks</Text>
+              <AppText>No Inactive Clocks</AppText>
             </Card>
           )}
         />
