@@ -4,6 +4,7 @@ import * as QueryParams from 'expo-auth-session/build/QueryParams'
 import * as WebBrowser from 'expo-web-browser'
 import { Platform } from 'react-native'
 
+import LoginPayloadService from './LoginPayloadService'
 import UserService from './UserService'
 import { AppDispatch } from '../../data/actions'
 import { Actions } from '~context'
@@ -36,7 +37,7 @@ const createUserDetailsFromUrl = async (url: string) => {
   return {
     discord_token: provider_token,
     discord_refresh_token: provider_refresh_token,
-    ...extractUserDetailsFromUser(data.user!),
+    ...extractUserDetailsFromSessionUser(data.user!),
   }
 }
 
@@ -44,16 +45,18 @@ const handleSession = async (
   dispatch: AppDispatch,
   session: Session | null
 ) => {
-  if (session) {
-    Actions.incrementLoading(dispatch)
-    try {
-      const user = await UserService.updateOrCreateOnLogin(
-        extractUserDetailsFromUser(session.user)
-      )
+  Actions.incrementLoading(dispatch)
+  try {
+    if (session) {
+      const userParams = extractUserDetailsFromSessionUser(session.user)
+      const user = await UserService.updateOrCreateOnLogin(userParams)
+      await LoginPayloadService.onLogin(userParams)
       Actions.setCurrentUser(dispatch, user)
-    } finally {
-      Actions.decrementLoading(dispatch)
+    } else {
+      Actions.setCurrentUser(dispatch, null)
     }
+  } finally {
+    Actions.decrementLoading(dispatch)
   }
 }
 
@@ -67,17 +70,17 @@ const onAuthSessionChangeFactory = (dispatch: AppDispatch) => {
       handleSession(dispatch, session)
     } else if (event === 'SIGNED_OUT') {
       Actions.setCurrentUser(dispatch, null)
-    } else if (event === 'PASSWORD_RECOVERY') {
-      // handle password recovery event
-    } else if (event === 'TOKEN_REFRESHED') {
-      // handle token refreshed event
-    } else if (event === 'USER_UPDATED') {
-      // AuthService.handleLoginResponse(dispatch, session!)
+      // } else if (event === 'PASSWORD_RECOVERY') {
+      //   // handle password recovery event
+      // } else if (event === 'TOKEN_REFRESHED') {
+      //   // handle token refreshed event
+      // } else if (event === 'USER_UPDATED') {
+      //   // AuthService.handleLoginResponse(dispatch, session!)
     }
   }
 }
 
-const extractUserDetailsFromUser = (user: User) => {
+const extractUserDetailsFromSessionUser = (user: User) => {
   return {
     auth_id: user!.id,
     avatar_url: user!.user_metadata.avatar_url,

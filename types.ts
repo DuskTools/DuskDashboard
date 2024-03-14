@@ -11,6 +11,7 @@ type DatabaseTypes<T extends keyof DatabaseTables> = {
 export type Clock = DatabaseTypes<'clocks'>
 export type Campaign = DatabaseTypes<'campaigns'>
 export type User = DatabaseTypes<'users'>
+export type CampaignUser = DatabaseTypes<'campaign_user'>
 
 export type UserCampaign = Campaign['Row'] & {
   admin: boolean
@@ -20,6 +21,8 @@ export type UserCampaign = Campaign['Row'] & {
 export type AppState = {
   currentUser: User['Row'] | null
   authLoaded: boolean
-  campaigns: UserCampaign[] | null
+  campaigns: Campaign['Row'][] | null
+  clocks: Clock['Row'][] | null
+  campaignUsers: CampaignUser['Row'][] | null
   loading: number
 }
