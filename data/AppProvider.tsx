@@ -1,11 +1,10 @@
 import { PropsWithChildren, useEffect, useReducer } from 'react'
 
-import Actions from './actions'
 import AppContext from './AppContext'
 import initialState from './initialState'
 import reducer from './reducer'
 import AuthService from '~services/supabase/AuthService'
-import CampaignService from '~services/supabase/CampaignService'
+import DBSubscriptionService from '~services/supabase/DBSubscriptionService'
 import supabase from '~supabase'
 
 export default function AppProvider({ children }: PropsWithChildren) {
@@ -20,42 +19,11 @@ export default function AppProvider({ children }: PropsWithChildren) {
   }, [])
 
   useEffect(() => {
-    const allChanges = supabase
-      .channel('schema-db-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-        },
-        (payload) => {
-          console.log(payload)
-        }
-      )
-      .subscribe()
-
+    const subscription = DBSubscriptionService.subscribe()
     return () => {
-      allChanges.unsubscribe()
+      subscription.unsubscribe()
     }
   }, [])
-
-  const userPresent = !!state.currentUser
-  useEffect(() => {
-    const processUser = async () => {
-      if (userPresent) {
-        try {
-          Actions.incrementLoading(dispatch)
-          const campaigns = await CampaignService.campaignsForUser(
-            state.currentUser!
-          )
-          Actions.setCampaigns(dispatch, campaigns)
-        } finally {
-          Actions.decrementLoading(dispatch)
-        }
-      }
-    }
-    processUser()
-  }, [userPresent])
 
   return (
     <AppContext.Provider value={[state, dispatch]}>

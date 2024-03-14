@@ -1,6 +1,6 @@
 import { Dispatch } from 'react'
 
-import { Clock, User, UserCampaign } from '~types'
+import { AppState, User, UserCampaign } from '~types'
 
 export enum ActionType {
   INCREMENT_LOADING = 'INCREMENT_LOADING',
@@ -8,13 +8,16 @@ export enum ActionType {
   SET_CURRENT_USER = 'SET_CURRENT_USER',
   SET_CAMPAIGNS = 'SET_CAMPAIGNS',
   SET_AUTH_LOADED = 'SET_AUTH_LOADED',
-  UPDATE_CLOCK_STORE = 'UPDATE_CLOCK_STORE',
-  ADD_CLOCK = 'ADD_CLOCK',
+  SET_LOGIN_PAYLOAD = 'SET_LOGIN_PAYLOAD',
 }
 
 type IncrementLoadingAction = ActionInterface<ActionType.INCREMENT_LOADING>
 type DecrementLoadingAction = ActionInterface<ActionType.DECREMENT_LOADING>
 type SetAuthLoadedAction = ActionInterface<ActionType.SET_AUTH_LOADED>
+type SetLoginPayloadAction = ActionInterface<
+  ActionType.SET_LOGIN_PAYLOAD,
+  Pick<AppState, 'campaignUsers' | 'campaigns' | 'clocks' | 'currentUser'>
+>
 
 type SetCurrentUserAction = ActionInterface<
   ActionType.SET_CURRENT_USER,
@@ -24,14 +27,6 @@ type SetCampaignsAction = ActionInterface<
   ActionType.SET_CAMPAIGNS,
   UserCampaign[]
 >
-type UpdateClockStoreAction = ActionInterface<
-  ActionType.UPDATE_CLOCK_STORE,
-  { clock: Clock['Row']; campaign: UserCampaign }
->
-type AddClockAction = ActionInterface<
-  ActionType.ADD_CLOCK,
-  { clock: Clock['Row']; campaign: UserCampaign }
->
 
 export type ReducerAction =
   | IncrementLoadingAction
@@ -39,8 +34,7 @@ export type ReducerAction =
   | SetCurrentUserAction
   | SetCampaignsAction
   | SetAuthLoadedAction
-  | UpdateClockStoreAction
-  | AddClockAction
+  | SetLoginPayloadAction
 
 export default {
   decrementLoading: actionCreator(ActionType.DECREMENT_LOADING),
@@ -48,8 +42,7 @@ export default {
   setCurrentUser: actionCreator(ActionType.SET_CURRENT_USER),
   setCampaigns: actionCreator(ActionType.SET_CAMPAIGNS),
   setAuthLoaded: actionCreator(ActionType.SET_AUTH_LOADED),
-  updateClockStore: actionCreator(ActionType.UPDATE_CLOCK_STORE),
-  addClock: actionCreator(ActionType.ADD_CLOCK),
+  setLoginPayload: actionCreator(ActionType.SET_LOGIN_PAYLOAD),
 }
 
 // Da Pipes

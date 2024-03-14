@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Pressable } from 'react-native'
 import { Card, Modal, Portal } from 'react-native-paper'
 
-import { Actions, useAppContext } from '~context'
 import NewClockForm from '~forms/NewClockForm'
 import useCurrentCampaign from '~hooks/useCurrentCampaign'
 import useLoading from '~hooks/useLoading'
@@ -12,7 +11,6 @@ import { Clock } from '~types'
 
 export default function NewClockCell() {
   const [visible, setVisible] = useState(false)
-  const [, dispatch] = useAppContext()
   const currentCampaign = useCurrentCampaign()
   const { loadingHarness } = useLoading()
 
@@ -20,13 +18,9 @@ export default function NewClockCell() {
   const hideModal = () => setVisible(false)
   const onSubmit = async (clockParams: Clock['Insert']) =>
     loadingHarness(async () => {
-      const newClock = await ClockService.create({
+      await ClockService.create({
         ...clockParams,
         campaign_id: currentCampaign!.id,
-      })
-      Actions.addClock(dispatch, {
-        clock: newClock,
-        campaign: currentCampaign!,
       })
     })
   return (

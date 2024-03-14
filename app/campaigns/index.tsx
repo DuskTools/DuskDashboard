@@ -6,16 +6,25 @@ import CampaignCell from '~components/CampaignCell'
 import Container from '~components/Container'
 import EmptyCampaignCell from '~components/EmptyCampaignCell'
 import { useAppContext } from '~context'
+import UserCampaignModel from '~models/UserCampaignModel'
 
 export default function Campaigns() {
-  const [{ campaigns }] = useAppContext()
+  const [state] = useAppContext()
 
-  const adminCampaigns = campaigns?.filter((c) => c.admin) || []
-  const playerCampaigns = campaigns?.filter((c) => !c.admin) || []
+  const currentCampaigns =
+    state.campaigns?.map((campaign) =>
+      UserCampaignModel.toUserCampaign(campaign, state)
+    ) || []
+
+  const adminCampaigns =
+    currentCampaigns
+      .map((campaign) => UserCampaignModel.toUserCampaign(campaign, state))
+      .filter((c) => c.admin) || []
+  const playerCampaigns = currentCampaigns.filter((c) => !c.admin) || []
 
   return (
-    <Container loading={campaigns === null}>
-      {campaigns ? (
+    <Container loading={state.campaigns === null}>
+      {currentCampaigns.length > 0 ? (
         <>
           <View style={{ flex: 1 }}>
             <AppText variant="headlineSmall">Games where you GM</AppText>

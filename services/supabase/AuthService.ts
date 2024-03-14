@@ -49,9 +49,8 @@ const handleSession = async (
   try {
     if (session) {
       const userParams = extractUserDetailsFromSessionUser(session.user)
-      const user = await UserService.updateOrCreateOnLogin(userParams)
-      await LoginPayloadService.onLogin(userParams)
-      Actions.setCurrentUser(dispatch, user)
+      const payload = await LoginPayloadService.onLogin(userParams)
+      Actions.setLoginPayload(dispatch, payload)
     } else {
       Actions.setCurrentUser(dispatch, null)
     }

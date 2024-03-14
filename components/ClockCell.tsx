@@ -3,14 +3,12 @@ import { useState } from 'react'
 import { ActivityIndicator, Button, Card } from 'react-native-paper'
 
 import AppText from './AppText'
-import { Actions, useAppContext } from '~context'
 import useCurrentCampaign from '~hooks/useCurrentCampaign'
 import ClockService from '~services/supabase/ClockService'
 import EdgeFunctionService from '~services/supabase/EdgeFunctionService'
 import { Clock } from '~types'
 
 export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
-  const [, dispatch] = useAppContext()
   const currentCampaign = useCurrentCampaign()
   const [clockLoading, setClockLoading] = useState(false)
   if (!currentCampaign) return null
@@ -19,10 +17,6 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
     setClockLoading(true)
     const newClock = await ClockService.update(clock.id, {
       progress: clock.progress + 1,
-    })
-    Actions.updateClockStore(dispatch, {
-      clock: newClock,
-      campaign: currentCampaign!,
     })
     newClock.notify_discord &&
       EdgeFunctionService.sendMessage({
@@ -38,10 +32,6 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
     const newClock = await ClockService.update(clock.id, {
       progress: newProgress,
     })
-    Actions.updateClockStore(dispatch, {
-      clock: newClock,
-      campaign: currentCampaign!,
-    })
     newClock.notify_discord &&
       EdgeFunctionService.sendMessage({
         notification_channel: currentCampaign.notification_channel,
@@ -55,11 +45,10 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
     const newClock = await ClockService.update(clock.id, {
       notify_discord: !clock.notify_discord,
     })
-    Actions.updateClockStore(dispatch, {
-      clock: newClock,
-      campaign: currentCampaign!,
+    EdgeFunctionService.sendMessage({
+      notification_channel: currentCampaign.notification_channel,
+      content: `Discord Notifications for **${newClock.name}** have been ${newClock.notify_discord ? 'enabled' : 'disabled'}`,
     })
-
     setClockLoading(false)
   }
 

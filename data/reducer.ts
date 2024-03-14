@@ -9,42 +9,10 @@ export default function reducer(
 ): AppState {
   Logger.log('Reducer called with state:', state, 'and action:', action)
   switch (action.type) {
-    case ActionType.ADD_CLOCK:
-      if (state.campaigns === null) {
-        return state
-      }
+    case ActionType.SET_LOGIN_PAYLOAD:
       return {
         ...state,
-        campaigns: state.campaigns.map((c) => {
-          if (c.id === action.payload.campaign.id) {
-            return {
-              ...c,
-              clocks: [...c.clocks, action.payload.clock],
-            }
-          }
-          return c
-        }),
-      }
-    case ActionType.UPDATE_CLOCK_STORE:
-      if (state.campaigns === null) {
-        return state
-      }
-      return {
-        ...state,
-        campaigns: state.campaigns.map((c) => {
-          if (c.id === action.payload.campaign.id) {
-            return {
-              ...c,
-              clocks: c.clocks.map((cl) => {
-                if (cl.id === action.payload.clock.id) {
-                  return action.payload.clock
-                }
-                return cl
-              }),
-            }
-          }
-          return c
-        }),
+        ...action.payload,
       }
     case ActionType.SET_AUTH_LOADED:
       return {
@@ -66,6 +34,8 @@ export default function reducer(
       return {
         ...state,
         currentUser: initialState.currentUser,
+        clocks: [],
+        campaignUsers: [],
         campaigns: [],
       }
     case ActionType.INCREMENT_LOADING:

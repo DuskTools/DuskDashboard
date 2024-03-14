@@ -1,6 +1,6 @@
 import UserService from './UserService'
 import supabase from '~supabase'
-import { AppState, Clock, User } from '~types'
+import { AppState, User } from '~types'
 
 async function onLogin({
   discord_id,
@@ -10,11 +10,8 @@ async function onLogin({
   const currentUser = await UserService.updateOrCreateOnLogin({ discord_id })
 
   const { data: campaigns } = await supabase.from('campaigns').select()
-  const clocks: Clock['Row'][] = []
+  const { data: clocks } = await supabase.from('clocks').select()
   const { data: campaignUsers } = await supabase.from('campaign_user').select()
-  console.log('HEREHERE')
-  console.log(campaignUsers)
-  console.log('HEREHERE')
 
   return Promise.resolve({
     campaignUsers,
