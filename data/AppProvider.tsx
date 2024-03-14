@@ -28,11 +28,11 @@ export default function AppProvider({ children }: PropsWithChildren) {
           event: '*',
           schema: 'public',
         },
-        (payload) => console.log(payload)
+        (payload) => {
+          console.log(payload)
+        }
       )
       .subscribe()
-
-    console.log(allChanges)
 
     return () => {
       allChanges.unsubscribe()
