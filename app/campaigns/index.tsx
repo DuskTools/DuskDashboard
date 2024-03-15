@@ -5,7 +5,7 @@ import AppText from '~components/AppText'
 import CampaignCell from '~components/CampaignCell'
 import Container from '~components/Container'
 import EmptyCampaignCell from '~components/EmptyCampaignCell'
-import { useAppContext } from '~context'
+import useAppContext from '~context/useAppContext'
 import UserCampaignModel from '~models/UserCampaignModel'
 
 export default function Campaigns() {

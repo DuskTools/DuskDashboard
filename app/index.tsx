@@ -2,7 +2,7 @@ import { Redirect } from 'expo-router'
 import { Button } from 'react-native-paper'
 
 import Container from '~components/Container'
-import { useAppContext } from '~context'
+import useAppContext from '~context/useAppContext'
 import useAuth from '~hooks/useAuth'
 import useLoading from '~hooks/useLoading'
 

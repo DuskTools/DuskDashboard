@@ -1,5 +1,5 @@
 import useAppContext from '../data/useAppContext'
-import { Actions } from '~context'
+import Actions from '~context/actions'
 
 export default function useLoading() {
   const [state, dispatch] = useAppContext()

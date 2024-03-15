@@ -7,7 +7,7 @@ import { Platform } from 'react-native'
 import LoginPayloadService from './LoginPayloadService'
 import UserService from './UserService'
 import { AppDispatch } from '../../data/actions'
-import { Actions } from '~context'
+import Actions from '~context/actions'
 import Logger from '~services/Logger'
 import supabase from '~supabase'
 

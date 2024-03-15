@@ -7,7 +7,7 @@ import { Button, Drawer } from 'react-native-paper'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import AppText from '~components/AppText'
-import { useAppContext } from '~context'
+import useAppContext from '~context/useAppContext'
 import useAuth from '~hooks/useAuth'
 
 const Section = ({ children }: PropsWithChildren) => (

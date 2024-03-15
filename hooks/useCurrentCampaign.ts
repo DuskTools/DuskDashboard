@@ -1,6 +1,6 @@
 import { useGlobalSearchParams } from 'expo-router'
 
-import { useAppContext } from '~context'
+import useAppContext from '~context/useAppContext'
 import UserCampaignModel from '~models/UserCampaignModel'
 import { UserCampaign } from '~types'
 

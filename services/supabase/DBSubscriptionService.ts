@@ -1,4 +1,4 @@
-import { Actions, AppDispatch } from '~context'
+import Actions, { AppDispatch } from '~context/actions'
 import supabase from '~supabase'
 
 const subscribe = (dispatch: AppDispatch) =>
