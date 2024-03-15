@@ -1,19 +1,28 @@
 import { ComponentProps } from 'react'
 
-import { Portal, FAB } from 'react-native-paper'
+import { View, ViewStyle } from 'react-native'
+import { FAB } from 'react-native-paper'
 
-export default function AppFAB(props: ComponentProps<typeof FAB>) {
+type Props = ComponentProps<typeof FAB> & {
+  contentContainerStyle?: ViewStyle
+}
+export default function AppFAB({
+  contentContainerStyle = {},
+  ...props
+}: Props) {
   return (
-    <Portal>
-      <FAB
-        {...props}
-        style={{
+    <View
+      style={[
+        {
           position: 'absolute',
           margin: 16,
           right: 0,
-          bottom: 40,
-        }}
-      />
-    </Portal>
+          bottom: 0,
+        },
+        contentContainerStyle,
+      ]}
+    >
+      <FAB {...props} style={[props.style]} />
+    </View>
   )
 }

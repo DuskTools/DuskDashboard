@@ -1,10 +1,14 @@
-import { SectionList } from 'react-native'
+import { Linking, SectionList } from 'react-native'
 
+import AppFAB from '~components/AppFAB'
 import AppText from '~components/AppText'
 import CampaignCell from '~components/CampaignCell'
 import Container from '~components/Container'
 import useAppContext from '~context/useAppContext'
 import UserCampaignModel from '~models/UserCampaignModel'
+
+const LINK =
+  'https://discord.com/oauth2/authorize?client_id=1026293303584497704&permissions=0&scope=bot+applications.commands'
 
 export default function Campaigns() {
   const [{ db }] = useAppContext()
@@ -21,6 +25,9 @@ export default function Campaigns() {
     { title: 'Games where I DM', data: adminCampaigns },
     { title: 'Games where I Play', data: playerCampaigns },
   ]
+  const openUrl = async () => {
+    await Linking.openURL(LINK)
+  }
 
   return (
     <Container loading={db.campaigns === null}>
@@ -33,6 +40,7 @@ export default function Campaigns() {
           <AppText>{title}</AppText>
         )}
       />
+      <AppFAB icon="plus" onPress={openUrl} />
     </Container>
   )
 }

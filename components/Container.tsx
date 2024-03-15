@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react'
 
 import { View, ViewStyle } from 'react-native'
-import { ActivityIndicator } from 'react-native-paper'
+import { ActivityIndicator, Portal } from 'react-native-paper'
 
 import useLoading from '~hooks/useLoading'
 import useAppTheme from '~theme/useAppTheme'
@@ -30,7 +30,14 @@ export default function Container({ children, style, loading = false }: Props) {
         },
       ]}
     >
-      {showLoading && isLoading ? <ActivityIndicator /> : children}
+      {showLoading && (
+        <Portal>
+          <ActivityIndicator
+            style={{ height: '100%', backgroundColor: theme.colors.backdrop }}
+          />
+        </Portal>
+      )}
+      {children}
     </View>
   )
 }

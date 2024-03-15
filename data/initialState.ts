@@ -6,6 +6,7 @@ const initialState: AppState = {
     campaigns: null,
     clocks: null,
     campaignUsers: null,
+    users: null,
   },
   authLoaded: false,
   loading: 0,

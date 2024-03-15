@@ -11,24 +11,27 @@ export type Database = {
     Tables: {
       campaign_user: {
         Row: {
-          admin: boolean | null
+          admin: boolean
           campaign_id: string
           created_at: string
           id: number
+          nickname: string | null
           user_id: string
         }
         Insert: {
-          admin?: boolean | null
+          admin?: boolean
           campaign_id: string
           created_at?: string
           id?: number
+          nickname?: string | null
           user_id: string
         }
         Update: {
-          admin?: boolean | null
+          admin?: boolean
           campaign_id?: string
           created_at?: string
           id?: number
+          nickname?: string | null
           user_id?: string
         }
         Relationships: [
@@ -121,6 +124,7 @@ export type Database = {
           auth_id: string | null
           avatar_url: string | null
           created_at: string
+          discord_global_name: string
           discord_id: string
           discord_refresh_token: string | null
           discord_token: string | null
@@ -131,6 +135,7 @@ export type Database = {
           auth_id?: string | null
           avatar_url?: string | null
           created_at?: string
+          discord_global_name?: string
           discord_id: string
           discord_refresh_token?: string | null
           discord_token?: string | null
@@ -141,6 +146,7 @@ export type Database = {
           auth_id?: string | null
           avatar_url?: string | null
           created_at?: string
+          discord_global_name?: string
           discord_id?: string
           discord_refresh_token?: string | null
           discord_token?: string | null

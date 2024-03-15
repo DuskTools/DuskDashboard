@@ -36,6 +36,7 @@ export default function Foo() {
         ...clockParams,
         campaign_id: currentCampaign!.id,
       })
+      hideModal()
     })
 
   return (

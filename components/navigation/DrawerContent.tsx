@@ -2,11 +2,11 @@ import { PropsWithChildren } from 'react'
 
 import { DrawerContentComponentProps } from '@react-navigation/drawer'
 import { router } from 'expo-router'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import { Button, Drawer } from 'react-native-paper'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import AppText from '~components/AppText'
+import UserCell from '~components/UserCell'
 import useAppContext from '~context/useAppContext'
 import useAuth from '~hooks/useAuth'
 
@@ -26,26 +26,7 @@ export default function DrawerContent(props: DrawerContentComponentProps) {
       <Section>
         {state.currentUser ? (
           <>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-evenly',
-                paddingBottom: 10,
-              }}
-            >
-              {state.currentUser.avatar_url && (
-                <Image
-                  style={{ borderRadius: 50, height: 50, width: 50 }}
-                  source={{
-                    uri: state.currentUser.avatar_url,
-                  }}
-                />
-              )}
-              <AppText style={{ textAlign: 'center' }}>
-                {state.currentUser.email}
-              </AppText>
-            </View>
+            <UserCell user={state.currentUser} />
             <Button
               onPress={() => {
                 props.navigation.closeDrawer()

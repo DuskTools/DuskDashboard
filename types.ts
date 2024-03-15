@@ -13,15 +13,27 @@ export type Campaign = DatabaseTypes<'campaigns'>
 export type User = DatabaseTypes<'users'>
 export type CampaignUser = DatabaseTypes<'campaign_user'>
 
+export type CampaignAppUser = AppUser & {
+  nickname?: string
+}
+
 export type UserCampaign = Campaign['Row'] & {
+  gms: CampaignAppUser[]
+  players: CampaignAppUser[]
   admin: boolean
   clocks: Clock['Row'][]
 }
+
+export type AppUser = Pick<
+  User['Row'],
+  'id' | 'discord_id' | 'avatar_url' | 'created_at' | 'discord_global_name'
+>
 
 export type DbState = {
   campaigns: Campaign['Row'][] | null
   clocks: Clock['Row'][] | null
   campaignUsers: CampaignUser['Row'][] | null
+  users: AppUser[] | null
 }
 
 export type AppState = {
