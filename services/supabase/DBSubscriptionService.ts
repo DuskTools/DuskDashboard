@@ -1,9 +1,8 @@
-import { AppDispatch } from '~context'
+import { Actions, AppDispatch } from '~context'
 import supabase from '~supabase'
 
-const subscribe = (_diispatch: AppDispatch) =>
+const subscribe = (dispatch: AppDispatch) =>
   supabase
-
     .channel('schema-db-changes')
     .on(
       'postgres_changes',
@@ -12,14 +11,18 @@ const subscribe = (_diispatch: AppDispatch) =>
         schema: 'public',
       },
       (payload) => {
-        switch (payload.eventType) {
-          case 'UPDATE':
-            console.log('UPDATE')
-            break
-          default:
-            console.log('Default')
-        }
         console.log(payload)
+        switch (payload.eventType) {
+          case 'DELETE':
+            Actions.deleteRow(dispatch, payload)
+            break
+          case 'INSERT':
+            Actions.addRow(dispatch, payload)
+            break
+          case 'UPDATE':
+            Actions.updateRow(dispatch, payload)
+            break
+        }
       }
     )
     .subscribe()

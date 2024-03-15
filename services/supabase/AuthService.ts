@@ -52,7 +52,7 @@ const handleSession = async (
       const payload = await LoginPayloadService.onLogin(userParams)
       Actions.setLoginPayload(dispatch, payload)
     } else {
-      Actions.clearUserAction(dispatch)
+      Actions.clearUser(dispatch)
     }
   } finally {
     Actions.decrementLoading(dispatch)
@@ -68,7 +68,7 @@ const onAuthSessionChangeFactory = (dispatch: AppDispatch) => {
     } else if (event === 'SIGNED_IN') {
       handleSession(dispatch, session)
     } else if (event === 'SIGNED_OUT') {
-      Actions.clearUserAction(dispatch)
+      Actions.clearUser(dispatch)
       // } else if (event === 'PASSWORD_RECOVERY') {
       //   // handle password recovery event
       // } else if (event === 'TOKEN_REFRESHED') {

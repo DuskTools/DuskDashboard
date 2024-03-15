@@ -1,5 +1,11 @@
 import { Dispatch } from 'react'
 
+import {
+  RealtimePostgresDeletePayload,
+  RealtimePostgresInsertPayload,
+  RealtimePostgresUpdatePayload,
+} from '@supabase/supabase-js'
+
 import { AppState } from '~types'
 
 export enum ActionType {
@@ -8,17 +14,36 @@ export enum ActionType {
   CLEAR_USER = 'CLEAR_USER',
   SET_AUTH_LOADED = 'SET_AUTH_LOADED',
   SET_LOGIN_PAYLOAD = 'SET_LOGIN_PAYLOAD',
+  UPDATE_ROW = 'UPDATE_ROW',
+  ADD_ROW = 'ADD_ROW',
+  DELETE_ROW = 'DELETE_ROW',
 }
 
-type IncrementLoadingAction = ActionInterface<ActionType.INCREMENT_LOADING>
-type DecrementLoadingAction = ActionInterface<ActionType.DECREMENT_LOADING>
-type SetAuthLoadedAction = ActionInterface<ActionType.SET_AUTH_LOADED>
-type SetLoginPayloadAction = ActionInterface<
+export type IncrementLoadingAction =
+  ActionInterface<ActionType.INCREMENT_LOADING>
+export type DecrementLoadingAction =
+  ActionInterface<ActionType.DECREMENT_LOADING>
+export type SetAuthLoadedAction = ActionInterface<ActionType.SET_AUTH_LOADED>
+export type SetLoginPayloadAction = ActionInterface<
   ActionType.SET_LOGIN_PAYLOAD,
   Pick<AppState, 'db' | 'currentUser'>
 >
+export type UpdateRowAction = ActionInterface<
+  ActionType.UPDATE_ROW,
+  RealtimePostgresUpdatePayload<{ [key: string]: unknown }>
+>
 
-type ClearUserAction = ActionInterface<ActionType.CLEAR_USER>
+export type AddRowAction = ActionInterface<
+  ActionType.ADD_ROW,
+  RealtimePostgresInsertPayload<{ [key: string]: unknown }>
+>
+
+export type DeleteRowAction = ActionInterface<
+  ActionType.DELETE_ROW,
+  RealtimePostgresDeletePayload<{ [key: string]: unknown }>
+>
+
+export type ClearUserAction = ActionInterface<ActionType.CLEAR_USER>
 
 export type ReducerAction =
   | IncrementLoadingAction
@@ -26,13 +51,19 @@ export type ReducerAction =
   | ClearUserAction
   | SetAuthLoadedAction
   | SetLoginPayloadAction
+  | UpdateRowAction
+  | AddRowAction
+  | DeleteRowAction
 
 export default {
   decrementLoading: actionCreator(ActionType.DECREMENT_LOADING),
   incrementLoading: actionCreator(ActionType.INCREMENT_LOADING),
   setAuthLoaded: actionCreator(ActionType.SET_AUTH_LOADED),
   setLoginPayload: actionCreator(ActionType.SET_LOGIN_PAYLOAD),
-  clearUserAction: actionCreator(ActionType.CLEAR_USER),
+  clearUser: actionCreator(ActionType.CLEAR_USER),
+  updateRow: actionCreator(ActionType.UPDATE_ROW),
+  addRow: actionCreator(ActionType.ADD_ROW),
+  deleteRow: actionCreator(ActionType.DELETE_ROW),
 }
 
 // Da Pipes
