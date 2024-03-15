@@ -1,8 +1,8 @@
-import { AppState, Campaign, UserCampaign } from '~types'
+import { Campaign, DbState, UserCampaign } from '~types'
 
 const toUserCampaign = (
   campaign: Campaign['Row'],
-  state: Pick<AppState, 'clocks' | 'campaignUsers'>
+  state: Pick<DbState, 'clocks' | 'campaignUsers'>
 ): UserCampaign => {
   const matchingCampaignId = ({ campaign_id }: { campaign_id: string }) =>
     campaign_id === campaign.id

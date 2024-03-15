@@ -1,7 +1,8 @@
+import { AppDispatch } from '~context'
 import supabase from '~supabase'
 
-const subscribe = () => {
-  const subscriptions = supabase
+const subscribe = (_diispatch: AppDispatch) =>
+  supabase
 
     .channel('schema-db-changes')
     .on(
@@ -11,12 +12,16 @@ const subscribe = () => {
         schema: 'public',
       },
       (payload) => {
+        switch (payload.eventType) {
+          case 'UPDATE':
+            console.log('UPDATE')
+            break
+          default:
+            console.log('Default')
+        }
         console.log(payload)
       }
     )
     .subscribe()
-
-  return subscriptions
-}
 
 export default { subscribe }

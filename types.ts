@@ -18,11 +18,15 @@ export type UserCampaign = Campaign['Row'] & {
   clocks: Clock['Row'][]
 }
 
-export type AppState = {
-  currentUser: User['Row'] | null
-  authLoaded: boolean
+export type DbState = {
   campaigns: Campaign['Row'][] | null
   clocks: Clock['Row'][] | null
   campaignUsers: CampaignUser['Row'][] | null
+}
+
+export type AppState = {
+  currentUser: User['Row'] | null
+  db: DbState
+  authLoaded: boolean
   loading: number
 }

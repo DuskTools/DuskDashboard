@@ -1,12 +1,11 @@
 import { Dispatch } from 'react'
 
-import { AppState, User, UserCampaign } from '~types'
+import { AppState } from '~types'
 
 export enum ActionType {
   INCREMENT_LOADING = 'INCREMENT_LOADING',
   DECREMENT_LOADING = 'DECREMENT_LOADING',
-  SET_CURRENT_USER = 'SET_CURRENT_USER',
-  SET_CAMPAIGNS = 'SET_CAMPAIGNS',
+  CLEAR_USER = 'CLEAR_USER',
   SET_AUTH_LOADED = 'SET_AUTH_LOADED',
   SET_LOGIN_PAYLOAD = 'SET_LOGIN_PAYLOAD',
 }
@@ -16,33 +15,24 @@ type DecrementLoadingAction = ActionInterface<ActionType.DECREMENT_LOADING>
 type SetAuthLoadedAction = ActionInterface<ActionType.SET_AUTH_LOADED>
 type SetLoginPayloadAction = ActionInterface<
   ActionType.SET_LOGIN_PAYLOAD,
-  Pick<AppState, 'campaignUsers' | 'campaigns' | 'clocks' | 'currentUser'>
+  Pick<AppState, 'db' | 'currentUser'>
 >
 
-type SetCurrentUserAction = ActionInterface<
-  ActionType.SET_CURRENT_USER,
-  User['Row'] | null
->
-type SetCampaignsAction = ActionInterface<
-  ActionType.SET_CAMPAIGNS,
-  UserCampaign[]
->
+type ClearUserAction = ActionInterface<ActionType.CLEAR_USER>
 
 export type ReducerAction =
   | IncrementLoadingAction
   | DecrementLoadingAction
-  | SetCurrentUserAction
-  | SetCampaignsAction
+  | ClearUserAction
   | SetAuthLoadedAction
   | SetLoginPayloadAction
 
 export default {
   decrementLoading: actionCreator(ActionType.DECREMENT_LOADING),
   incrementLoading: actionCreator(ActionType.INCREMENT_LOADING),
-  setCurrentUser: actionCreator(ActionType.SET_CURRENT_USER),
-  setCampaigns: actionCreator(ActionType.SET_CAMPAIGNS),
   setAuthLoaded: actionCreator(ActionType.SET_AUTH_LOADED),
   setLoginPayload: actionCreator(ActionType.SET_LOGIN_PAYLOAD),
+  clearUserAction: actionCreator(ActionType.CLEAR_USER),
 }
 
 // Da Pipes

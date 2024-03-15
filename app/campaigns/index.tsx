@@ -9,21 +9,18 @@ import { useAppContext } from '~context'
 import UserCampaignModel from '~models/UserCampaignModel'
 
 export default function Campaigns() {
-  const [state] = useAppContext()
+  const [{ db }] = useAppContext()
 
   const currentCampaigns =
-    state.campaigns?.map((campaign) =>
-      UserCampaignModel.toUserCampaign(campaign, state)
+    db.campaigns?.map((campaign) =>
+      UserCampaignModel.toUserCampaign(campaign, db)
     ) || []
 
-  const adminCampaigns =
-    currentCampaigns
-      .map((campaign) => UserCampaignModel.toUserCampaign(campaign, state))
-      .filter((c) => c.admin) || []
+  const adminCampaigns = currentCampaigns.filter((c) => c.admin) || []
   const playerCampaigns = currentCampaigns.filter((c) => !c.admin) || []
 
   return (
-    <Container loading={state.campaigns === null}>
+    <Container loading={db.campaigns === null}>
       {currentCampaigns.length > 0 ? (
         <>
           <View style={{ flex: 1 }}>

@@ -19,24 +19,11 @@ export default function reducer(
         ...state,
         authLoaded: true,
       }
-    case ActionType.SET_CAMPAIGNS:
-      return {
-        ...state,
-        campaigns: action.payload,
-      }
-    case ActionType.SET_CURRENT_USER:
-      if (action.payload) {
-        return {
-          ...state,
-          currentUser: action.payload,
-        }
-      }
+    case ActionType.CLEAR_USER:
       return {
         ...state,
         currentUser: initialState.currentUser,
-        clocks: [],
-        campaignUsers: [],
-        campaigns: [],
+        db: initialState.db,
       }
     case ActionType.INCREMENT_LOADING:
       return {

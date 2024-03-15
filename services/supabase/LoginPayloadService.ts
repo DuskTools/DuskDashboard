@@ -5,7 +5,7 @@ import { AppState, User } from '~types'
 async function onLogin({
   discord_id,
 }: Pick<User['Row'], 'discord_id'>): Promise<
-  Pick<AppState, 'campaignUsers' | 'campaigns' | 'clocks' | 'currentUser'>
+  Pick<AppState, 'db' | 'currentUser'>
 > {
   const currentUser = await UserService.updateOrCreateOnLogin({ discord_id })
 
@@ -14,9 +14,11 @@ async function onLogin({
   const { data: campaignUsers } = await supabase.from('campaign_user').select()
 
   return Promise.resolve({
-    campaignUsers,
-    campaigns,
-    clocks,
+    db: {
+      campaignUsers,
+      campaigns,
+      clocks,
+    },
     currentUser,
   })
 }

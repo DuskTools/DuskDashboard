@@ -19,7 +19,7 @@ export default function AppProvider({ children }: PropsWithChildren) {
   }, [])
 
   useEffect(() => {
-    const subscription = DBSubscriptionService.subscribe()
+    const subscription = DBSubscriptionService.subscribe(dispatch)
     return () => {
       subscription.unsubscribe()
     }
