@@ -74,6 +74,7 @@ export type Database = {
       }
       clocks: {
         Row: {
+          active: boolean
           campaign_id: string
           created_at: string
           id: string
@@ -84,6 +85,7 @@ export type Database = {
           segments: number
         }
         Insert: {
+          active?: boolean
           campaign_id?: string
           created_at?: string
           id?: string
@@ -94,6 +96,7 @@ export type Database = {
           segments: number
         }
         Update: {
+          active?: boolean
           campaign_id?: string
           created_at?: string
           id?: string

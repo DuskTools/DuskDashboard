@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { ActivityIndicator, Button, Card } from 'react-native-paper'
+import { Button, Card, Switch } from 'react-native-paper'
 
 import AppText from './AppText'
 import useCurrentCampaign from '~hooks/useCurrentCampaign'
@@ -15,8 +15,10 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
 
   const tickUp = async () => {
     setClockLoading(true)
+    const newProgress = clock.progress + 1
     const newClock = await ClockService.update(clock.id, {
-      progress: clock.progress + 1,
+      progress: newProgress,
+      active: newProgress === clock.segments,
     })
     newClock.notify_discord &&
       EdgeFunctionService.sendMessage({
@@ -52,30 +54,28 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
     setClockLoading(false)
   }
 
+  const toggleActive = async () => {
+    setClockLoading(true)
+    await ClockService.update(clock.id, {
+      active: !clock.active,
+    })
+    setClockLoading(false)
+  }
+
   return (
-    <Card>
+    <Card disabled={clockLoading}>
       <Card.Title
-        subtitle={
-          clockLoading ? (
-            <ActivityIndicator />
-          ) : (
-            `${clock.progress}/${clock.segments} (${clock.segments !== clock.progress ? 'Active' : 'Inactive'})`
-          )
-        }
+        subtitle={`${clock.progress}/${clock.segments}`}
         title={clock.name}
       />
       <Card.Content>
-        {clock.notify_discord ? (
-          <>
-            <AppText>Notifications Enabled</AppText>
-            <Button onPress={toggleNotifications}>Disable Notifications</Button>
-          </>
-        ) : (
-          <>
-            <AppText>Notifications Disabled</AppText>
-            <Button onPress={toggleNotifications}>Enable Notifications</Button>
-          </>
-        )}
+        <AppText>Active?</AppText>
+        <Switch value={clock.active} onValueChange={toggleActive} />
+        <AppText>Notify Discord?</AppText>
+        <Switch
+          value={clock.notify_discord}
+          onValueChange={toggleNotifications}
+        />
       </Card.Content>
       {currentCampaign.admin && (
         <Card.Actions>

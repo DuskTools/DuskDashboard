@@ -24,7 +24,7 @@ export default function Container({ children, style, loading = false }: Props) {
         style,
         {
           flex: 1,
-          padding: 30,
+          paddingHorizontal: 30,
           backgroundColor: theme.colors.background,
           justifyContent: 'center',
         },

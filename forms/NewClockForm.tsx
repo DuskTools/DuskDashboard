@@ -16,12 +16,14 @@ const defaultValues: Clock['Insert'] = {
   name: '',
   segments: 8,
   notify_discord: true,
+  active: true,
 }
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required.'),
   segments: z.number(),
   notify_discord: z.boolean(),
+  active: z.boolean(),
 })
 
 export default function NewClockForm(props: Props) {
@@ -56,6 +58,7 @@ export default function NewClockForm(props: Props) {
           ]}
           fieldError={errors.segments}
         />
+        <ControlledSwitch label="Active?" control={control} name="active" />
         <ControlledSwitch
           label="Send Discord Notifications?"
           control={control}

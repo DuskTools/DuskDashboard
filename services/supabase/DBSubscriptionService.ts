@@ -11,7 +11,6 @@ const subscribe = (dispatch: AppDispatch) =>
         schema: 'public',
       },
       (payload) => {
-        console.log(payload)
         switch (payload.eventType) {
           case 'DELETE':
             Actions.deleteRow(dispatch, payload)
