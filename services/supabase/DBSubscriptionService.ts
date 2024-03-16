@@ -11,6 +11,7 @@ const subscribe = (dispatch: AppDispatch) =>
         schema: 'public',
       },
       (payload) => {
+        Actions.incrementLoading(dispatch)
         switch (payload.eventType) {
           case 'DELETE':
             Actions.deleteRow(dispatch, payload)
@@ -22,6 +23,7 @@ const subscribe = (dispatch: AppDispatch) =>
             Actions.updateRow(dispatch, payload)
             break
         }
+        Actions.decrementLoading(dispatch)
       }
     )
     .subscribe()

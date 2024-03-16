@@ -1,12 +1,10 @@
 import { View } from 'react-native'
 import { ActivityIndicator, Button } from 'react-native-paper'
 
-import AppText from '~components/AppText'
 import Container from '~components/Container'
-import UserCell from '~components/UserCell'
+import { PlayerList } from '~components/PlayerList'
 import useCurrentCampaign from '~hooks/useCurrentCampaign'
 import EdgeFunctionService from '~services/supabase/EdgeFunctionService'
-import { CampaignAppUser } from '~types'
 
 export default function Campaign() {
   const currentCampaign = useCurrentCampaign()
@@ -33,8 +31,16 @@ export default function Campaign() {
     <Container auth>
       <View style={{ flex: 1, justifyContent: 'space-between' }}>
         <View>
-          <PlayerList playerList={currentCampaign.gms} label="Game Master" />
-          <PlayerList playerList={currentCampaign.players} label="Player" />
+          <PlayerList
+            link
+            playerList={currentCampaign.gms}
+            label="Game Master"
+          />
+          <PlayerList
+            link
+            playerList={currentCampaign.players}
+            label="Player"
+          />
         </View>
         <View>
           <Button onPress={sendMsg}>Send Message</Button>
@@ -42,25 +48,5 @@ export default function Campaign() {
         </View>
       </View>
     </Container>
-  )
-}
-
-function PlayerList({
-  playerList,
-  label,
-}: {
-  playerList: CampaignAppUser[]
-  label: string
-}) {
-  if (playerList.length === 0) return null
-  return (
-    <>
-      <AppText variant="headlineLarge">{`${label}${playerList.length > 1 ? 'S' : ''}`}</AppText>
-      <View style={{ flexDirection: 'row' }}>
-        {playerList.map((player) => (
-          <UserCell key={player.id} user={player} size={25} />
-        ))}
-      </View>
-    </>
   )
 }

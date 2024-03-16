@@ -1,3 +1,5 @@
+import { router } from 'expo-router'
+
 import { Database } from '~dbTypes'
 
 type DatabaseTables = Database['public']['Tables']
@@ -8,12 +10,17 @@ type DatabaseTypes<T extends keyof DatabaseTables> = {
   Update: Omit<DatabaseTable<T>['Update'], 'createdAt' | 'id'>
 }
 
+export type DynamicRoute = Parameters<typeof router.push<string>>[0]
+
 export type Clock = DatabaseTypes<'clocks'>
 export type Campaign = DatabaseTypes<'campaigns'>
 export type User = DatabaseTypes<'users'>
 export type CampaignUser = DatabaseTypes<'campaign_user'>
 
-export type CampaignAppUser = AppUser & {
+export type CampaignAppUser = Omit<
+  AppUser,
+  'discord_token' | 'discord_refresh_token'
+> & {
   nickname?: string
 }
 

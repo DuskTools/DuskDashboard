@@ -18,7 +18,6 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
     const newProgress = clock.progress + 1
     const newClock = await ClockService.update(clock.id, {
       progress: newProgress,
-      active: newProgress === clock.segments,
     })
     newClock.notify_discord &&
       EdgeFunctionService.sendMessage({

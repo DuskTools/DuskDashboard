@@ -26,7 +26,7 @@ export default function DrawerContent(props: DrawerContentComponentProps) {
       <Section>
         {state.currentUser ? (
           <>
-            <UserCell user={state.currentUser} />
+            <UserCell link={false} user={state.currentUser} />
             <Button
               onPress={() => {
                 props.navigation.closeDrawer()
@@ -43,6 +43,11 @@ export default function DrawerContent(props: DrawerContentComponentProps) {
       <Section>
         <Button mode="text" onPress={() => router.push('/campaigns/')}>
           Campaigns
+        </Button>
+      </Section>
+      <Section>
+        <Button mode="text" onPress={() => router.push('/howToUse')}>
+          How To Use
         </Button>
       </Section>
     </View>
