@@ -9,27 +9,27 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      campaign_user: {
+      characters: {
         Row: {
           admin: boolean
-          campaign_id: string
           created_at: string
+          crew_id: string | null
           id: number
           nickname: string | null
           user_id: string
         }
         Insert: {
           admin?: boolean
-          campaign_id: string
           created_at?: string
+          crew_id?: string | null
           id?: number
           nickname?: string | null
           user_id: string
         }
         Update: {
           admin?: boolean
-          campaign_id?: string
           created_at?: string
+          crew_id?: string | null
           id?: number
           nickname?: string | null
           user_id?: string
@@ -37,9 +37,9 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: 'public_campaign_user_campaign_id_fkey'
-            columns: ['campaign_id']
+            columns: ['crew_id']
             isOneToOne: false
-            referencedRelation: 'campaigns'
+            referencedRelation: 'crews'
             referencedColumns: ['id']
           },
           {
@@ -51,35 +51,11 @@ export type Database = {
           },
         ]
       }
-      campaigns: {
-        Row: {
-          created_at: string
-          discord_guild_id: string
-          id: string
-          name: string
-          notification_channel: string
-        }
-        Insert: {
-          created_at?: string
-          discord_guild_id: string
-          id?: string
-          name: string
-          notification_channel: string
-        }
-        Update: {
-          created_at?: string
-          discord_guild_id?: string
-          id?: string
-          name?: string
-          notification_channel?: string
-        }
-        Relationships: []
-      }
       clocks: {
         Row: {
           active: boolean
-          campaign_id: string
           created_at: string
+          crew_id: string
           id: string
           link: string | null
           name: string
@@ -89,8 +65,8 @@ export type Database = {
         }
         Insert: {
           active?: boolean
-          campaign_id?: string
           created_at?: string
+          crew_id?: string
           id?: string
           link?: string | null
           name: string
@@ -100,8 +76,8 @@ export type Database = {
         }
         Update: {
           active?: boolean
-          campaign_id?: string
           created_at?: string
+          crew_id?: string
           id?: string
           link?: string | null
           name?: string
@@ -112,12 +88,36 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: 'public_clocks_campaign_id_fkey'
-            columns: ['campaign_id']
+            columns: ['crew_id']
             isOneToOne: false
-            referencedRelation: 'campaigns'
+            referencedRelation: 'crews'
             referencedColumns: ['id']
           },
         ]
+      }
+      crews: {
+        Row: {
+          created_at: string
+          discord_guild_id: string | null
+          id: string
+          name: string
+          notification_channel: string | null
+        }
+        Insert: {
+          created_at?: string
+          discord_guild_id?: string | null
+          id?: string
+          name: string
+          notification_channel?: string | null
+        }
+        Update: {
+          created_at?: string
+          discord_guild_id?: string | null
+          id?: string
+          name?: string
+          notification_channel?: string | null
+        }
+        Relationships: []
       }
       users: {
         Row: {

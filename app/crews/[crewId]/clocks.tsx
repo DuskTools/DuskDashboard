@@ -8,7 +8,7 @@ import AppText from '~components/AppText'
 import ClockCell from '~components/ClockCell'
 import Container from '~components/Container'
 import NewClockForm from '~forms/NewClockForm'
-import useCurrentCampaign from '~hooks/useCurrentCampaign'
+import useCurrentCrew from '~hooks/useCurrentCrew'
 import useLoading from '~hooks/useLoading'
 import ClockService from '~services/supabase/ClockService'
 import { Clock } from '~types'
@@ -16,9 +16,9 @@ import { Clock } from '~types'
 export default function Foo() {
   const [visible, setVisible] = useState(false)
   const { loadingHarness } = useLoading()
-  const currentCampaign = useCurrentCampaign()
-  if (!currentCampaign) return null
-  const { clocks } = currentCampaign
+  const currentCrew = useCurrentCrew()
+  if (!currentCrew) return null
+  const { clocks } = currentCrew
 
   const showModal = () => setVisible(true)
   const hideModal = () => setVisible(false)
@@ -34,7 +34,7 @@ export default function Foo() {
     loadingHarness(async () => {
       await ClockService.create({
         ...clockParams,
-        campaign_id: currentCampaign!.id,
+        crew_id: currentCrew!.id,
       })
       hideModal()
     })

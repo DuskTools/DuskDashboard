@@ -2,10 +2,10 @@ import { View } from 'react-native'
 
 import AppText from './AppText'
 import UserCell from './UserCell'
-import { CampaignAppUser } from '~types'
+import { CrewAppUser } from '~types'
 
 type Props = {
-  playerList: CampaignAppUser[]
+  playerList: CrewAppUser[]
   label: string
   userCellSize?: number
   link?: boolean

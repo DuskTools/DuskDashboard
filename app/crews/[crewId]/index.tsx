@@ -3,26 +3,26 @@ import { ActivityIndicator, Button } from 'react-native-paper'
 
 import Container from '~components/Container'
 import { PlayerList } from '~components/PlayerList'
-import useCurrentCampaign from '~hooks/useCurrentCampaign'
+import useCurrentCrew from '~hooks/useCurrentCrew'
 import EdgeFunctionService from '~services/supabase/EdgeFunctionService'
 
-export default function Campaign() {
-  const currentCampaign = useCurrentCampaign()
-  if (!currentCampaign) return <ActivityIndicator />
+export default function Crew() {
+  const currentCrew = useCurrentCrew()
+  if (!currentCrew) return <ActivityIndicator />
 
   const sendMsg = async () => {
-    if (currentCampaign) {
+    if (currentCrew) {
       await EdgeFunctionService.sendMessage({
-        notification_channel: currentCampaign?.notification_channel,
+        notification_channel: currentCrew?.notification_channel,
         content: 'Hello from the app!',
       })
     }
   }
 
   const sync = async () => {
-    if (currentCampaign) {
-      await EdgeFunctionService.syncCampaignWithDiscord({
-        discord_guild_id: currentCampaign?.discord_guild_id,
+    if (currentCrew) {
+      await EdgeFunctionService.syncCrewWithDiscord({
+        discord_guild_id: currentCrew?.discord_guild_id,
       })
     }
   }
@@ -31,16 +31,8 @@ export default function Campaign() {
     <Container auth>
       <View style={{ flex: 1, justifyContent: 'space-between' }}>
         <View>
-          <PlayerList
-            link
-            playerList={currentCampaign.gms}
-            label="Game Master"
-          />
-          <PlayerList
-            link
-            playerList={currentCampaign.players}
-            label="Player"
-          />
+          <PlayerList link playerList={currentCrew.gms} label="Game Master" />
+          <PlayerList link playerList={currentCrew.players} label="Player" />
         </View>
         <View>
           <Button onPress={sendMsg}>Send Message</Button>

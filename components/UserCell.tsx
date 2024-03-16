@@ -4,22 +4,21 @@ import { Link } from 'expo-router'
 import { Image, View } from 'react-native'
 
 import AppText from './AppText'
-import useCurrentCampaign from '~hooks/useCurrentCampaign'
-import { CampaignAppUser, DynamicRoute } from '~types'
+import useCurrentCrew from '~hooks/useCurrentCrew'
+import { CrewAppUser, DynamicRoute } from '~types'
 
 export default function UserCell({
   user,
   size = 50,
   link,
 }: {
-  user: CampaignAppUser
+  user: CrewAppUser
   size?: number
   link: boolean
 }) {
-  const currentCampaign = useCurrentCampaign()
+  const currentCrew = useCurrentCrew()
 
-  const linkPath =
-    `/campaigns/${currentCampaign?.id}/users/${user.id}` as DynamicRoute
+  const linkPath = `/crews/${currentCrew?.id}/users/${user.id}` as DynamicRoute
   const LinkWrapper = ({ children }: PropsWithChildren) => (
     <Link href={linkPath}>{children}</Link>
   )

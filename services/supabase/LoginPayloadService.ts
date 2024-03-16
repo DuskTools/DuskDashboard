@@ -9,17 +9,17 @@ async function onLogin({
 > {
   const currentUser = await UserService.updateOrCreateOnLogin({ discord_id })
 
-  const { data: campaigns } = await supabase.from('campaigns').select()
+  const { data: crews } = await supabase.from('crews').select()
   const { data: clocks } = await supabase.from('clocks').select()
-  const { data: campaignUsers } = await supabase.from('campaign_user').select()
+  const { data: characters } = await supabase.from('campaign_user').select()
   const { data: users } = await supabase
     .from('users')
     .select('id, discord_id, avatar_url, created_at, discord_global_name')
 
   return Promise.resolve({
     db: {
-      campaignUsers,
-      campaigns,
+      characters,
+      crews,
       clocks,
       users,
     },

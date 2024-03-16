@@ -1,24 +1,30 @@
 import supabase from '~supabase'
 
 type SendMessageProps = {
-  notification_channel: string
+  notification_channel: string | null
   content?: string
 }
 
 const sendMessage = (body: SendMessageProps) => {
-  return supabase.functions.invoke('send-message-to-notification-channel', {
-    body,
-  })
+  return (
+    body.notification_channel &&
+    supabase.functions.invoke('send-message-to-notification-channel', {
+      body,
+    })
+  )
 }
 
-type SynCampaignWithDiscord = {
-  discord_guild_id: string
+type SynCrewWithDiscord = {
+  discord_guild_id: string | null
 }
 
-const syncCampaignWithDiscord = (body: SynCampaignWithDiscord) => {
-  return supabase.functions.invoke('sync-campaign-with-discord', {
-    body,
-  })
+const syncCrewWithDiscord = (body: SynCrewWithDiscord) => {
+  return (
+    body.discord_guild_id &&
+    supabase.functions.invoke('sync-campaign-with-discord', {
+      body,
+    })
+  )
 }
 
-export default { sendMessage, syncCampaignWithDiscord }
+export default { sendMessage, syncCrewWithDiscord }

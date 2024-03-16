@@ -3,7 +3,7 @@ import Drawer from 'expo-router/drawer'
 
 import useAppContext from '../../data/useAppContext'
 import DrawerContent from '~components/navigation/DrawerContent'
-import useCurrentCampaign from '~hooks/useCurrentCampaign'
+import useCurrentCrew from '~hooks/useCurrentCrew'
 import useLoading from '~hooks/useLoading'
 import useAppTheme from '~theme/useAppTheme'
 
@@ -11,13 +11,13 @@ export default function DrawerNav() {
   const theme = useAppTheme()
   const { isLoading } = useLoading()
   const [state] = useAppContext()
-  const currentCampaign = useCurrentCampaign()
+  const currentCrew = useCurrentCrew()
 
   if (!isLoading && !state.currentUser) {
     return <Redirect href="/" />
   }
 
-  const initialRouteName = state.currentUser ? 'campaigns' : 'index'
+  const initialRouteName = state.currentUser ? 'crews' : 'index'
   return (
     <Drawer
       drawerContent={DrawerContent}
@@ -34,11 +34,8 @@ export default function DrawerNav() {
         },
       }}
     >
-      <Drawer.Screen name="index" options={{ title: 'Campaigns' }} />
-      <Drawer.Screen
-        name="[campaignId]"
-        options={{ title: currentCampaign?.name }}
-      />
+      <Drawer.Screen name="index" options={{ title: 'Crews' }} />
+      <Drawer.Screen name="[crewId]" options={{ title: currentCrew?.name }} />
     </Drawer>
   )
 }

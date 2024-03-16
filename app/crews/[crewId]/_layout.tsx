@@ -1,18 +1,18 @@
 import { Redirect, Tabs, usePathname } from 'expo-router'
 import { Icon } from 'react-native-paper'
 
-import useCurrentCampaign from '~hooks/useCurrentCampaign'
+import useCurrentCrew from '~hooks/useCurrentCrew'
 import useLoading from '~hooks/useLoading'
 import useAppTheme from '~theme/useAppTheme'
 
-export default function CampaignLayout() {
-  const currentCampaign = useCurrentCampaign()
+export default function CrewLayout() {
+  const currentCrew = useCurrentCrew()
   const { isLoading } = useLoading()
   const theme = useAppTheme()
   const pathname = usePathname()
-  const isInDeepUsersPath = pathname.match(/\/campaigns\/[^\/]+\/users\/[^\/]+/)
+  const isInDeepUsersPath = pathname.match(/\/crews\/[^\/]+\/users\/[^\/]+/)
 
-  if (!isLoading && !currentCampaign) {
+  if (!isLoading && !currentCrew) {
     return <Redirect href="/" />
   }
 

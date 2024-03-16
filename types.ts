@@ -13,20 +13,20 @@ type DatabaseTypes<T extends keyof DatabaseTables> = {
 export type DynamicRoute = Parameters<typeof router.push<string>>[0]
 
 export type Clock = DatabaseTypes<'clocks'>
-export type Campaign = DatabaseTypes<'campaigns'>
+export type Crew = DatabaseTypes<'crews'>
 export type User = DatabaseTypes<'users'>
-export type CampaignUser = DatabaseTypes<'campaign_user'>
+export type Character = DatabaseTypes<'characters'>
 
-export type CampaignAppUser = Omit<
+export type CrewAppUser = Omit<
   AppUser,
   'discord_token' | 'discord_refresh_token'
 > & {
   nickname?: string
 }
 
-export type UserCampaign = Campaign['Row'] & {
-  gms: CampaignAppUser[]
-  players: CampaignAppUser[]
+export type UserCrew = Crew['Row'] & {
+  gms: CrewAppUser[]
+  players: CrewAppUser[]
   admin: boolean
   clocks: Clock['Row'][]
 }
@@ -37,9 +37,9 @@ export type AppUser = Pick<
 >
 
 export type DbState = {
-  campaigns: Campaign['Row'][] | null
+  crews: Crew['Row'][] | null
   clocks: Clock['Row'][] | null
-  campaignUsers: CampaignUser['Row'][] | null
+  characters: Character['Row'][] | null
   users: AppUser[] | null
 }
 

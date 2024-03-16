@@ -12,7 +12,7 @@ export default function Home() {
   const { isLoading } = useLoading()
 
   if (!isLoading && currentUser) {
-    return <Redirect href="/campaigns/" />
+    return <Redirect href="/crews/" />
   }
 
   return (

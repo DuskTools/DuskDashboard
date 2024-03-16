@@ -2,14 +2,14 @@ import { View } from 'react-native'
 
 import AppText from '~components/AppText'
 import Container from '~components/Container'
-import useCurrentCampaignAppUser from '~hooks/useCurrentCampaignAppUser'
+import useCurrentCrewAppUser from '~hooks/useCurrentCrewAppUser'
 
 export default function User() {
-  const currentCampaignAppUser = useCurrentCampaignAppUser()
+  const currentCrewAppUser = useCurrentCrewAppUser()
   return (
     <Container auth>
       <View style={{ flex: 1, justifyContent: 'space-between' }}>
-        <AppText>{currentCampaignAppUser?.nickname}</AppText>
+        <AppText>{currentCrewAppUser?.nickname}</AppText>
       </View>
     </Container>
   )

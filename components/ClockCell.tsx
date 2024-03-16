@@ -3,15 +3,15 @@ import { useState } from 'react'
 import { Button, Card, Switch } from 'react-native-paper'
 
 import AppText from './AppText'
-import useCurrentCampaign from '~hooks/useCurrentCampaign'
+import useCurrentCrew from '~hooks/useCurrentCrew'
 import ClockService from '~services/supabase/ClockService'
 import EdgeFunctionService from '~services/supabase/EdgeFunctionService'
 import { Clock } from '~types'
 
 export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
-  const currentCampaign = useCurrentCampaign()
+  const currentCrew = useCurrentCrew()
   const [clockLoading, setClockLoading] = useState(false)
-  if (!currentCampaign) return null
+  if (!currentCrew) return null
 
   const tickUp = async () => {
     setClockLoading(true)
@@ -20,8 +20,9 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
       progress: newProgress,
     })
     newClock.notify_discord &&
+      currentCrew.notification_channel &&
       EdgeFunctionService.sendMessage({
-        notification_channel: currentCampaign.notification_channel,
+        notification_channel: currentCrew.notification_channel,
         content: `**${newClock.name}** has ticked up to ${newClock.progress}/${newClock.segments}`,
       })
     setClockLoading(false)
@@ -34,8 +35,9 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
       progress: newProgress,
     })
     newClock.notify_discord &&
+      currentCrew.notification_channel &&
       EdgeFunctionService.sendMessage({
-        notification_channel: currentCampaign.notification_channel,
+        notification_channel: currentCrew.notification_channel,
         content: `**${newClock.name}** has ticked down to ${newClock.progress}/${newClock.segments}`,
       })
     setClockLoading(false)
@@ -46,10 +48,11 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
     const newClock = await ClockService.update(clock.id, {
       notify_discord: !clock.notify_discord,
     })
-    EdgeFunctionService.sendMessage({
-      notification_channel: currentCampaign.notification_channel,
-      content: `Discord Notifications for **${newClock.name}** have been ${newClock.notify_discord ? 'enabled' : 'disabled'}`,
-    })
+    currentCrew.notification_channel &&
+      EdgeFunctionService.sendMessage({
+        notification_channel: currentCrew.notification_channel,
+        content: `Discord Notifications for **${newClock.name}** have been ${newClock.notify_discord ? 'enabled' : 'disabled'}`,
+      })
     setClockLoading(false)
   }
 
@@ -70,13 +73,17 @@ export default function ClockCell({ clock }: { clock: Clock['Row'] }) {
       <Card.Content>
         <AppText>Active?</AppText>
         <Switch value={clock.active} onValueChange={toggleActive} />
-        <AppText>Notify Discord?</AppText>
-        <Switch
-          value={clock.notify_discord}
-          onValueChange={toggleNotifications}
-        />
+        {currentCrew.notification_channel && (
+          <>
+            <AppText>Notify Discord?</AppText>
+            <Switch
+              value={clock.notify_discord}
+              onValueChange={toggleNotifications}
+            />
+          </>
+        )}
       </Card.Content>
-      {currentCampaign.admin && (
+      {currentCrew.admin && (
         <Card.Actions>
           <Button
             disabled={clockLoading || clock.progress === clock.segments}

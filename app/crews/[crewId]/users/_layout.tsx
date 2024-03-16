@@ -1,9 +1,9 @@
 import { Stack } from 'expo-router'
 
-import useCurrentCampaignAppUser from '~hooks/useCurrentCampaignAppUser'
+import useCurrentCrewAppUser from '~hooks/useCurrentCrewAppUser'
 
 export default function UsersLayout() {
-  const currentCampaignAppUser = useCurrentCampaignAppUser()
+  const currentCrewAppUser = useCurrentCrewAppUser()
 
   return (
     <Stack>
@@ -11,7 +11,7 @@ export default function UsersLayout() {
       <Stack.Screen
         name="[userId]"
         options={{
-          title: currentCampaignAppUser?.nickname,
+          title: currentCrewAppUser?.nickname,
           headerBackButtonMenuEnabled: true,
         }}
       />

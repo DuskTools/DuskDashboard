@@ -41,8 +41,8 @@ export default function DrawerContent(props: DrawerContentComponentProps) {
         )}
       </Section>
       <Section>
-        <Button mode="text" onPress={() => router.push('/campaigns/')}>
-          Campaigns
+        <Button mode="text" onPress={() => router.push('/crews/')}>
+          Crews
         </Button>
       </Section>
       <Section>

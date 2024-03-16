@@ -3,9 +3,9 @@ import { AppState } from '~types'
 const initialState: AppState = {
   currentUser: null,
   db: {
-    campaigns: null,
+    crews: null,
     clocks: null,
-    campaignUsers: null,
+    characters: null,
     users: null,
   },
   authLoaded: false,
