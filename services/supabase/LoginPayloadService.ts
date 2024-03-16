@@ -1,4 +1,5 @@
 import UserService from './UserService'
+import Logger from '~services/Logger'
 import supabase from '~supabase'
 import { AppState, User } from '~types'
 
@@ -11,18 +12,21 @@ async function onLogin({
 
   const { data: crews } = await supabase.from('crews').select()
   const { data: clocks } = await supabase.from('clocks').select()
-  const { data: characters } = await supabase.from('campaign_user').select()
+  const { data: characters } = await supabase.from('characters').select()
   const { data: users } = await supabase
     .from('users')
     .select('id, discord_id, avatar_url, created_at, discord_global_name')
 
+  const db = {
+    characters,
+    crews,
+    clocks,
+    users,
+  }
+  Logger.log('onLogin', db)
+
   return Promise.resolve({
-    db: {
-      characters,
-      crews,
-      clocks,
-      users,
-    },
+    db,
     currentUser,
   })
 }

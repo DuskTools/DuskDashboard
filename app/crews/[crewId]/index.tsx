@@ -1,6 +1,7 @@
 import { View } from 'react-native'
 import { ActivityIndicator, Button } from 'react-native-paper'
 
+import BotInviteLink from '~components/BotInviteLink'
 import Container from '~components/Container'
 import { PlayerList } from '~components/PlayerList'
 import useCurrentCrew from '~hooks/useCurrentCrew'
@@ -29,11 +30,13 @@ export default function Crew() {
 
   return (
     <Container auth>
-      <View style={{ flex: 1, justifyContent: 'space-between' }}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
         <View>
           <PlayerList link playerList={currentCrew.gms} label="Game Master" />
           <PlayerList link playerList={currentCrew.players} label="Player" />
         </View>
+        {!currentCrew.hasDiscordIntegration && <BotInviteLink />}
+
         <View>
           <Button onPress={sendMsg}>Send Message</Button>
           <Button onPress={sync}>Sync with Discord</Button>

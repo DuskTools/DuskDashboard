@@ -4,13 +4,13 @@ import { Card } from 'react-native-paper'
 import { PlayerList } from './PlayerList'
 import { UserCrew } from '~types'
 
-export default function CrewCell({ campaign }: { campaign: UserCrew }) {
+export default function CrewCell({ crew }: { crew: UserCrew }) {
   return (
-    <Card onPress={() => router.push(`/crews/${campaign.id}/`)}>
-      <Card.Title title={campaign.name} />
+    <Card onPress={() => router.push(`/crews/${crew.id}/`)}>
+      <Card.Title title={crew.name} />
       <Card.Content>
-        <PlayerList playerList={campaign.gms} label="Game Master" />
-        <PlayerList playerList={campaign.players} label="Player" />
+        <PlayerList playerList={crew.gms} label="Game Master" />
+        <PlayerList playerList={crew.players} label="Player" />
       </Card.Content>
     </Card>
   )

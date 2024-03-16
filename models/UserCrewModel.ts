@@ -27,7 +27,17 @@ const toUserCrew = (
       .filter(({ admin }) => !admin)
       .map(({ user }) => user) as CrewAppUser[]) || []
 
-  return { ...crew, clocks, admin, gms, players }
+  const hasDiscordIntegration =
+    !!crew.discord_guild_id && !!crew.notification_channel
+
+  return {
+    ...crew,
+    clocks,
+    admin,
+    gms,
+    players,
+    hasDiscordIntegration,
+  }
 }
 
 export default { toUserCrew }

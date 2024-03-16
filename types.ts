@@ -29,6 +29,7 @@ export type UserCrew = Crew['Row'] & {
   players: CrewAppUser[]
   admin: boolean
   clocks: Clock['Row'][]
+  hasDiscordIntegration: boolean
 }
 
 export type AppUser = Pick<

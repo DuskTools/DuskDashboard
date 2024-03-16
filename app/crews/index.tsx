@@ -14,7 +14,7 @@ export default function Crews() {
   const [{ db }] = useAppContext()
 
   const currentCrews =
-    db.crews?.map((campaign) => UserCrewModel.toUserCrew(campaign, db)) || []
+    db.crews?.map((crew) => UserCrewModel.toUserCrew(crew, db)) || []
 
   const adminCrews = currentCrews.filter((c) => c.admin) || []
   const playerCrews = currentCrews.filter((c) => !c.admin) || []
@@ -33,7 +33,7 @@ export default function Crews() {
         sections={data}
         contentContainerStyle={{ gap: 20 }}
         keyExtractor={({ id }) => id}
-        renderItem={({ item }) => <CrewCell campaign={item} />} // Fix: Pass item as campaign prop
+        renderItem={({ item }) => <CrewCell crew={item} />}
         renderSectionHeader={({ section: { title } }) => (
           <AppText>{title}</AppText>
         )}
