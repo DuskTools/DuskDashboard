@@ -1,4 +1,4 @@
-import { AuthChangeEvent, Session, User } from '@supabase/supabase-js'
+import { AuthChangeEvent, Session } from '@supabase/supabase-js'
 import { makeRedirectUri } from 'expo-auth-session'
 import * as QueryParams from 'expo-auth-session/build/QueryParams'
 import * as WebBrowser from 'expo-web-browser'
@@ -37,7 +37,7 @@ const createUserDetailsFromUrl = async (url: string) => {
   return {
     discord_token: provider_token,
     discord_refresh_token: provider_refresh_token,
-    ...extractUserDetailsFromSessionUser(data.user!),
+    ...extractUserDetailsFromSessionUser(data.session!),
   }
 }
 
@@ -48,7 +48,7 @@ const handleSession = async (
   Actions.incrementLoading(dispatch)
   try {
     if (session) {
-      const userParams = extractUserDetailsFromSessionUser(session.user)
+      const userParams = extractUserDetailsFromSessionUser(session)
       const payload = await LoginPayloadService.onLogin(userParams)
       Actions.setLoginPayload(dispatch, payload)
     } else {
@@ -79,12 +79,13 @@ const onAuthSessionChangeFactory = (dispatch: AppDispatch) => {
   }
 }
 
-const extractUserDetailsFromSessionUser = (user: User) => {
+const extractUserDetailsFromSessionUser = (session: Session) => {
   return {
-    auth_id: user!.id,
-    avatar_url: user!.user_metadata.avatar_url,
-    email: user!.email!,
-    discord_id: user!.user_metadata.provider_id,
+    auth_id: session.user!.id,
+    avatar_url: session.user!.user_metadata.avatar_url,
+    email: session.user!.email!,
+    discord_id: session.user!.user_metadata.provider_id,
+    display_name: session.user!.user_metadata.custom_claims?.global_name,
   }
 }
 

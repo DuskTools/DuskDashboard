@@ -35,12 +35,12 @@ export default function Crew() {
           <PlayerList link playerList={currentCrew.gms} label="Game Master" />
           <PlayerList link playerList={currentCrew.players} label="Player" />
         </View>
-        {!currentCrew.hasDiscordIntegration && <BotInviteLink />}
-
-        <View>
-          <Button onPress={sendMsg}>Send Message</Button>
+        {currentCrew.hasDiscordIntegration ? (
           <Button onPress={sync}>Sync with Discord</Button>
-        </View>
+        ) : (
+          <BotInviteLink />
+        )}
+        <Button onPress={sendMsg}>Send Message</Button>
       </View>
     </Container>
   )

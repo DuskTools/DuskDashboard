@@ -41,7 +41,7 @@ export default function UserCell({
           }}
         />
       )}
-      <AppText>{user.nickname || user.discord_global_name}</AppText>
+      <AppText>{user.nickname || user.display_name}</AppText>
     </View>
   )
 

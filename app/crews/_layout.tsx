@@ -35,6 +35,7 @@ export default function DrawerNav() {
       }}
     >
       <Drawer.Screen name="index" options={{ title: 'Crews' }} />
+      <Drawer.Screen name="new" options={{ title: 'Make a new Crew' }} />
       <Drawer.Screen name="[crewId]" options={{ title: currentCrew?.name }} />
     </Drawer>
   )

@@ -3,25 +3,33 @@ import Logger from '~services/Logger'
 import supabase from '~supabase'
 import { AppState, User } from '~types'
 
-async function onLogin({
-  discord_id,
-}: Pick<User['Row'], 'discord_id'>): Promise<
-  Pick<AppState, 'db' | 'currentUser'>
-> {
-  const currentUser = await UserService.updateOrCreateOnLogin({ discord_id })
+async function onLogin(
+  userParams: Pick<User['Row'], 'auth_id'>
+): Promise<Pick<AppState, 'db' | 'currentUser'>> {
+  const currentUser = await UserService.updateOrCreateOnLogin(userParams)
 
-  const { data: crews } = await supabase.from('crews').select()
-  const { data: clocks } = await supabase.from('clocks').select()
-  const { data: characters } = await supabase.from('characters').select()
+  const { data: characters } = await supabase
+    .from('characters')
+    .select()
+    .eq('user_id', currentUser.id)
+  const { data: crews } = await supabase
+    .from('crews')
+    .select()
+    .in('id', characters?.map((c) => c.crew_id) || [])
+  const { data: clocks } = await supabase
+    .from('clocks')
+    .select()
+    .in('crew_id', crews?.map((c) => c.id) || [])
   const { data: users } = await supabase
     .from('users')
-    .select('id, discord_id, avatar_url, created_at, discord_global_name')
+    .select('id, discord_id, avatar_url, created_at, display_name')
+    .in('id', characters?.map((c) => c.user_id) || [])
 
   const db = {
-    characters,
-    crews,
-    clocks,
-    users,
+    characters: characters || [],
+    crews: crews || [],
+    clocks: clocks || [],
+    users: users || [],
   }
   Logger.log('onLogin', db)
 

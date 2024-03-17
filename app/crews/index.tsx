@@ -1,17 +1,21 @@
-import { Linking, SectionList } from 'react-native'
+import { useState } from 'react'
+
+import { SectionList } from 'react-native'
+import { Portal, Modal } from 'react-native-paper'
 
 import AppFAB from '~components/AppFAB'
 import AppText from '~components/AppText'
 import Container from '~components/Container'
 import CrewCell from '~components/CrewCell'
 import useAppContext from '~context/useAppContext'
+import NewCrewForm from '~forms/NewCrewForm'
 import UserCrewModel from '~models/UserCrewModel'
-
-const LINK =
-  'https://discord.com/oauth2/authorize?client_id=1026293303584497704&permissions=0&scope=bot+applications.commands'
+import CrewService from '~services/supabase/CrewService'
+import { Crew } from '~types'
 
 export default function Crews() {
-  const [{ db }] = useAppContext()
+  const [visible, setVisible] = useState(false)
+  const [{ db, currentUser }] = useAppContext()
 
   const currentCrews =
     db.crews?.map((crew) => UserCrewModel.toUserCrew(crew, db)) || []
@@ -23,22 +27,40 @@ export default function Crews() {
     { title: 'Games where I DM', data: adminCrews },
     { title: 'Games where I Play', data: playerCrews },
   ]
-  const openUrl = async () => {
-    await Linking.openURL(LINK)
+
+  const showModal = () => setVisible(true)
+  const hideModal = () => setVisible(false)
+
+  const onCreateCrew = async (crewParams: Crew['Insert']) => {
+    await CrewService.handleCreate(crewParams, currentUser!)
   }
 
   return (
-    <Container loading={db.crews === null}>
-      <SectionList
-        sections={data}
-        contentContainerStyle={{ gap: 20 }}
-        keyExtractor={({ id }) => id}
-        renderItem={({ item }) => <CrewCell crew={item} />}
-        renderSectionHeader={({ section: { title } }) => (
-          <AppText>{title}</AppText>
-        )}
-      />
-      <AppFAB icon="plus" onPress={openUrl} />
-    </Container>
+    <>
+      <Container loading={db.crews === null}>
+        <SectionList
+          sections={data}
+          contentContainerStyle={{ gap: 20 }}
+          keyExtractor={({ id }) => id}
+          renderItem={({ item }) => <CrewCell crew={item} />}
+          renderSectionHeader={({ section: { title } }) => (
+            <AppText>{title}</AppText>
+          )}
+        />
+        <AppFAB icon="plus" onPress={showModal} />
+      </Container>
+      <Portal>
+        <Modal
+          visible={visible}
+          onDismiss={hideModal}
+          contentContainerStyle={{
+            padding: 20,
+            margin: 20,
+          }}
+        >
+          <NewCrewForm onSubmit={onCreateCrew} />
+        </Modal>
+      </Portal>
+    </>
   )
 }

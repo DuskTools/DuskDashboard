@@ -34,7 +34,7 @@ export type UserCrew = Crew['Row'] & {
 
 export type AppUser = Pick<
   User['Row'],
-  'id' | 'discord_id' | 'avatar_url' | 'created_at' | 'discord_global_name'
+  'id' | 'discord_id' | 'avatar_url' | 'created_at' | 'display_name'
 >
 
 export type DbState = {

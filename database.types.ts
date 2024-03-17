@@ -16,6 +16,7 @@ export type Database = {
           crew_id: string | null
           id: number
           nickname: string | null
+          primary: boolean
           user_id: string
         }
         Insert: {
@@ -24,6 +25,7 @@ export type Database = {
           crew_id?: string | null
           id?: number
           nickname?: string | null
+          primary?: boolean
           user_id: string
         }
         Update: {
@@ -32,6 +34,7 @@ export type Database = {
           crew_id?: string | null
           id?: number
           nickname?: string | null
+          primary?: boolean
           user_id?: string
         }
         Relationships: [
@@ -121,35 +124,35 @@ export type Database = {
       }
       users: {
         Row: {
-          auth_id: string | null
+          auth_id: string
           avatar_url: string | null
           created_at: string
-          discord_global_name: string
-          discord_id: string
+          discord_id: string | null
           discord_refresh_token: string | null
           discord_token: string | null
+          display_name: string
           email: string | null
           id: string
         }
         Insert: {
-          auth_id?: string | null
+          auth_id: string
           avatar_url?: string | null
           created_at?: string
-          discord_global_name?: string
-          discord_id: string
+          discord_id?: string | null
           discord_refresh_token?: string | null
           discord_token?: string | null
+          display_name?: string
           email?: string | null
           id?: string
         }
         Update: {
-          auth_id?: string | null
+          auth_id?: string
           avatar_url?: string | null
           created_at?: string
-          discord_global_name?: string
-          discord_id?: string
+          discord_id?: string | null
           discord_refresh_token?: string | null
           discord_token?: string | null
+          display_name?: string
           email?: string | null
           id?: string
         }
@@ -168,7 +171,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_character_primary: {
+        Args: {
+          character_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
