@@ -1,22 +1,19 @@
-import { Slot } from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { Provider as PaperProvider } from 'react-native-paper'
+import { Stack } from 'expo-router'
 
-import AppProvider from '~context/AppProvider'
-import useAppTheme from '~theme/useAppTheme'
+import AppWrapper from '~components/navigation/AppWrapper'
+import CommonStack from '~components/navigation/CommonStack'
 
 export default function RootLayout() {
-  const theme = useAppTheme()
-
   return (
-    <AppProvider>
-      <StatusBar style="dark" />
-      <PaperProvider theme={theme}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <Slot />
-        </GestureHandlerRootView>
-      </PaperProvider>
-    </AppProvider>
+    <AppWrapper>
+      <CommonStack>
+        <Stack.Screen name="crews" options={{ headerShown: false }} />
+        <Stack.Screen name="index" options={{ title: 'DuskTools' }} />
+        <Stack.Screen
+          name="howToUse"
+          options={{ title: 'How To use DuskTools' }}
+        />
+      </CommonStack>
+    </AppWrapper>
   )
 }

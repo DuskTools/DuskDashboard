@@ -5,20 +5,23 @@ import { Image, View } from 'react-native'
 
 import AppText from './AppText'
 import useCurrentCrew from '~hooks/useCurrentCrew'
+import useAppTheme from '~theme/useAppTheme'
 import { CrewAppUser, DynamicRoute } from '~types'
 
 export default function UserCell({
   user,
   size = 50,
-  link,
+  link = false,
 }: {
   user: CrewAppUser
   size?: number
-  link: boolean
+  link?: boolean
 }) {
   const currentCrew = useCurrentCrew()
+  const theme = useAppTheme()
 
-  const linkPath = `/crews/${currentCrew?.id}/users/${user.id}` as DynamicRoute
+  const linkPath =
+    `/crews/${currentCrew?.id}/characters/${user.id}` as DynamicRoute
   const LinkWrapper = ({ children }: PropsWithChildren) => (
     <Link href={linkPath}>{children}</Link>
   )
@@ -28,7 +31,6 @@ export default function UserCell({
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 5,
         justifyContent: 'center',
         gap: size / 2,
       }}
@@ -41,7 +43,9 @@ export default function UserCell({
           }}
         />
       )}
-      <AppText>{user.nickname || user.display_name}</AppText>
+      <AppText style={{ color: theme.colors.primary }}>
+        {user.nickname || user.display_name}
+      </AppText>
     </View>
   )
 

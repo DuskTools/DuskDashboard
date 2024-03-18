@@ -10,7 +10,7 @@ export default function CrewLayout() {
   const { isLoading } = useLoading()
   const theme = useAppTheme()
   const pathname = usePathname()
-  const isInDeepUsersPath = pathname.match(/\/crews\/[^\/]+\/users\/[^\/]+/)
+  const isInDeepUsersPath = pathname.match(/\/crews\/[^/]+\/characters\/[^/]+/)
 
   if (!isLoading && !currentCrew) {
     return <Redirect href="/" />
@@ -49,11 +49,11 @@ export default function CrewLayout() {
         }}
       />
       <Tabs.Screen
-        name="users"
+        name="characters"
         options={{
-          title: 'Users',
-          tabBarLabel: 'Users',
-          tabBarIcon: () => <Icon source="account-group" size={20} />,
+          title: 'Characters',
+          tabBarLabel: 'Characters',
+          tabBarIcon: () => <Icon source="account-group-outline" size={20} />,
         }}
       />
     </Tabs>
