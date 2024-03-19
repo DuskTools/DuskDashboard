@@ -42,6 +42,7 @@ export default function Foo() {
   return (
     <Container auth>
       <SectionList
+        style={{ paddingTop: 20 }}
         sections={data}
         contentContainerStyle={{ gap: 20 }}
         keyExtractor={({ id }) => id}

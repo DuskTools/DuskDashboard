@@ -1,63 +1,78 @@
-import { Link } from 'expo-router'
-import { View, StyleSheet } from 'react-native'
-import { Button } from 'react-native-paper'
+import { PropsWithChildren, useState } from 'react'
+
+import { Link, LinkProps, router } from 'expo-router'
+import { Pressable, View } from 'react-native'
+import { Button, Divider, Menu } from 'react-native-paper'
 
 import UserCell from '~components/UserCell'
 import useAppContext from '~context/useAppContext'
+import useLoading from '~hooks/useLoading'
 import AuthService from '~services/supabase/AuthService'
 import useAppTheme from '~theme/useAppTheme'
+import { DynamicRoute } from '~types'
 
 export default function HeaderRight() {
-  const theme = useAppTheme()
   const [{ currentUser }] = useAppContext()
-
-  const styles = StyleSheet.create({
-    navLink: {
-      color: theme.colors.primary,
-      textTransform: 'uppercase',
-    },
-    row: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-  })
-
   return (
     <View style={{ flexDirection: 'row', gap: 30 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
         {currentUser ? (
           <>
-            <Link style={styles.navLink} href="/">
-              Home
-            </Link>
-            <Link style={styles.navLink} href="/crews/">
-              Crews
-            </Link>
+            <HeaderLink href="/crews/">Crews</HeaderLink>
           </>
         ) : (
           <>
-            <Link style={styles.navLink} href="/howToUse">
-              How to use
-            </Link>
+            <HeaderLink href="/howToUse">How to use</HeaderLink>
           </>
         )}
       </View>
-      <View style={{ flexDirection: 'row' }}>
-        <LoginCell />
-      </View>
+      <LoginCell />
     </View>
+  )
+}
+
+const HeaderLink = ({
+  children,
+  ...props
+}: PropsWithChildren<LinkProps<DynamicRoute>>) => {
+  const theme = useAppTheme()
+  return (
+    <Link
+      {...props}
+      style={[
+        { color: theme.colors.primary, textTransform: 'uppercase' },
+        props.style,
+      ]}
+    >
+      {children}
+    </Link>
   )
 }
 
 const LoginCell = () => {
   const [{ currentUser, authLoaded }] = useAppContext()
-  if (!authLoaded) {
+  const { isLoading } = useLoading()
+  const [visible, setVisible] = useState(false)
+  if (!authLoaded && isLoading) {
     return null
   }
   return currentUser ? (
-    <View style={{ paddingRight: 20 }}>
-      <UserCell size={20} user={currentUser} />
-    </View>
+    <Menu
+      visible={visible}
+      onDismiss={() => setVisible(false)}
+      anchor={
+        <Pressable
+          style={{ paddingRight: 20 }}
+          onPress={() => setVisible(true)}
+        >
+          <UserCell size={20} user={currentUser} />
+        </Pressable>
+      }
+    >
+      <Menu.Item title="Home" onPress={() => router.push('/')} />
+      <Divider />
+      <Menu.Item title="Logout" onPress={AuthService.logout} />
+    </Menu>
   ) : (
     <Button onPress={AuthService.login}>Login with Discord</Button>
   )

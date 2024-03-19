@@ -21,13 +21,13 @@ export default function Container({ children, style, loading = false }: Props) {
   return (
     <View
       style={[
-        style,
         {
           flex: 1,
           paddingHorizontal: 30,
           backgroundColor: theme.colors.background,
           justifyContent: 'center',
         },
+        style,
       ]}
     >
       {showLoading && (

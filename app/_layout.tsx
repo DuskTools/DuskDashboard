@@ -8,7 +8,10 @@ export default function RootLayout() {
     <AppWrapper>
       <CommonStack>
         <Stack.Screen name="crews" options={{ headerShown: false }} />
-        <Stack.Screen name="index" options={{ title: 'DuskTools' }} />
+        <Stack.Screen
+          name="index"
+          options={{ title: 'DuskTools', headerBackVisible: false }}
+        />
         <Stack.Screen
           name="howToUse"
           options={{ title: 'How To use DuskTools' }}

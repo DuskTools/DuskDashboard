@@ -17,16 +17,13 @@ export type Crew = DatabaseTypes<'crews'>
 export type User = DatabaseTypes<'users'>
 export type Character = DatabaseTypes<'characters'>
 
-export type CrewAppUser = Omit<
-  AppUser,
-  'discord_token' | 'discord_refresh_token'
-> & {
-  nickname?: string
-}
+export type CrewCharacter = {
+  user: Omit<AppUser, 'discord_token' | 'discord_refresh_token'>
+} & Character['Row']
 
 export type UserCrew = Crew['Row'] & {
-  gms: CrewAppUser[]
-  players: CrewAppUser[]
+  gms: CrewCharacter[]
+  players: CrewCharacter[]
   admin: boolean
   clocks: Clock['Row'][]
   hasDiscordIntegration: boolean

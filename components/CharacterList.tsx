@@ -2,32 +2,30 @@ import { View } from 'react-native'
 
 import AppText from './AppText'
 import UserCell from './UserCell'
-import { CrewAppUser } from '~types'
+import { CrewCharacter } from '~types'
 
 type Props = {
-  playerList: CrewAppUser[]
+  characters: CrewCharacter[]
   label: string
   userCellSize?: number
   link?: boolean
 }
-export function PlayerList({
-  playerList,
+export default function CharacterList({
+  characters,
   label,
   userCellSize,
-  link = false,
 }: Props) {
   return (
     <View style={{ paddingVertical: 5 }}>
-      <AppText variant="headlineLarge">{`${label}${playerList.length > 1 ? 'S' : ''}`}</AppText>
+      <AppText variant="headlineLarge">{`${label}${characters.length > 1 ? 'S' : ''}`}</AppText>
       <View style={{ flexDirection: 'row' }}>
-        {playerList.length === 0 ? (
+        {characters.length === 0 ? (
           <AppText>No {`${label}s`}</AppText>
         ) : (
-          playerList.map((player) => (
+          characters.map((character) => (
             <UserCell
-              key={player.id}
-              link={link}
-              user={player}
+              key={character.id}
+              user={character.user}
               size={userCellSize || 25}
             />
           ))

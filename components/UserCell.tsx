@@ -1,32 +1,19 @@
-import { PropsWithChildren } from 'react'
-
-import { Link } from 'expo-router'
 import { Image, View } from 'react-native'
 
 import AppText from './AppText'
-import useCurrentCrew from '~hooks/useCurrentCrew'
 import useAppTheme from '~theme/useAppTheme'
-import { CrewAppUser, DynamicRoute } from '~types'
+import { AppUser } from '~types'
 
 export default function UserCell({
-  user,
+  user: { avatar_url, display_name },
   size = 50,
-  link = false,
 }: {
-  user: CrewAppUser
+  user: Pick<AppUser, 'avatar_url' | 'display_name'>
   size?: number
-  link?: boolean
 }) {
-  const currentCrew = useCurrentCrew()
   const theme = useAppTheme()
 
-  const linkPath =
-    `/crews/${currentCrew?.id}/characters/${user.id}` as DynamicRoute
-  const LinkWrapper = ({ children }: PropsWithChildren) => (
-    <Link href={linkPath}>{children}</Link>
-  )
-
-  const renderedComponent = (
+  return (
     <View
       style={{
         flexDirection: 'row',
@@ -35,23 +22,15 @@ export default function UserCell({
         gap: size / 2,
       }}
     >
-      {user.avatar_url && (
+      {avatar_url && (
         <Image
           style={{ borderRadius: 50, height: size, width: size }}
           source={{
-            uri: user.avatar_url,
+            uri: avatar_url,
           }}
         />
       )}
-      <AppText style={{ color: theme.colors.primary }}>
-        {user.nickname || user.display_name}
-      </AppText>
+      <AppText style={{ color: theme.colors.primary }}>{display_name}</AppText>
     </View>
-  )
-
-  return link ? (
-    <LinkWrapper>{renderedComponent}</LinkWrapper>
-  ) : (
-    renderedComponent
   )
 }

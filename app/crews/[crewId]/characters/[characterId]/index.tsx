@@ -4,7 +4,7 @@ import AppText from '~components/AppText'
 import Container from '~components/Container'
 import useCurrentCharacter from '~hooks/useCurrentCharacter'
 
-export default function User() {
+export default function Character() {
   const currentCharacter = useCurrentCharacter()
   return (
     <Container auth>

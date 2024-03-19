@@ -2,8 +2,8 @@ import { View } from 'react-native'
 import { ActivityIndicator, Button } from 'react-native-paper'
 
 import BotInviteLink from '~components/BotInviteLink'
+import CharacterList from '~components/CharacterList'
 import Container from '~components/Container'
-import { PlayerList } from '~components/PlayerList'
 import useCurrentCrew from '~hooks/useCurrentCrew'
 import EdgeFunctionService from '~services/supabase/EdgeFunctionService'
 
@@ -32,8 +32,12 @@ export default function Crew() {
     <Container auth>
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <View>
-          <PlayerList link playerList={currentCrew.gms} label="Game Master" />
-          <PlayerList link playerList={currentCrew.players} label="Player" />
+          <CharacterList
+            link
+            characters={currentCrew.gms}
+            label="Game Master"
+          />
+          <CharacterList link characters={currentCrew.players} label="Player" />
         </View>
         {currentCrew.hasDiscordIntegration ? (
           <Button onPress={sync}>Sync with Discord</Button>
