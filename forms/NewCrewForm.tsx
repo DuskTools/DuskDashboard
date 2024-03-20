@@ -32,7 +32,7 @@ export default function NewCrewForm(props: Props) {
 
   return (
     <Card mode="contained">
-      <Card.Title title="New Clock" />
+      <Card.Title title="New Crew" />
       <Card.Content>
         <ControlledTextInput
           control={control}
